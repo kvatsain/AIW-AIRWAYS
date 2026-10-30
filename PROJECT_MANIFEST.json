@@ -1,5 +1,5 @@
 {
-  "sourceCommit": "1197780c6724b596065e7b234795952b584c31c1",
+  "sourceCommit": "dffab424e0e4ac00465405ea2ab060c3530f19e2",
   "preparedDate": "2026-10-30",
   "files": [
     {
@@ -19,18 +19,23 @@
     },
     {
       "path": "README.md",
-      "bytes": 12138,
-      "sha256": "e3eaeafbb7e9ee43382c9c8bb1b3b5344bde38be10cc76e9d6175d55a94d328b"
+      "bytes": 13525,
+      "sha256": "5abb11ad816c64769e85bbcdbf6f0dd11eec948bfe02613e48f09417dc67a8af"
     },
     {
       "path": "dist/airfield.js",
-      "bytes": 6183,
-      "sha256": "03038a59cc756bf85130343d4cd33eebf1e199246df5c552964b2bec4751dc83"
+      "bytes": 9210,
+      "sha256": "128e1e80f2a7a77b3bd94b1bde00551f5eec7d5ec2fc1d1c4ef8e7dfe976f634"
     },
     {
       "path": "dist/app.js",
-      "bytes": 29667,
-      "sha256": "b445859f423083648005fae6574016305ce2969a5835553add903747a0ddefb4"
+      "bytes": 30405,
+      "sha256": "6ea719dd975825e29957c250aca04b93cf6408379daa798f50f8a433006096d4"
+    },
+    {
+      "path": "dist/assets/fra-satellite-reference.png",
+      "bytes": 3323624,
+      "sha256": "331b79c18f8034c4f5682064f68f33bb44dbbe2c1ec77e91a0064376a95d0cf4"
     },
     {
       "path": "dist/data/alert-policies.json",
@@ -63,6 +68,11 @@
       "sha256": "44bcc04d509b6d7dbd3437ca7d1355ee3fdb4d42f894c78a7040e965eac00e90"
     },
     {
+      "path": "dist/data/fra-context.json",
+      "bytes": 550605,
+      "sha256": "fead120df1d9d53d2c21065777197ff2aa6c7410ee5f46ecc1ba4f4ef1356f44"
+    },
+    {
       "path": "dist/data/metrics.json",
       "bytes": 56583,
       "sha256": "ab882b6764101276be4ddd1bbd17c5f7f807e93a586e32fa5ad1294003c21c5a"
@@ -71,6 +81,11 @@
       "path": "dist/data/model.json",
       "bytes": 12956,
       "sha256": "c23a27187cf76c7825252a911f09aaf4bb7bced1cdcf5ca701bac218a13b8c5c"
+    },
+    {
+      "path": "dist/data/satellite-reference.json",
+      "bytes": 855,
+      "sha256": "a6f59ad46ea3bc5e44958322da79b789c870c416c3ee68b46d5bfa779ac95072"
     },
     {
       "path": "dist/data/weather.json",
@@ -84,8 +99,8 @@
     },
     {
       "path": "dist/index.html",
-      "bytes": 17649,
-      "sha256": "d1eb32b44c4be7257dff7bcdd177ff2c31c7fce0a25aa756f2607f1de447f5b0"
+      "bytes": 19183,
+      "sha256": "119cb05c9aca79378511a912315ed359361a874b468216004da2ab228f86f001"
     },
     {
       "path": "dist/inference.js",
@@ -109,8 +124,8 @@
     },
     {
       "path": "dist/styles.css",
-      "bytes": 21748,
-      "sha256": "c16e2a8783ca3be248585a5b36fc9ccb14fcca38287d3e31c4a450bbde097bed"
+      "bytes": 23452,
+      "sha256": "80274fce9ee6c70901c492ae87a764f1175024d76fbb287b0f4f1ef4a27152a9"
     },
     {
       "path": "docs/images/dashboard-jury-preview.png",
@@ -291,6 +306,11 @@
       "path": "research/transcribe_audio.py",
       "bytes": 2340,
       "sha256": "7fe756e48d71dbe6a4fe69eb874ab553866f1511b734b117d2c8e1e32299bb94"
+    },
+    {
+      "path": "scripts/fetch_fra_context.py",
+      "bytes": 8827,
+      "sha256": "fae90ea95eaf010188911fc24cf7227d02113da49c3e4d04e5cc130834e6e551"
     },
     {
       "path": "scripts/make_model_card.py",

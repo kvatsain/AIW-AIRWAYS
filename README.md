@@ -111,3 +111,11 @@ python scripts/make_model_card_pdf.py
 ```
 
 The audit requires the public raw files from the repository or downloader. The PDF builder asserts exactly one A4 page. Open `dist/model-card.pdf` or download it from the dashboard. Re-run the audit after training before generating the PDF so stale metrics are caught.
+
+## Satellite reference and detailed airfield context
+
+The forecast map follows the supplied Google Maps picture's visual context while retaining geographic runway coordinates and hourly forecast overlays. It adds 1,419 mapped OpenStreetMap features: 609 taxiway segments, 35 aprons, 66 buildings, two CargoCity districts, the airport boundary, major roads, woodland and water. These are geographic features, not generated scenery. The static layer is bundled locally; it needs no map API key or external tile requests.
+
+`dist/data/fra-context.json` preserves OSM object IDs, source URLs, retrieval time and [ODbL attribution](https://www.openstreetmap.org/copyright). Rebuild it with `python scripts/fetch_fra_context.py`: eight bounded public OSM API queries, 3 m simplification, complete ways and multipolygons only. Eleven incomplete relations were excluded in the bundled snapshot.
+
+The **Satellite reference** tab displays the original user-supplied picture unchanged, including its imagery attribution, and links to the full-size file and Google Maps. It is a static reference, not a georeferenced layer; its western northwest-runway end and southern RWY 18 end are cropped. The forecast map shows all four full runways. Source and usage metadata are in `dist/data/satellite-reference.json`. Forecast models, probabilities and validation metrics are unchanged by this map update.

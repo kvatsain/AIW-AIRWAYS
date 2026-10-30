@@ -10,26 +10,57 @@ export function project([lon,lat]) {
 const xy = p => project(p).map(v=>v.toFixed(2)).join(' ');
 const interpolate = (a,b,f) => a.map((n,i)=>n+(b[i]-n)*f);
 const label = (x,y,text,cls='',anchor='middle') => `<text x="${x}" y="${y}" text-anchor="${anchor}" class="map-label ${cls}">${escape(text)}</text>`;
+const contextCache = new WeakMap();
+function geometryPath(geometry) {
+  const line = ring => 'M'+ring.map(xy).join('L');
+  if(geometry.type==='LineString')return line(geometry.coordinates);
+  if(geometry.type==='MultiLineString')return geometry.coordinates.map(line).join(' ');
+  if(geometry.type==='Polygon')return geometry.coordinates.map(r=>line(r)+'Z').join(' ');
+  if(geometry.type==='MultiPolygon')return geometry.coordinates.flatMap(p=>p.map(r=>line(r)+'Z')).join(' ');
+  return '';
+}
+function contextSVG(context) {
+  if(!context?.features)return '';
+  if(contextCache.has(context))return contextCache.get(context);
+  const order={forest:0,water:1,'airport-boundary':2,cargo:2.5,apron:3,'airport-building':4,motorway:5,taxiway:6};
+  let result='';
+  for(const f of [...context.features].sort((a,b)=>(order[a.properties.kind]??4)-(order[b.properties.kind]??4))) {
+    const p=f.properties,kind=p.kind,path=geometryPath(f.geometry);if(!path)continue;
+    const title=`<title>${escape(p.name||p.ref||kind)} · OpenStreetMap</title>`;
+    if(kind==='forest')result+=`<path d="${path}" fill="#213f2f" stroke="#294c37" stroke-width=".6" fill-rule="evenodd"/><path d="${path}" fill="url(#woodland)" opacity=".42" fill-rule="evenodd"/>`;
+    else if(kind==='water')result+=`<path d="${path}" fill="#284755" stroke="#52717a" stroke-width=".5" fill-rule="evenodd">${title}</path>`;
+    else if(kind==='airport-boundary')result+=`<path d="${path}" fill="#63745a" stroke="#a5af92" stroke-width="1" fill-rule="evenodd" opacity=".95">${title}</path>`;
+    else if(kind==='cargo')result+=`<path d="${path}" fill="#708077" stroke="#88998e" stroke-width=".5" fill-rule="evenodd">${title}</path>`;
+    else if(kind==='apron')result+=`<path d="${path}" fill="#9aa39b" stroke="#b3bbb0" stroke-width=".5" fill-rule="evenodd">${title}</path>`;
+    else if(['road','motorway'].includes(kind)) {
+      const main=(p.highway||p.roadClass)==='motorway',width=main?3:1.4;
+      result+=`<path d="${path}" fill="none" stroke="#23332d" stroke-width="${width+1.8}" stroke-linejoin="round"/><path d="${path}" fill="none" stroke="${main?'#ceb784':'#8c9b85'}" stroke-width="${width}" stroke-linejoin="round">${title}</path>`;
+    } else if(kind==='taxiway')result+=`<path d="${path}" fill="none" stroke="#c7d0bd" stroke-opacity=".8" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round">${title}</path>`;
+    else if(kind==='airport-building')result+=`<path d="${path}" fill="#899993" stroke="#c5cec3" stroke-width=".4" fill-rule="evenodd">${title}</path>`;
+  }
+  contextCache.set(context,result);return result;
+}
 
-export function airfieldSVG(geo,row) {
+export function airfieldSVG(geo,row,context=null) {
   const direction = row.p07 >= 0.5 ? '07' : '25', east = direction === '07';
-  const color = east ? '#3878bd' : '#548b39';
+  const color = east ? '#73d3fa' : '#c4ef79';
   const wind = windComponents(row.windSpeed,row.windDirection,180,row.windGust);
   const restricted = wind.tailwind >= 15 || wind.crosswindGust > 40;
   const parallelRestricted = windComponents(row.windSpeed,row.windDirection,70,row.windGust).crosswindGust > 40;
-  let svg = `<svg viewBox="0 0 700 570" role="img" aria-labelledby="airfield-title airfield-description"><title id="airfield-title">Frankfurt Airport geographic airfield map. Forecast direction ${direction}.</title><desc id="airfield-description">Four runways at their geographic coordinates. Northwest runway for landings only. Runway 18 permits southbound departures only and ${restricted?'exceeds':'is within'} challenge wind limits. Terminal 1 and 3 footprints and Terminal 2 location. True north up. Not for navigation.</desc><defs><pattern id="airfield-grid" width="75" height="75" patternUnits="userSpaceOnUse"><path d="M75 0H0V75" stroke="#dce5df" stroke-width="0.6" fill="none"/></pattern><marker id="flow-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="${color}"/></marker><marker id="south-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#548b39"/></marker></defs><rect width="700" height="570" fill="#f2f6f2"/><rect width="700" height="570" fill="url(#airfield-grid)"/>`;
-  // Terminal polygons are the source footprints; no invented taxiway network.
+  let svg = `<svg viewBox="0 0 700 570" role="img" aria-labelledby="airfield-title airfield-description"><title id="airfield-title">Frankfurt Airport geographic airfield map. Forecast direction ${direction}.</title><desc id="airfield-description">Four runways at their geographic coordinates. Northwest runway for landings only. Runway 18 permits southbound departures only and ${restricted?'exceeds':'is within'} challenge wind limits. Terminal 1 and 3 footprints, Terminal 2 location, taxiways, aprons, airport grounds and surrounding roads. True north up. Not for navigation.</desc><defs><pattern id="woodland" width="11" height="13" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="2.2" fill="#496347"/><circle cx="9" cy="11" r="2.6" fill="#163e29"/></pattern><marker id="flow-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="${color}"/></marker><marker id="south-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#c4ef79"/></marker></defs><rect width="700" height="570" fill="#34483a"/>`;
+  svg += contextSVG(context);
+  // Geographic source footprints keep the reference detail aligned to the runways.
   for (const f of geo.features.filter(f=>f.geometry.type==='Polygon')) {
     svg += `<path d="${f.geometry.coordinates.map(r=>`M${r.map(xy).join('L')}Z`).join(' ')}" class="terminal-footprint"><title>${escape(f.properties.name)} · OpenStreetMap</title></path>`;
   }
   for (const f of geo.features.filter(f=>f.properties.kind==='runway')) {
     const [a,b] = f.geometry.coordinates.map(project), is18 = f.id === 'runway-18';
     const limited = is18 ? restricted : parallelRestricted;
-    const stroke = limited ? '#b76e3d' : '#667b80';
+    const stroke = limited ? '#bc7048' : '#273840';
     const path = `M${a.join(' ')}L${b.join(' ')}`;
     const width = Math.max(5,f.properties.widthM*SCALE);
     const mid = interpolate(a,b,0.5), angle = Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
-    svg += `<g><title>${escape(f.properties.name)} · ${f.properties.lengthM} m · ${escape(f.properties.usage)}</title><path d="${path}" stroke="white" stroke-width="${width+5}"/><path d="${path}" stroke="${stroke}" stroke-width="${width}"/><path d="${path}" stroke="#fafffc" stroke-width="0.8" stroke-dasharray="6 5"/>`;
+    svg += `<g><title>${escape(f.properties.name)} · ${f.properties.lengthM} m · ${escape(f.properties.usage)}</title><path d="${path}" stroke="#acb9a9" stroke-width="${width+3}"/><path d="${path}" stroke="${stroke}" stroke-width="${width}"/><path d="${path}" stroke="#fafffc" stroke-width="0.8" stroke-dasharray="6 5"/>`;
     if (is18) {
       svg += label(a[0]-16,a[1]-8,'18','runway-end');
       svg += `<g transform="translate(${mid[0]-23} ${mid[1]}) rotate(-90)">${label(0,0,'WEST · 4,000 m','runway-name')}</g>`;
@@ -46,19 +77,22 @@ export function airfieldSVG(geo,row) {
     } else {
       const start = interpolate(a,b,is18||east?0.25:0.75), end = interpolate(a,b,is18||east?0.75:0.25);
       const dx = is18?17:0, dy = is18?0:0;
-      svg += `<path d="M${start[0]+dx} ${start[1]+dy}L${end[0]+dx} ${end[1]+dy}" stroke="${is18?'#548b39':color}" stroke-width="2.6" fill="none" marker-end="url(#${is18?'south-arrow':'flow-arrow'})"/>`;
+      svg += `<path d="M${start[0]+dx} ${start[1]+dy}L${end[0]+dx} ${end[1]+dy}" stroke="${is18?'#c4ef79':color}" stroke-width="2.6" fill="none" marker-end="url(#${is18?'south-arrow':'flow-arrow'})"/>`;
     }
     svg += '</g>';
+  }
+  if(context?.features?.length){
+    for(const [coord,text,cls] of [ [[8.546,50.0498],'A3','road-badge'], [[8.597,50.025],'A5','road-badge'], [[8.561,50.021],'CARGO CITY SOUTH','context-name'] ]){ const [x,y]=project(coord);svg+=label(x,y,text,cls); }
   }
   const t1 = project([8.568,50.052]), t2 = project([8.586,50.0535]), t3 = project([8.578,50.0265]);
   svg += label(t1[0],t1[1],'TERMINAL 1','terminal-label');
   svg += label(t2[0],t2[1],'T2 · CLOSED*','terminal-label inactive');
   for(const f of geo.features.filter(f=>f.geometry.type==='Point')) {const [x,y]=project(f.geometry.coordinates);svg+=`<circle cx="${x}" cy="${y}" r="3" fill="#a3aeb4"/>`;}
   svg += label(t3[0],t3[1],'TERMINAL 3','terminal-label');
-  svg += `<g transform="translate(41 46)"><path d="M0 28V-5M-5 3L0-7L5 3" stroke="#526b63" stroke-width="2" fill="none"/>${label(0,-15,'N','runway-end')}</g>`;
+  svg += `<g transform="translate(41 46)"><path d="M0 28V-5M-5 3L0-7L5 3" stroke="#d7e5d6" stroke-width="2" fill="none"/>${label(0,-15,'N','runway-end')}</g>`;
   svg += label(94,27,'TAUNUS · N/NW, OFF MAP','map-small','start');
-  svg += `<g transform="translate(62 521)"><path d="M0-5V0H75V-5M37.5 0V-4" stroke="#62766d" fill="none" stroke-width="1.5"/>${label(0,17,'0','map-small')}${label(75,17,'1 km','map-small')}</g>`;
-  svg += `<g transform="translate(528 408)"><circle r="40" fill="white" stroke="#d7e1dc"/><g transform="rotate(${row.windDirection})"><path d="M0-26V22M-6 13L0 24L6 13" stroke="#496879" stroke-width="2.5" fill="none"/></g>${label(0,-54,'WIND FLOW','map-small')}${label(0,62,`FROM ${Math.round(row.windDirection)}° · ${row.windSpeed.toFixed(1)} kt`,'runway-name')}${label(0,82,`OD ${direction} · ${east?'EASTBOUND':'WESTBOUND'}`,'runway-name')}</g>`;
+  svg += `<g transform="translate(62 521)"><path d="M0-5V0H75V-5M37.5 0V-4" stroke="#d7e5d6" fill="none" stroke-width="1.5"/>${label(0,17,'0','map-small')}${label(75,17,'1 km','map-small')}</g>`;
+  svg += `<g transform="translate(528 408)"><rect x="-96" y="-72" width="192" height="169" rx="12" fill="#182e27" fill-opacity=".9" stroke="#52685a"/><circle r="37" fill="#263f34" stroke="#647b6c"/><g transform="rotate(${row.windDirection})"><path d="M0-26V22M-6 13L0 24L6 13" stroke="#b8dacc" stroke-width="2.5" fill="none"/></g>${label(0,-54,'WIND FLOW','map-small')}${label(0,62,`FROM ${Math.round(row.windDirection)}° · ${row.windSpeed.toFixed(1)} kt`,'runway-name')}${label(0,82,`OD ${direction} · ${east?'EASTBOUND':'WESTBOUND'}`,'runway-name')}</g>`;
   svg += label(254,544,'GEOGRAPHIC CONTEXT · NOT FOR NAVIGATION','map-small','start');
   return svg+'</svg>';
 }

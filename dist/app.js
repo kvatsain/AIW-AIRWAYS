@@ -4,7 +4,7 @@ import {nextDirectionChange} from './forecast-summary.js';
 import { airportWindow, nextScheduleChange, alertFor, landingWind } from './operations.js';
 
 const $ = id => document.getElementById(id);
-const state = { hours:48, selected:0, timezone:'Europe/Berlin', rows:[], snapshot:null, model:null, metrics:null, citations:[], mode:'snapshot', alertMode:'catchMore', policies:null, evidenceScope:'scheduledHours', audit:null, airfield:null };
+const state = { hours:48, selected:0, timezone:'Europe/Berlin', rows:[], snapshot:null, model:null, metrics:null, citations:[], mode:'snapshot', alertMode:'catchMore', policies:null, evidenceScope:'scheduledHours', audit:null, airfield:null, context:null, mapView:'forecast' };
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num = (n,d=1) => Number.isFinite(Number(n)) ? Number(n).toFixed(d) : '—';
 const percent = p => !Number.isFinite(p) ? '—' : p===0 ? '0%' : p===1 ? '100%' : p>0.999 ? '>99.9%' : p<0.001 ? '<0.1%' : `${(p*100).toFixed(1)}%`;
@@ -63,7 +63,14 @@ function renderPlanning(r){
  $('schedule-footnote').textContent=w.shoulder?'Shoulder-hour movements are restricted. The 133-movement limit across 22–23 / 05–06 is averaged over the calendar year; slot availability is not modeled.':w.delayedWindow?'23:00–24:00: delayed landing eligibility is conditional; delay must not be built into the schedule. Departure permission is never inferred.':w.nightRestricted?'00:00–05:00: ordinary delayed and early flights are not admitted. Legally exempt flights remain possible.':'Daily scheduled takeoffs and landings: 05:00–23:00 Frankfurt local time. Night restrictions are independent of wind.';
 }
 function compass(d){return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round(d/22.5)%16];}
-function renderMap(r){ $('airport-map').innerHTML=airfieldSVG(state.airfield,r); }
+function renderMap(r){ $('airport-map').innerHTML=airfieldSVG(state.airfield,r,state.context); }
+function setMapView(view){
+ state.mapView=view;const reference=view==='reference';
+ $('airport-map').hidden=reference;$('satellite-reference').hidden=!reference;$('map-legend').hidden=reference;
+ $('airfield-grid').classList.toggle('reference-view',reference);
+ document.querySelectorAll('[data-map-view]').forEach(b=>{const active=b.dataset.mapView===view;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active));});
+}
+
 function renderChart(){
  const data=rows(),w=600,h=170,left=31,right=12,top=13,bottom=25,max=Math.max(20,Math.ceil(Math.max(...data.map(r=>r.windGust))/10)*10),x=i=>left+i*(w-left-right)/(data.length-1||1),y=v=>h-bottom-v*(h-top-bottom)/max;
  let svg=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Wind speed, gust and runway 18 tailwind forecast in knots"><defs><linearGradient id="wind-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c3df9d" stop-opacity=".25"/><stop offset="1" stop-color="#c3df9d" stop-opacity="0"/></linearGradient></defs>`;
@@ -159,6 +166,7 @@ $('evidence-scope').addEventListener('change',e=>{state.evidenceScope=e.target.v
 $('hourly-rows').addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();state.selected=+e.target.closest('[data-index]').dataset.index;render();}});
 ['scenario-direction','scenario-speed','scenario-gust'].forEach(id=>$(id).addEventListener('input',scenario));
 $('timezone').addEventListener('change',e=>{state.timezone=e.target.value;render();renderSources();describeStatus();});
+document.querySelectorAll('[data-map-view]').forEach(b=>b.addEventListener('click',()=>setMapView(b.dataset.mapView)));
 $('expand-map').addEventListener('click',()=>{const expanded=$('airfield-grid').classList.toggle('map-expanded');$('expand-map').textContent=expanded?'Compact map':'Expand map';$('expand-map').setAttribute('aria-expanded',String(expanded));});
 $('refresh').addEventListener('click',refresh);$('export').addEventListener('click',exportCSV);
 $('clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',day:'2-digit',month:'short',year:'numeric'}).format(new Date())+' · Frankfurt';
@@ -166,6 +174,7 @@ async function init(){
  try{const files=await Promise.all(['forecast','model','metrics','citations','alert-policies','deliverables','fra-airfield'].map(async name=>{const r=await fetch(`data/${name}.json`);if(!r.ok)throw Error(`Missing ${name}.json`);return r.json();}));
  [state.snapshot,state.model,state.metrics,state.citations,state.policies,state.audit,state.airfield]=files;state.rows=state.snapshot.hourly;
  if(!state.rows.length){const future=normalizeWeather(state.snapshot.weather.hourly).filter(r=>new Date(utc(r.time))>new Date(state.snapshot.generatedAt)).slice(0,48);const result=predictForecast(future,state.snapshot.observation,state.snapshot.currentOperations?.direction??'25',state.model,state.snapshot.issuedAt??state.snapshot.generatedAt);state.rows=Array.isArray(result)?result:result.hourly;}
+ try { const response=await fetch('data/fra-context.json');if(response.ok)state.context=await response.json(); } catch {}
  validateRows(state.rows);describeStatus();render();renderEvidence();scenario();
  }catch(error){notice(`Dashboard could not load: ${error.message}. Check that the trained data artifacts are available.`,true);$('export').disabled=true;$('refresh').disabled=true;console.error(error);}
 }

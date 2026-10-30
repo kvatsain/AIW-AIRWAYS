@@ -1,0 +1,9 @@
+{
+  "title": "User-supplied satellite reference of Frankfurt Airport",
+  "file": "assets/fra-satellite-reference.png",
+  "providedAt": "2026-10-30",
+  "sourceUrl": "https://www.google.com/maps/place/Frankfurt+Airport/@50.0414089,8.5558778,5094m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47bd0b745442f979:0x8a74d84d21f8f331!8m2!3d50.0377252!4d8.5592558!16zL20vMDFreGM4?entry=ttu&g_ep=EgoyMDI2MTAyNy4wIKXMDSoASAFQAw%3D%3D",
+  "use": "Original image displayed unchanged, including visible imagery/map attribution. Visual reference only; not georeferenced and not used for forecast calculations.",
+  "coverage": "Screenshot crops the western end of the northwest runway and southern end of Runway 18. Forecast map retains the whole runway system.",
+  "attribution": "Google Maps and the imagery/map providers identified in the original image; user-supplied reference."
+}
