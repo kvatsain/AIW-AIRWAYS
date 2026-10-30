@@ -1,3 +1,4 @@
+import {inferDirection} from '../dist/direction-model.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {windComponents,predictForecast,featuresFor,inferRow} from '../dist/inference.js';
@@ -6,6 +7,7 @@ import {nextDirectionChange} from '../dist/forecast-summary.js';
 import {project,airfieldSVG} from '../dist/airfield.js';
 const model=JSON.parse(fs.readFileSync(new URL('../dist/data/model.json',import.meta.url)));
 const snapshot=JSON.parse(fs.readFileSync(new URL('../dist/data/forecast.json',import.meta.url)));
+const directionModel=JSON.parse(fs.readFileSync(new URL('../dist/data/direction-model.json',import.meta.url)));
 const metrics=JSON.parse(fs.readFileSync(new URL('../dist/data/metrics.json',import.meta.url)));
 const issue='2026-10-30T10:00:00Z';
 const observation={time:issue,windSpeed:6,windDirection:250,windGust:6};
@@ -28,7 +30,7 @@ for(let i=0;i<snapshot.hourly.length;i++){
  const r=snapshot.hourly[i];assert.ok([r.p07,r.p25,r.pRwy18Open].every(p=>Number.isFinite(p)&&p>=0&&p<=1));assert.ok(Math.abs(r.p07+r.p25-1)<1e-12);
  if(i)assert.equal(new Date(r.time)-new Date(snapshot.hourly[i-1].time),3600000,'Contiguous hours');
  assert.ok(new Date(r.time)>new Date(snapshot.generatedAt),'No past forecast rows');
- const p=inferRow(featuresFor(r,snapshot.observation,snapshot.currentOperations?.direction??'25'),r.horizonHours,model);assert.ok(Math.abs(p.p07-r.p07)<1e-9,'Stored/browser inference agrees');
+ const p=inferDirection(featuresFor(r,snapshot.observation,snapshot.initialOD??snapshot.currentOperations?.direction??'25'),r.horizonHours,directionModel);assert.ok(Math.abs(p.p07-r.p07)<1e-9,'Stored/browser inference agrees');
 }
 for(const h of metrics.horizons){assert.ok(h.archiveLeadHours>h.horizonHours,'Archive lead predates forecast origin');for(const target of Object.values(h.targets)){const c=target.model.confusion;assert.equal(c.tp+c.tn+c.fp+c.fn,h.testRows);assert.ok(target.weatherRules);}}
 const policies=JSON.parse(fs.readFileSync(new URL('../dist/data/alert-policies.json',import.meta.url)));

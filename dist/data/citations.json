@@ -47,8 +47,8 @@
   {
     "title": "DFLD Frankfurt direction and wind history",
     "url": "https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=29.10.2026",
-    "category": "OBSERVED OPERATIONAL CONTEXT",
-    "role": "Imported 27–29 October 2026: 144 half-hour reported direction bins and coarse wind bearings. DFLD identifies post-March-2004 Frankfurt direction as Fraport-based. Source clock retained; timezone and publication timestamps unverified. Not used in model fitting or scoring."
+    "category": "DIRECTION TRAINING TARGETS",
+    "role": "183 days, 30 April–29 October 2026: 8,784 half-hour Fraport-based reported direction bins and coarse wind bearings. Direction targets train and test v2. Europe/Berlin empirically checked against 240 METAR bins; 25 October DST excluded. Publication times unknown; labels never used as forecast-time inputs."
   },
   {
     "title": "DFLD Frankfurt runway movement records",

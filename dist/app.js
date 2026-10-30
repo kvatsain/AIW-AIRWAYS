@@ -1,3 +1,4 @@
+import { renderDirectionEvidence } from './direction-evidence.js';
 import { initDfld } from './dfld.js';
 import { predictForecast, normalizeWeather } from './inference.js';
 import {airfieldSVG} from './airfield.js';
@@ -6,7 +7,7 @@ import {nextDirectionChange} from './forecast-summary.js';
 import { airportWindow, nextScheduleChange, alertFor, landingWind } from './operations.js';
 
 const $ = id => document.getElementById(id);
-const state = { hours:48, selected:0, timezone:'Europe/Berlin', rows:[], snapshot:null, model:null, metrics:null, citations:[], mode:'snapshot', alertMode:'catchMore', policies:null, evidenceScope:'scheduledHours', audit:null, airfield:null, context:null, mapView:'spatial', cameraYaw:-16, cameraElevation:48, windVisible:true, motionPaused:false, selectedRunway:'runway-18' };
+const state = { hours:48, selected:0, timezone:'Europe/Berlin', rows:[], snapshot:null, model:null, directionModel:null, directionMetrics:null, metrics:null, citations:[], mode:'snapshot', alertMode:'catchMore', policies:null, evidenceScope:'scheduledHours', audit:null, airfield:null, context:null, mapView:'spatial', cameraYaw:-16, cameraElevation:48, windVisible:true, motionPaused:false, selectedRunway:'runway-18' };
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num = (n,d=1) => Number.isFinite(Number(n)) ? Number(n).toFixed(d) : '—';
 const percent = p => !Number.isFinite(p) ? '—' : p===0 ? '0%' : p===1 ? '100%' : p>0.999 ? '>99.9%' : p<0.001 ? '<0.1%' : `${(p*100).toFixed(1)}%`;
@@ -27,7 +28,7 @@ function describeStatus(){
  const stale=age>3 ? ` · ${Math.floor(age)}h old — refresh recommended` : '';
  const originNote=state.snapshot.observation?.source?.includes('modeled')||state.snapshot.observation?.source?.includes('model current') ? ' Origin weather uses modeled current conditions; no fresh observation.' : '';
  const directionNote=state.snapshot.initialODSource==='wind-derived assumption' ? ' Initial direction is assumed from wind.' : '';
- notice(`${mode} ${full(state.snapshot.generatedAt)} ${state.timezone==='UTC'?'UTC':'Frankfurt'}${stale}.${originNote}${directionNote} Experimental weather-proxy probabilities; RWY 18 closure detection remains weak. Inspect wind-limit baseline before interpreting availability.`,age>3||Boolean(originNote));
+ notice(`${mode} ${full(state.snapshot.generatedAt)} ${state.timezone==='UTC'?'UTC':'Frankfurt'}${stale}.${originNote}${directionNote} Direction model trained on DFLD history; RWY 18 remains a weather proxy; RWY 18 closure detection remains weak. Inspect wind-limit baseline before interpreting availability.`,age>3||Boolean(originNote));
 }
 function render(){
  if(!state.rows.length)return;
@@ -40,7 +41,7 @@ function render(){
  $('rwy-caption').textContent=r.baselineRwy18Open===false ? 'Wind-limit baseline: NOT USABLE' : 'Weather proxy · closure skill limited';
  $('rwy-value').style.color=r.baselineRwy18Open===false ? '#edb888' : '';
  $('od-value').innerHTML=`${od} <small>${od==='07'?'Eastbound':'Westbound'}</small>`;
- $('od-caption').textContent=`${percent(conf)} model score · ${airportWindow(r.time).nightRestricted?'night: wind direction only':'weather proxy'}`;
+ $('od-caption').textContent=`${percent(conf)} model score · ${airportWindow(r.time).nightRestricted?'night: direction outlook only':'DFLD-trained direction'}`;
  $('wind-value').innerHTML=`${num(r.windSpeed)} <small>kt · ${Math.round(r.windDirection)}°</small>`;
  $('wind-caption').textContent=`Gust ${num(r.windGust)} kt · from ${compass(r.windDirection)}`;
  const change=nextDirectionChange(rows(),state.snapshot.initialOD??state.snapshot.currentOperations?.direction);
@@ -82,7 +83,7 @@ function renderMap(r){
  $('scene-wind-status').textContent=windLimit?'Wind limit exceeded':!is18&&c.tail>=10?'Direction-switch limit reached':'Within challenge wind limits';
  $('scene-wind-status').classList.toggle('limit-exceeded',windLimit||(!is18&&c.tail>=10));
  $('scene-availability').textContent=is18?`${percent(r.pRwy18Open)} wind usability`:`${od} ${od==='07'?'eastbound':'westbound'}`;
- $('scene-availability-note').textContent=is18?'ML weather proxy · closure skill limited':'Forecast direction · weather proxy';
+ $('scene-availability-note').textContent=is18?'ML weather proxy · closure skill limited':'Direction model · DFLD history';
  $('scene-tailwind').textContent=`${num(c.tail)} / ${limit} kt`;
  $('scene-tailwind-caption').textContent=is18?'Tailwind · closure at ≥15 kt':'Tailwind · direction switch at ≥10 kt';
  $('scene-tailwind-bar').style.width=`${Math.min(100,c.tail/limit*100)}%`;
@@ -131,12 +132,13 @@ function scenario(){
  $('scenario-results').innerHTML=`<div class="scenario-line"><span>RWY 18 wind usability</span><strong class="${allowed?'good':'bad'}">${allowed?'Permitted':'Not permitted'}</strong></div><div class="scenario-line"><span>18 tailwind / gust crosswind</span><strong>${num(c.tail)} / ${num(c.cross)} kt</strong></div><div class="scenario-line"><span>Steady-wind direction</span><strong>${esc(od)}</strong></div>${e.cross>40?'<div class="bad">Parallel runways also exceed crosswind limit.</div>':''}`;
 }
 function renderEvidence(){
+ renderDirectionEvidence(state.directionMetrics);
  const m=state.metrics,hs=m.horizons.filter(h=>[1,6,24].includes(h.horizonHours));
  const brier=v=>v==null?'—':v.toFixed(4);
  const rule=x=>x.rules??x.ruleBaseline??x.weatherRules??x.deterministic??x.baseline;
  $('metrics-content').innerHTML=`<div class="metric-note"><strong>${Number(m.counts.rawMetarReports).toLocaleString()} METAR reports</strong> · ${m.split.trainPeriod.join(' to ')} training.<br>Test: ${m.split.testPeriod.join(' to ')} · ${m.split.purgeHours}h split gap.<br>Scores below measure <strong>weather-derived direction</strong>.</div><div class="table-scroll"><table><thead><tr><th>Lead</th><th>Test n</th><th>OD accuracy</th><th>ML Brier ↓</th><th>Rules Brier ↓</th></tr></thead><tbody>${hs.map(h=>`<tr><td>${h.horizonHours}h</td><td>${h.testRows.toLocaleString()}</td><td>${percent(h.targets.od07.model.accuracy)}</td><td>${brier(h.targets.od07.model.brier)}</td><td>${brier(rule(h.targets.od07)?.brier)}</td></tr>`).join('')}</tbody></table></div><p class="metric-note">Brier score measures probability error; lower is better. The rule baseline applies challenge limits to the same archived weather inputs.</p><div class="rule-difference"><strong>RWY 18: rare-event limitation</strong><p class="metric-note">Only ${hs[0].targets.closed18.model.positiveEvents} closure-proxy hours in the 1h test set. At a 50% threshold, the model detected ${hs[0].targets.closed18.model.confusion.tp}/${hs[0].targets.closed18.model.positiveEvents}. High overall accuracy would conceal this failure.</p></div><div class="table-scroll"><table><thead><tr><th>Lead</th><th>18 ML Brier ↓</th><th>Rules Brier ↓</th><th>Closure recall</th></tr></thead><tbody>${hs.map(h=>`<tr><td>${h.horizonHours}h</td><td>${brier(h.targets.closed18.model.brier)}</td><td>${brier(rule(h.targets.closed18)?.brier)}</td><td>${percent(h.targets.closed18.model.recall)}</td></tr>`).join('')}</tbody></table></div><p class="metric-note">Archive forecast ages at valid time: 24h for 1h/6h, 48h for 24h, and 72h for 48h. The live dashboard uses fresher ICON forecasts; these test results do not establish live performance.</p>`;
- $('model-method').textContent=state.model.algorithm+'. Uses forecast wind components, recent observed wind, direction state, and season/time.';
- $('model-card').innerHTML=[['Purpose','48-hour research forecasts for RWY 18 wind usability and airport-wide OD 07/25.'],['Data & target',`${m.counts.rawMetarReports.toLocaleString()} EDDF METAR reports; DWD ICON Previous Runs. Weather-derived challenge targets; actual operations remain unvalidated.`],['Training & validation',`${m.split.trainPeriod.join(' to ')} training. ${m.split.validationPeriod.join(' to ')} validation. ${m.split.purgeHours}h separation before each later split.`],['Key drivers',state.model.featureNames.filter(n=>/nwp|obs/.test(n)).join(', ')],['Interpreting the probabilities','Regularized logistic scores, assessed with held-out Brier scores. Operational calibration is unverified. Nearest tested horizon is used between 1, 6, 24 and 48 hours.'],['Known limits',m.limitations.join(' ')],['Weather rules','True headings: 070°, 250°, 180°. Tailwind 18 ≥15 kt; gust crosswind >40 kt. OD switch ≥10 kt or adverse wind lasting >30 minutes. Hourly forecasts cannot time a switch to the minute.'],['Next validation step','Add time-stamped actual operating direction and RWY 18 availability. Score held-out jury days using only forecasts and observations available at issue time.']].map(([k,v])=>`<div><strong>${esc(k)}</strong>${esc(v)}</div>`).join('');
+ $('model-method').textContent='Direction v2: validation-selected logistic regression trained on DFLD reports. Independent normalizers preserve the original RWY 18 closure model. Key inputs: forecast wind, recent METAR wind and UTC hour.';
+ $('model-card').innerHTML=[['Purpose','48-hour research forecasts for RWY 18 wind usability and airport-wide OD 07/25.'],['Data & target',`${m.counts.rawMetarReports.toLocaleString()} EDDF METAR reports; DWD ICON Previous Runs. Direction v2 uses 183 days of DFLD-reported operating directions, independently tested below. RWY 18 targets remain weather-derived proxies.`],['Training & validation','Direction v2: train 30 Apr–31 Aug; validate 4–26 Sep; test 30 Sep–29 Oct 2026 (UTC), with 72h gaps. Closure v1 retains its original 2024–2026 split.'],['Key drivers',state.model.featureNames.filter(n=>/nwp|obs/.test(n)).join(', ')],['Interpreting the probabilities','Regularized logistic scores, assessed with held-out Brier scores. Operational calibration is unverified. Nearest tested horizon is used between 1, 6, 24 and 48 hours.'],['Known limits',m.limitations.join(' ')],['Weather rules','True headings: 070°, 250°, 180°. Tailwind 18 ≥15 kt; gust crosswind >40 kt. OD switch ≥10 kt or adverse wind lasting >30 minutes. Hourly forecasts cannot time a switch to the minute.'],['Next validation step','Add time-stamped actual operating direction and RWY 18 availability. Score held-out jury days using only forecasts and observations available at issue time.']].map(([k,v])=>`<div><strong>${esc(k)}</strong>${esc(v)}</div>`).join('');
  renderPolicyEvidence();renderSources();renderAudit();
 }
 function renderPolicyEvidence(){
@@ -166,13 +168,13 @@ async function refresh(){
  const initialOD=opsFresh?latestOps.direction:(comp(observation.windDirection,observation.windSpeed,observation.windGust,70).head>=0?'07':'25');
  const future=normalizeWeather(data.hourly).filter(r=>new Date(utc(r.time))>now).slice(0,48);
  if(future.some(r=>![r.windSpeed,r.windDirection,r.windGust].every(Number.isFinite)))throw Error('Forecast wind or gust data are missing');
- const result=predictForecast(future,observation,initialOD,state.model,now.toISOString());
+ const result=predictForecast(future,observation,initialOD,state.model,now.toISOString(),state.directionModel);
  const nextRows=(Array.isArray(result)?result:result.hourly).filter(r=>new Date(utc(r.time))>now).slice(0,48);
  if(nextRows.length<48)throw Error(`Only ${nextRows.length} future hours returned; keeping prior snapshot`);
  validateRows(nextRows);
  state.rows=nextRows;state.snapshot={...state.snapshot,generatedAt:now.toISOString(),issuedAt:now.toISOString(),weatherRetrievedAt:now.toISOString(),weatherTimestamp:utc(data.current.time),observation,hourly:nextRows,weather:data,initialOD,initialODSource:opsFresh?'saved recent operations report':'wind-derived assumption'};state.mode='live';state.selected=0;
  describeStatus();render();renderSources();
- if(!freshObs)notice('Weather refreshed. Origin wind now uses ICON model current conditions because the saved METAR is older than 90 minutes. Initial operating direction is assumed from wind unless a recent operations snapshot exists. Weather-proxy model only.',true);
+ if(!freshObs)notice('Weather refreshed. Origin wind now uses ICON model current conditions because the saved METAR is older than 90 minutes. Initial operating direction is assumed from wind unless a recent operations snapshot exists. Direction uses the DFLD-trained model; RWY 18 remains a weather proxy. Modeled origin conditions are outside the METAR-based evaluation.',true);
  toast('48-hour weather forecast updated.');
  }catch(error){notice(`Weather refresh failed: ${error.message}. Displaying the saved forecast from ${full(state.snapshot.generatedAt)}.`,true);toast('Saved forecast retained; no values were fabricated.');}
  finally{$('refresh').disabled=false;$('refresh').textContent='↻  Refresh weather';}
@@ -180,8 +182,8 @@ async function refresh(){
 function validateRows(rr){if(!rr.length||rr.some(r=>![r.windSpeed,r.windDirection,r.windGust,r.pRwy18Open,r.p07,r.p25].every(Number.isFinite)||r.pRwy18Open<0||r.pRwy18Open>1||Math.abs(r.p07+r.p25-1)>1e-5))throw Error('Forecast data validation failed');}
 function exportCSV(){
  const change=nextDirectionChange(state.rows,state.snapshot.initialOD??state.snapshot.currentOperations?.direction);
- const cols=['issued_at_utc','valid_time_utc','valid_time_frankfurt','schedule_timezone','lead_hours','p_rwy18_wind_usable','p_od07','p_od25','predicted_od','od_certainty_score','next_change_time_utc','next_change_to','change_direction_score','change_resolution_hours','wind_speed_kt','wind_direction_true_deg','gust_kt','baseline_rwy18_usable','baseline_od','scheduled_departures_window','scheduled_arrivals_window','night_restriction','conditional_delay_window','departure_rule','arrival_rule','closure_score','catch_threshold','reduce_threshold','catch_weather_alert','reduce_weather_alert','catch_scheduled_alert','reduce_scheduled_alert','selected_alert_mode','selected_planning_status','target_basis','source'];
- const lines=state.rows.map((r,i)=>{const c=policyFor(r,'catchMore'),f=policyFor(r,'reduceFalseAlarms'),w=c.window;return [state.snapshot.issuedAt??state.snapshot.generatedAt,utc(r.time),w.localTime,w.timeZone,r.leadHours??r.horizonHours??i+1,r.pRwy18Open,r.p07,r.p25,heading(r),Math.max(r.p07,r.p25),change?.time??'',change?.to??'',change?.directionScore??'',1,r.windSpeed,r.windDirection,r.windGust,r.baselineRwy18Open,r.baselineOD,w.scheduledDepartures,w.scheduledArrivals,w.nightRestricted,w.delayedWindow,w.departures,w.arrivals,c.closureScore,c.threshold,f.threshold,c.weatherAlert,f.weatherAlert,c.scheduledAlert,f.scheduledAlert,state.alertMode,policyFor(r).label,'weather-derived proxy; flight window does not establish permission',state.snapshot.source].map(x=>`"${String(x??'').replaceAll('"','""')}"`).join(',');});
+ const cols=['issued_at_utc','valid_time_utc','valid_time_frankfurt','schedule_timezone','lead_hours','p_rwy18_wind_usable','p_od07','p_od25','predicted_od','od_certainty_score','next_change_time_utc','next_change_to','change_direction_score','change_resolution_hours','wind_speed_kt','wind_direction_true_deg','gust_kt','baseline_rwy18_usable','baseline_od','scheduled_departures_window','scheduled_arrivals_window','night_restriction','conditional_delay_window','departure_rule','arrival_rule','closure_score','catch_threshold','reduce_threshold','catch_weather_alert','reduce_weather_alert','catch_scheduled_alert','reduce_scheduled_alert','selected_alert_mode','selected_planning_status','target_basis','direction_model_version','source'];
+ const lines=state.rows.map((r,i)=>{const c=policyFor(r,'catchMore'),f=policyFor(r,'reduceFalseAlarms'),w=c.window;return [state.snapshot.issuedAt??state.snapshot.generatedAt,utc(r.time),w.localTime,w.timeZone,r.leadHours??r.horizonHours??i+1,r.pRwy18Open,r.p07,r.p25,heading(r),Math.max(r.p07,r.p25),change?.time??'',change?.to??'',change?.directionScore??'',1,r.windSpeed,r.windDirection,r.windGust,r.baselineRwy18Open,r.baselineOD,w.scheduledDepartures,w.scheduledArrivals,w.nightRestricted,w.delayedWindow,w.departures,w.arrivals,c.closureScore,c.threshold,f.threshold,c.weatherAlert,f.weatherAlert,c.scheduledAlert,f.scheduledAlert,state.alertMode,policyFor(r).label,'direction: DFLD-trained v2; RWY18: weather proxy; flight window does not establish permission',r.directionModelVersion??'1.0.0',state.snapshot.source].map(x=>`"${String(x??'').replaceAll('"','""')}"`).join(',');});
  const blob=new Blob([cols.join(',')+'\n'+lines.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`fra-windlab-${state.snapshot.generatedAt.slice(0,10)}-48h.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('48-hour forecast exported with probabilities and provenance.');
 }
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{
@@ -229,9 +231,9 @@ $('expand-map').addEventListener('click',()=>{const expanded=$('airfield-grid').
 $('refresh').addEventListener('click',refresh);$('export').addEventListener('click',exportCSV);
 $('clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',day:'2-digit',month:'short',year:'numeric'}).format(new Date())+' · Frankfurt';
 async function init(){
- try{const files=await Promise.all(['forecast','model','metrics','citations','alert-policies','deliverables','fra-airfield'].map(async name=>{const r=await fetch(`data/${name}.json`);if(!r.ok)throw Error(`Missing ${name}.json`);return r.json();}));
- [state.snapshot,state.model,state.metrics,state.citations,state.policies,state.audit,state.airfield]=files;state.rows=state.snapshot.hourly;
- if(!state.rows.length){const future=normalizeWeather(state.snapshot.weather.hourly).filter(r=>new Date(utc(r.time))>new Date(state.snapshot.generatedAt)).slice(0,48);const result=predictForecast(future,state.snapshot.observation,state.snapshot.currentOperations?.direction??'25',state.model,state.snapshot.issuedAt??state.snapshot.generatedAt);state.rows=Array.isArray(result)?result:result.hourly;}
+ try{const files=await Promise.all(['forecast','model','metrics','citations','alert-policies','deliverables','fra-airfield','direction-model','direction-metrics'].map(async name=>{const r=await fetch(`data/${name}.json`);if(!r.ok)throw Error(`Missing ${name}.json`);return r.json();}));
+ [state.snapshot,state.model,state.metrics,state.citations,state.policies,state.audit,state.airfield,state.directionModel,state.directionMetrics]=files;state.rows=state.snapshot.hourly;
+ if(!state.rows.length){const future=normalizeWeather(state.snapshot.weather.hourly).filter(r=>new Date(utc(r.time))>new Date(state.snapshot.generatedAt)).slice(0,48);const result=predictForecast(future,state.snapshot.observation,state.snapshot.currentOperations?.direction??'25',state.model,state.snapshot.issuedAt??state.snapshot.generatedAt,state.directionModel);state.rows=Array.isArray(result)?result:result.hourly;}
  try { const response=await fetch('data/fra-context.json');if(response.ok)state.context=await response.json(); } catch {}
  validateRows(state.rows);describeStatus();render();renderEvidence();scenario();
  }catch(error){notice(`Dashboard could not load: ${error.message}. Check that the trained data artifacts are available.`,true);$('export').disabled=true;$('refresh').disabled=true;console.error(error);}

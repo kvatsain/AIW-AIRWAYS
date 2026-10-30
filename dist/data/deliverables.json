@@ -1,30 +1,30 @@
 {
   "auditedAt": "2026-10-30T11:57:33.998541+00:00",
-  "modelSha256": "c23a27187cf76c7825252a911f09aaf4bb7bced1cdcf5ca701bac218a13b8c5c",
+  "modelSha256": "118105a1d4111f0cdcf2a1ab8545b5b942e0315cf4409f9771a8f801f567214f",
   "overallStatus": "partial",
-  "targetBasis": "weather-derived challenge proxies",
+  "targetBasis": "Direction v2: DFLD-reported operations; RWY18 v1: weather-derived challenge proxy",
   "method": "Frozen coefficients rescored from raw METAR and archived ICON; all saved confusion counts, accuracy and Brier scores reproduced within 1e-12. No retraining or retuning.",
   "deliverables": [
     {
       "id": 1,
       "title": "Hourly ML forecast through 48 hours",
       "status": "partial",
-      "reached": "48 hourly probabilities for RWY18 wind usability, OD07/25 and direction scores; first predicted change hour; baseline alongside ML.",
-      "remaining": "Actual runway status and switch timing are unvalidated. OD accuracy beats rules at 1h/6h but loses at 24h/48h. Direction Brier improves at all four leads; closure recall at 50% is zero. Intermediate leads reuse nearest 1/6/24/48h model."
+      "reached": "48 hourly probabilities, direction scores and first predicted change hour. Direction v2 is trained on six months of DFLD reports and beats weather rules on identical held-out rows at 1/6/24/48h.",
+      "remaining": "Confirmed RWY18 status and switch-event timing are unvalidated. Versus v1, 24h accuracy is unchanged and 24h/48h Brier regress. Intermediate leads reuse the nearest measured model."
     },
     {
       "id": 2,
       "title": "Self-sourced public data and citations",
       "status": "met",
-      "reached": "49,600 EDDF METAR reports combined with archived DWD ICON forecasts. Public sources and raw request URLs preserved; current direction is separately sourced to Umwelthaus/DFS.",
-      "remaining": "Bulk historical operating-direction and RWY18 availability records were not obtained; this limits the target, not the public-data collection deliverable."
+      "reached": "49,600 METAR reports, archived ICON forecasts and 183 DFLD direction days (8,784 half-hour bins), with citations, retrieval times and raw source hashes.",
+      "remaining": "Actual RWY18 closure labels and exact source delivery times remain unavailable. Movement detail covers only 27–29 October."
     },
     {
       "id": 3,
       "title": "Held-out quality at 1h, 6h and 24h",
       "status": "partial",
-      "reached": "Chronological train/validation/test splits; 72h gaps; train-only scaling; validation-only regularization; verified held-out metrics at required horizons.",
-      "remaining": "Evaluation measures weather proxies. Archive offsets predate origin by at least 18h, but exact run delivery and METAR arrival timestamps are unavailable. Backtest uses older forecasts than live inference. No operational or switch-event timing score."
+      "reached": "Reported-direction evaluation at 1/6/24/48h with chronological splits, 72h gaps, train-only scaling, validation-only selection and paired daily-block uncertainty. Empirical source-clock audit; ambiguous DST date excluded.",
+      "remaining": "Retrospective weather delivery is not verified as-issued. Closure evaluation remains proxy-based. Limited seasonal coverage, missing-input exclusions and unvalidated switch timing restrict the claim."
     },
     {
       "id": 4,
@@ -251,6 +251,18 @@
     "Replaced schematic runway placement with geographically referenced runway and terminal geometry.",
     "Added explicit four-deliverable audit and comparable baseline accuracy gains.",
     "Next-change detection includes a transition in the first forecast hour; exports include direction score and next change.",
-    "Added a downloadable one-page PDF model card and reproducible frozen-model audit."
-  ]
+    "Added a downloadable one-page PDF model card and reproducible frozen-model audit.",
+    "Added six months of DFLD direction targets, an independent direction model and actual-label paired evaluation.",
+    "Preserved closure coefficients and alerts; exposed longer-horizon probability regressions."
+  ],
+  "directionEvidence": {
+    "modelVersion": "2.0.0",
+    "generatedAt": "2026-10-30T14:32:41.455085Z",
+    "metrics": "direction-metrics.json",
+    "history": "dfld.json",
+    "clockAudit": "dfld-time-audit.json",
+    "days": 183,
+    "knownHalfHourBins": 8784
+  },
+  "archivedBenchmark": "Top-level horizons and method describe archived v1 weather-proxy evaluation only."
 }

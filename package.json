@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Frankfurt Airport wind-based forecasting research dashboard",
   "scripts": {
-    "check": "node --check dist/app.js && node --check dist/inference.js && node --check dist/airfield-3d.js && node --check dist/dfld.js",
-    "test": "node tests/run.mjs && node tests/airfield-3d.mjs && node tests/dfld.mjs"
+    "check": "node --check dist/app.js && node --check dist/inference.js && node --check dist/airfield-3d.js && node --check dist/dfld.js && node --check dist/direction-model.js && node --check dist/direction-evidence.js",
+    "test": "node tests/run.mjs && node tests/airfield-3d.mjs && node tests/dfld.mjs && node tests/direction-model.mjs"
   }
 }

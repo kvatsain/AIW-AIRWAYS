@@ -3,7 +3,16 @@ import fs from 'node:fs';
 import {validateDfld,observedHour} from '../dist/dfld.js';
 const data=JSON.parse(fs.readFileSync(new URL('../dist/data/dfld.json',import.meta.url)));
 assert.equal(validateDfld(data),data);
+assert.equal(data.days.length,183);
+assert.equal(data.days.reduce((n,d)=>n+d.directionBins.length,0),8784);
+assert.equal(data.days[0].directionBins[0].timeUtc,'2026-04-29T22:00:00Z');
+assert.equal(data.days.at(-1).directionBins[0].timeUtc,'2026-10-28T23:00:00Z');
+assert.ok(data.days.find(d=>d.date==='2026-10-25').directionBins.every(b=>b.timeUtc===null&&!b.eligibleForModel));
+assert.equal(data.days.filter(d=>d.movementCoverage).length,3);
+assert.equal(observedHour(data.days[0],10).movement,null);
+assert.equal(observedHour(data.days[0],10).rwy18Status,'Movement detail not imported');
 for(const day of data.days){
+ if(!day.movementCoverage)continue;
  assert.equal(day.runways.reduce((n,r)=>n+r.departures+r.arrivals,0),day.totalMovements);
  assert.equal(day.runways.find(r=>r.runway==='18').departures,day.rwy18Departures);
  const empty=day.hourlyMovements.findIndex(h=>h.rwy18Departures===0);
@@ -11,13 +20,14 @@ for(const day of data.days){
  assert.equal(observedHour(day,empty).closureStatus,'Unknown','No movements must never become a closure label');
  assert.equal(observedHour(day,empty).rwy18Status,'No recorded departures');
 }
-const bad=structuredClone(data);bad.days[0].hourlyMovements[0].rwy18Closed=true;
+const bad=structuredClone(data);bad.days.at(-1).hourlyMovements[0].rwy18Closed=true;
 assert.throws(()=>validateDfld(bad),/movement counts/);
 const missing=structuredClone(data);missing.days[0].directionBins[0].operatingDirection=null;
+missing.days[0].directionBins[0].eligibleForModel=false;
 assert.equal(validateDfld(missing).days[0].directionBins[0].operatingDirection,null,'Missing direction stays unknown');
 const zero=structuredClone(data);zero.days[0].directionBins[0].windDirectionDeg=0;
 assert.equal(validateDfld(zero).days[0].directionBins[0].windDirectionDeg,0,'Zero bearing must not become missing');
-const broken=structuredClone(data);broken.days[0].totalMovements++;
+const broken=structuredClone(data);broken.days.at(-1).totalMovements++;
 assert.throws(()=>validateDfld(broken),/reconcile/);
 const dup=structuredClone(data);dup.days.push(dup.days[0]);assert.throws(()=>validateDfld(dup),/Incomplete/);
 const timezone=structuredClone(data);timezone.sourceTimezone='UTC';assert.throws(()=>validateDfld(timezone),/Unsupported/);

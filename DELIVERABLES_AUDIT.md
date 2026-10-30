@@ -1,26 +1,24 @@
 # Deliverables audit
 
-Overall: **partially achieved**. No claim of accuracy against actual airport operations.
-
-Frozen coefficients rescored from raw METAR and archived ICON; all saved confusion counts, accuracy and Brier scores reproduced within 1e-12. No retraining or retuning.
+Overall: **partially achieved**. Direction now has DFLD-reported operational labels; RWY18 still uses weather proxies.
 
 ## 1. Hourly ML forecast through 48 hours — PARTIAL
 
-48 hourly probabilities for RWY18 wind usability, OD07/25 and direction scores; first predicted change hour; baseline alongside ML.
+48 hourly probabilities, direction scores and first predicted change hour. Direction v2 is trained on six months of DFLD reports and beats weather rules on identical held-out rows at 1/6/24/48h.
 
-**Remaining:** Actual runway status and switch timing are unvalidated. OD accuracy beats rules at 1h/6h but loses at 24h/48h. Direction Brier improves at all four leads; closure recall at 50% is zero. Intermediate leads reuse nearest 1/6/24/48h model.
+**Remaining:** Confirmed RWY18 status and switch-event timing are unvalidated. Versus v1, 24h accuracy is unchanged and 24h/48h Brier regress. Intermediate leads reuse the nearest measured model.
 
 ## 2. Self-sourced public data and citations — MET
 
-49,600 EDDF METAR reports combined with archived DWD ICON forecasts. Public sources and raw request URLs preserved; current direction is separately sourced to Umwelthaus/DFS.
+49,600 METAR reports, archived ICON forecasts and 183 DFLD direction days (8,784 half-hour bins), with citations, retrieval times and raw source hashes.
 
-**Remaining:** Bulk historical operating-direction and RWY18 availability records were not obtained; this limits the target, not the public-data collection deliverable.
+**Remaining:** Actual RWY18 closure labels and exact source delivery times remain unavailable. Movement detail covers only 27–29 October.
 
 ## 3. Held-out quality at 1h, 6h and 24h — PARTIAL
 
-Chronological train/validation/test splits; 72h gaps; train-only scaling; validation-only regularization; verified held-out metrics at required horizons.
+Reported-direction evaluation at 1/6/24/48h with chronological splits, 72h gaps, train-only scaling, validation-only selection and paired daily-block uncertainty. Empirical source-clock audit; ambiguous DST date excluded.
 
-**Remaining:** Evaluation measures weather proxies. Archive offsets predate origin by at least 18h, but exact run delivery and METAR arrival timestamps are unavailable. Backtest uses older forecasts than live inference. No operational or switch-event timing score.
+**Remaining:** Retrospective weather delivery is not verified as-issued. Closure evaluation remains proxy-based. Limited seasonal coverage, missing-input exclusions and unvalidated switch timing restrict the claim.
 
 ## 4. Repository, model card and jury forecasts — PARTIAL
 
@@ -28,39 +26,45 @@ Public code repository, one-page model card, 48-hour CSV export and historical r
 
 **Remaining:** Jury dates have not been supplied. No jury forecast submission or comparison with actually flown directions can be claimed. Historical replay is retrospective, not evidence of an as-issued forecast.
 
-## Verified direction-proxy comparison
+## Direction v2 evidence
 
-| Lead | Hours | ML accuracy | Rules accuracy | Gain (pp) | ML Brier | Rules Brier |
-|---|---:|---:|---:|---:|---:|---:|
-| 1h | 3432 | 98.40% | 94.61% | +3.79 | 0.0111 | 0.0539 |
-| 6h | 3273 | 93.46% | 91.78% | +1.68 | 0.0473 | 0.0822 |
-| 24h | 3250 | 88.92% | 90.68% | -1.75 | 0.0818 | 0.0932 |
-| 48h | 3243 | 86.52% | 87.73% | -1.20 | 0.1028 | 0.1227 |
 
-Brier is probability error (lower is better), accuracy uses a 50% class threshold. Scores are on identical comparable rows. Higher probability skill does not establish better closure detection. At 50%, all four closure classifiers detect 0 of 5 positive test hours. Three scheduled-hour positives support the alert comparison; these may be correlated.
+Direction v2 uses **183 days (30 April–29 October 2026), 8,784 half-hour DFLD-reported direction bins**. This replaces weather-rule direction labels with reported operations. The new artifact has its own scaling and coefficients; original RWY18 closure coefficients and both alert policies are unchanged. Runway movement counts remain available for 27–29 October only. Zero departures never imply closure.
 
-## Forecast-time evidence
+| Lead | Held-out hours | New accuracy | Original accuracy | Rules accuracy | New Brier | Original Brier | Rules Brier |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 1h | 517 | 79.69% | 76.98% | 76.21% | 0.1900 | 0.2186 | 0.2379 |
+| 6h | 517 | 80.08% | 75.63% | 76.21% | 0.1965 | 0.2088 | 0.2379 |
+| 24h | 521 | 71.79% | 71.79% | 71.02% | 0.2371 | 0.2317 | 0.2898 |
+| 48h | 521 | 70.06% | 69.48% | 68.52% | 0.2415 | 0.2308 | 0.3148 |
 
-Origins use past observations without future interpolation; scaling is fitted on training rows and regularization on validation rows. Fixed archive offsets have at least 18h nominal lead before each origin. Provider documentation establishes the offset convention, not exact delivery timestamps. METAR observation timestamps do not prove report arrival times. Retrospective model generation in October does not prove forecasts were issued in April. A prospective frozen submission or exact run/availability archive is still required.
+All three methods use identical actual-direction test rows. Lower Brier is better. The gain is strongest at 1h/6h; 24h accuracy is unchanged and probability scores regress at 24h/48h. Do not compare these scores with v1 weather-proxy scores. No hyperparameters were changed after inspecting test results. The validation-selected models are deployed at all four horizons, including regressions.
 
-## Improvements in this revision
+UTC target splits: train 30 Apr–31 Aug; validate 4–26 Sep; test 30 Sep–29 Oct 2026, with 72-hour gaps. Feature sets and L2 are selected by validation Brier; train-only scaling. The plan is in `model/dfld-experiment-plan.json`. Weather features use origin-or-earlier METAR and archived ICON, with no DFLD origin feature. Nominal archive offsets predate origin by at least 18h; exact delivery timestamps are unavailable. Test coverage is about 75% after missing/variable inputs are excluded. Correlated-hour uncertainty uses a paired daily-block bootstrap (1,000 draws); full intervals, class counts and reliability bins are in `dist/data/direction-metrics.json`. Six months provide limited seasonal coverage, and live weather is fresher than backtest inputs.
 
-- Replaced schematic runway placement with geographically referenced runway and terminal geometry.
-- Added explicit four-deliverable audit and comparable baseline accuracy gains.
-- Next-change detection includes a transition in the first forecast hour; exports include direction score and next change.
-- Added a downloadable one-page PDF model card and reproducible frozen-model audit.
+The Europe/Berlin source clock is supported empirically by **240/240 exact METAR matches** across five summer/winter dates. It is not an explicit provider timezone declaration. DFLD does not distinguish the repeated local hour on 25 October; the whole date is retained for display but excluded from UTC model joins. Publication times are unknown, so DFLD is used only as a target. Half-hour reports do not establish exact switch instants. Variable wind can be displayed as 0° in DFLD; the model uses original METAR and excludes variable direction.
 
-No model coefficients or alert thresholds were changed by this audit. Existing improvements include both alert priorities and the independent Europe/Berlin 05:00–23:00 scheduling layer.
+```powershell
+python scripts/fetch_dfld_history.py --start-date 2026-04-30 --end-date 2026-10-29
+python scripts/audit_dfld_timezone.py --metar model/raw/eddf_2026.csv
+python model/train_dfld.py
+node model/update_direction_snapshot.mjs
+python model/update_dfld_delivery.py
+python scripts/make_model_card.py
+python scripts/make_model_card_pdf.py
+node tests/direction-model.mjs
+node tests/dfld.mjs
+python -m unittest discover -s tests -p "test_dfld*.py"
+python model/predict.py --issue-time 2026-10-10T06:00:00Z --hours 48 --output model/prediction.csv
+```
 
-## Complete the jury submission
+Run the weather downloader first if raw archives are absent. The six-month importer uses seven monthly statistics pages and cached raw pages, preserving URLs, retrieval times and hashes. It replaces the old three-day import; do not run `fetch_dfld.py` against the main output, since it produces the older schema. `train_dfld.py` never rewrites the legacy closure artifact. Browser refresh, saved snapshots and CLI replay use direction v2. CLI replay before 27 September is rejected unless `--legacy-direction` is explicitly requested. Historical replay is retrospective, not evidence of an issued forecast.
 
-1. Obtain the jury issue dates, issue times, timezone and required file schema.
-2. Freeze the model before each untouched jury origin and preserve weather retrieval/run timestamps.
-3. Export the 48 hourly predictions, direction score and predicted change time.
-4. Join verified operating-direction/RWY18 status labels and report actual-operations accuracy, probability error, closure detection and switch timing separately.
+Sources: [DFLD direction statistics](https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=29.10.2026), [methodology](https://www.dfld.de/Mess/Language/MessHelpG.html), [IEM METAR](https://mesonet.agron.iastate.edu/request/download.phtml), and [DWD ICON archives](https://open-meteo.com/en/docs/previous-runs-api). DFLD states no open-data license; only selected factual values and derived aggregates are included. Raw pages, flight identifiers and DFLD graphics are excluded; see [DFLD reuse notice](https://www.dfld.de/DFLDimprint.php?L=G).
 
-Sources: [IEM](https://mesonet.agron.iastate.edu/request/download.phtml), [Open-Meteo Previous Runs](https://open-meteo.com/en/docs/previous-runs-api), [DWD ICON via Open-Meteo](https://open-meteo.com/en/docs/dwd-api), [NOAA AWC](https://aviationweather.gov/data/api/), [Umwelthaus / DFS](https://www.umwelthaus.org/fluglaerm/anwendungen-service/aktuelle-betriebsrichtung-und-prognose/). Challenge thresholds: supplied FraAlliance PDF, section 3.
+The dashboard and one-page model card expose the new evaluation, source clock evidence and limitations. Jury dates, exact as-issued weather provenance, confirmed RWY18 closures and switch-event timing validation remain outstanding. The unchanged closure benchmark still detects 0/5 proxy positives at the 50% threshold.
 
-## DFLD supplemental context
 
-A bounded 27–29 October 2026 DFLD snapshot now supplies reported 07/25 direction bins and recorded runway activity. The Observed operations view cites every source and retains download times. This evidence is not joined to model scoring because source timezone/publication times remain unverified; it supplies no RWY18 closure labels. The original audit results and partial-delivery statuses remain unchanged.
+## Archived closure and weather-proxy evidence
+
+`dist/data/deliverables.json` retains v1 weather-proxy scores under `horizons`; current direction scores are in `direction-metrics.json`. `python model/audit_deliverables.py` rebuilds the legacy audit. Run this script afterward to restore the combined delivery assessment. No model tuning occurs in either audit.

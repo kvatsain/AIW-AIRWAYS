@@ -1,0 +1,21 @@
+{
+  "version": "dfld-direction-2.0",
+  "declaredBeforeFitting": "2026-10-30",
+  "dataWindowLocal": ["2026-04-30", "2026-10-29"],
+  "target": "DFLD-reported direction in the 30-minute bin starting at the valid forecast hour; not exact switch timing",
+  "timezone": "Europe/Berlin, empirically checked against UTC METAR; not explicitly declared by provider",
+  "excludedLocalDates": ["2026-10-25"],
+  "trainUtc": ["2026-04-30T00:00:00Z", "2026-09-01T00:00:00Z"],
+  "validationUtc": ["2026-09-04T00:00:00Z", "2026-09-27T00:00:00Z"],
+  "testUtc": ["2026-09-30T00:00:00Z", "2026-10-30T00:00:00Z"],
+  "splitEndExclusive": true,
+  "purgeHours": 72,
+  "horizons": [1, 6, 24, 48],
+  "candidates": {"featureSets": ["weather-linear", "weather-nonlinear"], "l2": [0.1, 1, 10, 100]},
+  "selection": "Lowest validation Brier per horizon, never test tuning. Retain original fitted training coefficients for test and deployment.",
+  "baselines": ["frozen v1 direction model re-scored on identical actual-label test rows", "challenge weather rules on identical archived weather, initialized from origin weather proxy", "training climatology"],
+  "baselineRuleSteps": "First future hour through valid time; aligned with browser, excludes origin step 0",
+  "dataAvailability": "DFLD is a target only, never an origin feature. Origin METAR and fixed-offset archived ICON only; exact delivery timestamps unavailable.",
+  "deploymentRule": "Deploy validation-selected direction models. Report all test outcomes, including regressions. Never alter closure coefficients or thresholds.",
+  "uncertainty": "Paired daily-block bootstrap of test Brier differences, 1000 draws, fixed seed 20261030; retrospective uncertainty, not operational certification"
+}

@@ -1,0 +1,2170 @@
+{
+  "generatedAt": "2026-10-30T14:32:41.455085Z",
+  "modelVersion": "2.0.0",
+  "dataPeriod": [
+    "2026-04-30",
+    "2026-10-29"
+  ],
+  "days": 183,
+  "knownHalfHourBins": 8784,
+  "excludedDates": [
+    "2026-10-25"
+  ],
+  "targetDefinition": "DFLD-reported direction in the 30-minute bin starting at the valid forecast hour; not exact switch timing",
+  "split": {
+    "version": "dfld-direction-2.0",
+    "declaredBeforeFitting": "2026-10-30",
+    "dataWindowLocal": [
+      "2026-04-30",
+      "2026-10-29"
+    ],
+    "target": "DFLD-reported direction in the 30-minute bin starting at the valid forecast hour; not exact switch timing",
+    "timezone": "Europe/Berlin, empirically checked against UTC METAR; not explicitly declared by provider",
+    "excludedLocalDates": [
+      "2026-10-25"
+    ],
+    "trainUtc": [
+      "2026-04-30T00:00:00Z",
+      "2026-09-01T00:00:00Z"
+    ],
+    "validationUtc": [
+      "2026-09-04T00:00:00Z",
+      "2026-09-27T00:00:00Z"
+    ],
+    "testUtc": [
+      "2026-09-30T00:00:00Z",
+      "2026-10-30T00:00:00Z"
+    ],
+    "splitEndExclusive": true,
+    "purgeHours": 72,
+    "horizons": [
+      1,
+      6,
+      24,
+      48
+    ],
+    "candidates": {
+      "featureSets": [
+        "weather-linear",
+        "weather-nonlinear"
+      ],
+      "l2": [
+        0.1,
+        1,
+        10,
+        100
+      ]
+    },
+    "selection": "Lowest validation Brier per horizon, never test tuning. Retain original fitted training coefficients for test and deployment.",
+    "baselines": [
+      "frozen v1 direction model re-scored on identical actual-label test rows",
+      "challenge weather rules on identical archived weather, initialized from origin weather proxy",
+      "training climatology"
+    ],
+    "baselineRuleSteps": "First future hour through valid time; aligned with browser, excludes origin step 0",
+    "dataAvailability": "DFLD is a target only, never an origin feature. Origin METAR and fixed-offset archived ICON only; exact delivery timestamps unavailable.",
+    "deploymentRule": "Deploy validation-selected direction models. Report all test outcomes, including regressions. Never alter closure coefficients or thresholds.",
+    "uncertainty": "Paired daily-block bootstrap of test Brier differences, 1000 draws, fixed seed 20261030; retrospective uncertainty, not operational certification"
+  },
+  "horizons": [
+    {
+      "horizonHours": 1,
+      "trainRows": 2251,
+      "validationRows": 401,
+      "testRows": 517,
+      "testCandidateHours": 694,
+      "testCoverage": 0.7449567723342939,
+      "trainingEastHours": 881,
+      "validationEastHours": 49,
+      "selectedFeatureSet": "weather-nonlinear",
+      "selectedL2": 10,
+      "validationBrier": 0.04300024881552162,
+      "validationCandidates": [
+        {
+          "featureSet": "weather-linear",
+          "l2": 0.1,
+          "brier": 0.04628170477696624
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 1,
+          "brier": 0.04562211217648126
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 10,
+          "brier": 0.043770341556713284
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 100,
+          "brier": 0.04985676094977566
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 0.1,
+          "brier": 0.04494014084337739
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 1,
+          "brier": 0.0446941645759654
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 10,
+          "brier": 0.04300024881552162
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 100,
+          "brier": 0.04731051408312293
+        }
+      ],
+      "targets": {
+        "dfldModel": {
+          "n": 517,
+          "positiveEvents": 279,
+          "accuracy": 0.7969052224371374,
+          "balancedAccuracy": 0.8081232492997199,
+          "brier": 0.19000452628962242,
+          "recall": 0.6666666666666666,
+          "precision": 0.9393939393939394,
+          "confusion": {
+            "tp": 186,
+            "tn": 226,
+            "fp": 12,
+            "fn": 93
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 273,
+              "predicted": 0.01221023061366366,
+              "observed": 0.3076923076923077
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 19,
+              "predicted": 0.1460203956479553,
+              "observed": 0.05263157894736842
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 12,
+              "predicted": 0.25099784525232943,
+              "observed": 0.25
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 10,
+              "predicted": 0.3544235448427478,
+              "observed": 0.2
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 5,
+              "predicted": 0.4520776690910437,
+              "observed": 0.6
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 3,
+              "predicted": 0.5309589229233033,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 12,
+              "predicted": 0.6554916451526195,
+              "observed": 0.5
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 19,
+              "predicted": 0.7657749952937895,
+              "observed": 0.8947368421052632
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 61,
+              "predicted": 0.859469777680434,
+              "observed": 0.9672131147540983
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 103,
+              "predicted": 0.9617621687053072,
+              "observed": 1.0
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 517,
+          "positiveEvents": 279,
+          "accuracy": 0.769825918762089,
+          "balancedAccuracy": 0.7780940333122497,
+          "brier": 0.21858198814476282,
+          "recall": 0.6738351254480287,
+          "precision": 0.8703703703703703,
+          "confusion": {
+            "tp": 188,
+            "tn": 210,
+            "fp": 28,
+            "fn": 91
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 288,
+              "predicted": 0.0054456522214127705,
+              "observed": 0.3055555555555556
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 9,
+              "predicted": 0.14325197406626844,
+              "observed": 0.1111111111111111
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 2,
+              "predicted": 0.21274335385314586,
+              "observed": 0.5
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 1,
+              "predicted": 0.34369900119411306,
+              "observed": 1.0
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 1,
+              "predicted": 0.4125407834065223,
+              "observed": 0.0
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 1,
+              "predicted": 0.5714668787350717,
+              "observed": 0.0
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 3,
+              "predicted": 0.6392586492623566,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 2,
+              "predicted": 0.7669322492447856,
+              "observed": 0.5
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 9,
+              "predicted": 0.8560165894559173,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 201,
+              "predicted": 0.9959891773907507,
+              "observed": 0.9104477611940298
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 517,
+          "positiveEvents": 279,
+          "accuracy": 0.7620889748549323,
+          "balancedAccuracy": 0.7703081232492996,
+          "brier": 0.2379110251450677,
+          "recall": 0.6666666666666666,
+          "precision": 0.8611111111111112,
+          "confusion": {
+            "tp": 186,
+            "tn": 208,
+            "fp": 30,
+            "fn": 93
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 301,
+              "predicted": 0.0,
+              "observed": 0.3089700996677741
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 216,
+              "predicted": 1.0,
+              "observed": 0.8611111111111112
+            }
+          ]
+        },
+        "climatology": {
+          "n": 517,
+          "positiveEvents": 279,
+          "accuracy": 0.46034816247582205,
+          "balancedAccuracy": 0.5,
+          "brier": 0.2704117926924676,
+          "recall": 0.0,
+          "precision": null,
+          "confusion": {
+            "tp": 0,
+            "tn": 238,
+            "fp": 0,
+            "fn": 279
+          },
+          "reliability": [
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 517,
+              "predicted": 0.39138160817414475,
+              "observed": 0.539651837524178
+            }
+          ]
+        }
+      },
+      "scheduledHours": {
+        "dfldModel": {
+          "n": 393,
+          "positiveEvents": 205,
+          "accuracy": 0.806615776081425,
+          "balancedAccuracy": 0.8124286455630514,
+          "brier": 0.18403382754860967,
+          "recall": 0.6780487804878049,
+          "precision": 0.9328859060402684,
+          "confusion": {
+            "tp": 139,
+            "tn": 178,
+            "fp": 10,
+            "fn": 66
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 205,
+              "predicted": 0.0134765697168784,
+              "observed": 0.3024390243902439
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 19,
+              "predicted": 0.1460203956479553,
+              "observed": 0.05263157894736842
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 10,
+              "predicted": 0.24988727966325155,
+              "observed": 0.2
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 7,
+              "predicted": 0.3535384066180077,
+              "observed": 0.0
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 3,
+              "predicted": 0.4380914826621816,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 1,
+              "predicted": 0.5116722302368566,
+              "observed": 0.0
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 8,
+              "predicted": 0.6593945069881851,
+              "observed": 0.375
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 12,
+              "predicted": 0.7644798408559271,
+              "observed": 0.8333333333333334
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 43,
+              "predicted": 0.8618307849766595,
+              "observed": 0.9534883720930233
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 85,
+              "predicted": 0.961771574439428,
+              "observed": 1.0
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 393,
+          "positiveEvents": 205,
+          "accuracy": 0.7709923664122137,
+          "balancedAccuracy": 0.7749740529320187,
+          "brier": 0.2143979072329274,
+          "recall": 0.6829268292682927,
+          "precision": 0.8484848484848485,
+          "confusion": {
+            "tp": 140,
+            "tn": 163,
+            "fp": 25,
+            "fn": 65
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 216,
+              "predicted": 0.006089438869560276,
+              "observed": 0.28703703703703703
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 8,
+              "predicted": 0.1362034378711299,
+              "observed": 0.125
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 2,
+              "predicted": 0.21274335385314586,
+              "observed": 0.5
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 1,
+              "predicted": 0.34369900119411306,
+              "observed": 1.0
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 1,
+              "predicted": 0.4125407834065223,
+              "observed": 0.0
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 1,
+              "predicted": 0.5714668787350717,
+              "observed": 0.0
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 3,
+              "predicted": 0.6392586492623566,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 1,
+              "predicted": 0.7940381666915508,
+              "observed": 0.0
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 9,
+              "predicted": 0.8560165894559173,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 151,
+              "predicted": 0.9958046011625825,
+              "observed": 0.9006622516556292
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 393,
+          "positiveEvents": 205,
+          "accuracy": 0.7659033078880407,
+          "balancedAccuracy": 0.7698754540736896,
+          "brier": 0.2340966921119593,
+          "recall": 0.6780487804878049,
+          "precision": 0.8424242424242424,
+          "confusion": {
+            "tp": 139,
+            "tn": 162,
+            "fp": 26,
+            "fn": 66
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 228,
+              "predicted": 0.0,
+              "observed": 0.2894736842105263
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 165,
+              "predicted": 1.0,
+              "observed": 0.8424242424242424
+            }
+          ]
+        }
+      },
+      "uncertaintyVsLegacy": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          0.004470307432331114,
+          0.055643736466910766
+        ],
+        "accuracyGainPercentagePoints95": [
+          0.19414664317576938,
+          5.814008028273484
+        ]
+      },
+      "uncertaintyVsRules": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          0.01518465347943591,
+          0.08437291883458914
+        ],
+        "accuracyGainPercentagePoints95": [
+          0.21582424349448273,
+          7.102304864253392
+        ]
+      },
+      "brierImprovementVsLegacy": 0.0285774618551404,
+      "accuracyGainVsLegacyPp": 2.7079303675048405,
+      "nominalMinimumForecastAgeAtOriginHours": 23
+    },
+    {
+      "horizonHours": 6,
+      "trainRows": 2251,
+      "validationRows": 403,
+      "testRows": 517,
+      "testCandidateHours": 694,
+      "testCoverage": 0.7449567723342939,
+      "trainingEastHours": 855,
+      "validationEastHours": 50,
+      "selectedFeatureSet": "weather-nonlinear",
+      "selectedL2": 10,
+      "validationBrier": 0.05352028170740606,
+      "validationCandidates": [
+        {
+          "featureSet": "weather-linear",
+          "l2": 0.1,
+          "brier": 0.056125378510217094
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 1,
+          "brier": 0.05594361175572224
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 10,
+          "brier": 0.05436593382392596
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 100,
+          "brier": 0.057190263461845
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 0.1,
+          "brier": 0.054583550444569806
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 1,
+          "brier": 0.0549341823674954
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 10,
+          "brier": 0.05352028170740606
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 100,
+          "brier": 0.054191184702130205
+        }
+      ],
+      "targets": {
+        "dfldModel": {
+          "n": 517,
+          "positiveEvents": 275,
+          "accuracy": 0.8007736943907157,
+          "balancedAccuracy": 0.81,
+          "brier": 0.1964542182539814,
+          "recall": 0.6654545454545454,
+          "precision": 0.9432989690721649,
+          "confusion": {
+            "tp": 183,
+            "tn": 231,
+            "fp": 11,
+            "fn": 92
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 265,
+              "predicted": 0.013531852013306735,
+              "observed": 0.3132075471698113
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 17,
+              "predicted": 0.1486442083872144,
+              "observed": 0.11764705882352941
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 9,
+              "predicted": 0.2544674162383298,
+              "observed": 0.4444444444444444
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 13,
+              "predicted": 0.35722194104784183,
+              "observed": 0.07692307692307693
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 19,
+              "predicted": 0.44877515006647606,
+              "observed": 0.10526315789473684
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 6,
+              "predicted": 0.5598817795327443,
+              "observed": 0.16666666666666666
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 9,
+              "predicted": 0.6536934902238303,
+              "observed": 1.0
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 22,
+              "predicted": 0.7574473020252022,
+              "observed": 1.0
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 52,
+              "predicted": 0.8532272706177735,
+              "observed": 0.9230769230769231
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 105,
+              "predicted": 0.9573412771319715,
+              "observed": 0.9809523809523809
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 517,
+          "positiveEvents": 275,
+          "accuracy": 0.7562862669245648,
+          "balancedAccuracy": 0.7612396694214876,
+          "brier": 0.20879122103778575,
+          "recall": 0.6836363636363636,
+          "precision": 0.8281938325991189,
+          "confusion": {
+            "tp": 188,
+            "tn": 203,
+            "fp": 39,
+            "fn": 87
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 247,
+              "predicted": 0.018650773758935594,
+              "observed": 0.32793522267206476
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 22,
+              "predicted": 0.1441006299613721,
+              "observed": 0.09090909090909091
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 6,
+              "predicted": 0.23572124484987902,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 6,
+              "predicted": 0.34634887127559516,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 9,
+              "predicted": 0.45153663603824096,
+              "observed": 0.0
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 19,
+              "predicted": 0.5487786596039181,
+              "observed": 0.15789473684210525
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 9,
+              "predicted": 0.6599384657484486,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 12,
+              "predicted": 0.7375304171562084,
+              "observed": 0.5
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 18,
+              "predicted": 0.8492893043861756,
+              "observed": 0.7222222222222222
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 169,
+              "predicted": 0.9798563004531563,
+              "observed": 0.9644970414201184
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 517,
+          "positiveEvents": 275,
+          "accuracy": 0.7620889748549323,
+          "balancedAccuracy": 0.7674380165289256,
+          "brier": 0.2379110251450677,
+          "recall": 0.6836363636363636,
+          "precision": 0.8392857142857143,
+          "confusion": {
+            "tp": 188,
+            "tn": 206,
+            "fp": 36,
+            "fn": 87
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 293,
+              "predicted": 0.0,
+              "observed": 0.29692832764505117
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 224,
+              "predicted": 1.0,
+              "observed": 0.8392857142857143
+            }
+          ]
+        },
+        "climatology": {
+          "n": 517,
+          "positiveEvents": 275,
+          "accuracy": 0.46808510638297873,
+          "balancedAccuracy": 0.5,
+          "brier": 0.2721108936455243,
+          "recall": 0.0,
+          "precision": null,
+          "confusion": {
+            "tp": 0,
+            "tn": 242,
+            "fp": 0,
+            "fn": 275
+          },
+          "reliability": [
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 517,
+              "predicted": 0.3798311861394935,
+              "observed": 0.5319148936170213
+            }
+          ]
+        }
+      },
+      "scheduledHours": {
+        "dfldModel": {
+          "n": 389,
+          "positiveEvents": 208,
+          "accuracy": 0.8046272493573264,
+          "balancedAccuracy": 0.8144390140246494,
+          "brier": 0.18937537777143235,
+          "recall": 0.6730769230769231,
+          "precision": 0.9459459459459459,
+          "confusion": {
+            "tp": 140,
+            "tn": 173,
+            "fp": 8,
+            "fn": 68
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 195,
+              "predicted": 0.015008372889315233,
+              "observed": 0.30256410256410254
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 16,
+              "predicted": 0.14826488796081394,
+              "observed": 0.125
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 7,
+              "predicted": 0.2509390668754089,
+              "observed": 0.5714285714285714
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 12,
+              "predicted": 0.3556697751735181,
+              "observed": 0.08333333333333333
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 11,
+              "predicted": 0.4461468870682115,
+              "observed": 0.18181818181818182
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 3,
+              "predicted": 0.5461550358677844,
+              "observed": 0.0
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 7,
+              "predicted": 0.6477445309782665,
+              "observed": 1.0
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 15,
+              "predicted": 0.7561345786760304,
+              "observed": 1.0
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 37,
+              "predicted": 0.849583624666974,
+              "observed": 0.918918918918919
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 86,
+              "predicted": 0.9569919701069016,
+              "observed": 0.9767441860465116
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 389,
+          "positiveEvents": 208,
+          "accuracy": 0.7609254498714653,
+          "balancedAccuracy": 0.7656847641308967,
+          "brier": 0.20361716649000167,
+          "recall": 0.6971153846153846,
+          "precision": 0.8285714285714286,
+          "confusion": {
+            "tp": 145,
+            "tn": 151,
+            "fp": 30,
+            "fn": 63
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 177,
+              "predicted": 0.01935389716992923,
+              "observed": 0.3220338983050847
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 20,
+              "predicted": 0.14416953514413078,
+              "observed": 0.1
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 6,
+              "predicted": 0.23572124484987902,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 3,
+              "predicted": 0.3606784596869823,
+              "observed": 0.6666666666666666
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 8,
+              "predicted": 0.45062565141823835,
+              "observed": 0.0
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 13,
+              "predicted": 0.545800494302349,
+              "observed": 0.23076923076923078
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 7,
+              "predicted": 0.6660337479622536,
+              "observed": 0.14285714285714285
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 10,
+              "predicted": 0.7361771044581744,
+              "observed": 0.5
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 13,
+              "predicted": 0.849353215547344,
+              "observed": 0.6923076923076923
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 132,
+              "predicted": 0.9807503011361274,
+              "observed": 0.9621212121212122
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 389,
+          "positiveEvents": 208,
+          "accuracy": 0.7892030848329049,
+          "balancedAccuracy": 0.7953543348916277,
+          "brier": 0.21079691516709512,
+          "recall": 0.7067307692307693,
+          "precision": 0.875,
+          "confusion": {
+            "tp": 147,
+            "tn": 160,
+            "fp": 21,
+            "fn": 61
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 221,
+              "predicted": 0.0,
+              "observed": 0.27601809954751133
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 168,
+              "predicted": 1.0,
+              "observed": 0.875
+            }
+          ]
+        }
+      },
+      "uncertaintyVsLegacy": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          -0.0014508076855810257,
+          0.028388597177058654
+        ],
+        "accuracyGainPercentagePoints95": [
+          1.2497234513274338,
+          8.436889933734774
+        ]
+      },
+      "uncertaintyVsRules": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          0.012203996321264374,
+          0.07657378320187244
+        ],
+        "accuracyGainPercentagePoints95": [
+          0.782329852237393,
+          7.27699802807099
+        ]
+      },
+      "brierImprovementVsLegacy": 0.01233700278380434,
+      "accuracyGainVsLegacyPp": 4.448742746615086,
+      "nominalMinimumForecastAgeAtOriginHours": 18
+    },
+    {
+      "horizonHours": 24,
+      "trainRows": 2252,
+      "validationRows": 420,
+      "testRows": 521,
+      "testCandidateHours": 694,
+      "testCoverage": 0.7507204610951008,
+      "trainingEastHours": 873,
+      "validationEastHours": 57,
+      "selectedFeatureSet": "weather-nonlinear",
+      "selectedL2": 0.1,
+      "validationBrier": 0.06176635407399442,
+      "validationCandidates": [
+        {
+          "featureSet": "weather-linear",
+          "l2": 0.1,
+          "brier": 0.06441063669160668
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 1,
+          "brier": 0.0638189979037051
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 10,
+          "brier": 0.06326909624073675
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 100,
+          "brier": 0.07030777965672383
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 0.1,
+          "brier": 0.06176635407399442
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 1,
+          "brier": 0.06307835977035144
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 10,
+          "brier": 0.06265881195620177
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 100,
+          "brier": 0.06627717698199141
+        }
+      ],
+      "targets": {
+        "dfldModel": {
+          "n": 521,
+          "positiveEvents": 265,
+          "accuracy": 0.7178502879078695,
+          "balancedAccuracy": 0.7203198702830189,
+          "brier": 0.23705168081004688,
+          "recall": 0.5773584905660377,
+          "precision": 0.8138297872340425,
+          "confusion": {
+            "tp": 153,
+            "tn": 221,
+            "fp": 35,
+            "fn": 112
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 275,
+              "predicted": 0.016800693999121697,
+              "observed": 0.32
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 22,
+              "predicted": 0.13343478436595826,
+              "observed": 0.45454545454545453
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 9,
+              "predicted": 0.2452033953188617,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 9,
+              "predicted": 0.3497917609613068,
+              "observed": 0.4444444444444444
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 18,
+              "predicted": 0.4577388383443732,
+              "observed": 0.3888888888888889
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 20,
+              "predicted": 0.557718596296427,
+              "observed": 0.35
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 19,
+              "predicted": 0.6414258661015922,
+              "observed": 0.47368421052631576
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 26,
+              "predicted": 0.748007195681291,
+              "observed": 0.7307692307692307
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 33,
+              "predicted": 0.8375195524254997,
+              "observed": 0.9090909090909091
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 90,
+              "predicted": 0.9660761618893122,
+              "observed": 0.9777777777777777
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 521,
+          "positiveEvents": 265,
+          "accuracy": 0.7178502879078695,
+          "balancedAccuracy": 0.7200545400943397,
+          "brier": 0.23174402354158793,
+          "recall": 0.5924528301886792,
+          "precision": 0.8010204081632653,
+          "confusion": {
+            "tp": 157,
+            "tn": 217,
+            "fp": 39,
+            "fn": 108
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 209,
+              "predicted": 0.028315618595932443,
+              "observed": 0.3875598086124402
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 48,
+              "predicted": 0.1368582132506296,
+              "observed": 0.16666666666666666
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 32,
+              "predicted": 0.25277505226299624,
+              "observed": 0.25
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 18,
+              "predicted": 0.3398761870414668,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 18,
+              "predicted": 0.4605749154666847,
+              "observed": 0.2777777777777778
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 23,
+              "predicted": 0.5496722967296158,
+              "observed": 0.34782608695652173
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 22,
+              "predicted": 0.6589116876918752,
+              "observed": 0.5
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 30,
+              "predicted": 0.7551583833781864,
+              "observed": 0.7333333333333333
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 24,
+              "predicted": 0.8440164801524336,
+              "observed": 0.875
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 97,
+              "predicted": 0.9732666629970064,
+              "observed": 0.979381443298969
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 521,
+          "positiveEvents": 265,
+          "accuracy": 0.710172744721689,
+          "balancedAccuracy": 0.7117777122641509,
+          "brier": 0.28982725527831094,
+          "recall": 0.6188679245283019,
+          "precision": 0.7663551401869159,
+          "confusion": {
+            "tp": 164,
+            "tn": 206,
+            "fp": 50,
+            "fn": 101
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 307,
+              "predicted": 0.0,
+              "observed": 0.3289902280130293
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 214,
+              "predicted": 1.0,
+              "observed": 0.7663551401869159
+            }
+          ]
+        },
+        "climatology": {
+          "n": 521,
+          "positiveEvents": 265,
+          "accuracy": 0.491362763915547,
+          "balancedAccuracy": 0.5,
+          "brier": 0.2645619986033862,
+          "recall": 0.0,
+          "precision": null,
+          "confusion": {
+            "tp": 0,
+            "tn": 256,
+            "fp": 0,
+            "fn": 265
+          },
+          "reliability": [
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 521,
+              "predicted": 0.38765541740674964,
+              "observed": 0.508637236084453
+            }
+          ]
+        }
+      },
+      "scheduledHours": {
+        "dfldModel": {
+          "n": 392,
+          "positiveEvents": 205,
+          "accuracy": 0.7397959183673469,
+          "balancedAccuracy": 0.7462892917699231,
+          "brier": 0.2266175112565528,
+          "recall": 0.6048780487804878,
+          "precision": 0.8551724137931035,
+          "confusion": {
+            "tp": 124,
+            "tn": 166,
+            "fp": 21,
+            "fn": 81
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 207,
+              "predicted": 0.017075819773881756,
+              "observed": 0.3188405797101449
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 16,
+              "predicted": 0.1313356177564692,
+              "observed": 0.4375
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 7,
+              "predicted": 0.24798763930231352,
+              "observed": 0.2857142857142857
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 5,
+              "predicted": 0.3486788746691569,
+              "observed": 0.4
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 12,
+              "predicted": 0.4524518241545657,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 11,
+              "predicted": 0.5529051993250484,
+              "observed": 0.2727272727272727
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 8,
+              "predicted": 0.6421484552636334,
+              "observed": 0.5
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 17,
+              "predicted": 0.7569812566345467,
+              "observed": 0.7647058823529411
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 29,
+              "predicted": 0.8341724417111158,
+              "observed": 0.896551724137931
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 80,
+              "predicted": 0.9660391370521089,
+              "observed": 0.975
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 392,
+          "positiveEvents": 205,
+          "accuracy": 0.7321428571428571,
+          "balancedAccuracy": 0.7385026737967915,
+          "brier": 0.2272933489109446,
+          "recall": 0.6,
+          "precision": 0.8424657534246576,
+          "confusion": {
+            "tp": 123,
+            "tn": 164,
+            "fp": 23,
+            "fn": 82
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 159,
+              "predicted": 0.025581987736174473,
+              "observed": 0.3836477987421384
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 35,
+              "predicted": 0.1340892220603848,
+              "observed": 0.17142857142857143
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 24,
+              "predicted": 0.25124829565220735,
+              "observed": 0.2916666666666667
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 14,
+              "predicted": 0.3351992383398611,
+              "observed": 0.2857142857142857
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 14,
+              "predicted": 0.4637464799142156,
+              "observed": 0.2857142857142857
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 12,
+              "predicted": 0.553328847340509,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 8,
+              "predicted": 0.653541850355802,
+              "observed": 0.5
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 19,
+              "predicted": 0.75567450132277,
+              "observed": 0.6842105263157895
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 22,
+              "predicted": 0.8425666299645204,
+              "observed": 0.8636363636363636
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 85,
+              "predicted": 0.9731408275286909,
+              "observed": 0.9764705882352941
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 392,
+          "positiveEvents": 205,
+          "accuracy": 0.7295918367346939,
+          "balancedAccuracy": 0.7341854701969479,
+          "brier": 0.27040816326530615,
+          "recall": 0.6341463414634146,
+          "precision": 0.8074534161490683,
+          "confusion": {
+            "tp": 130,
+            "tn": 156,
+            "fp": 31,
+            "fn": 75
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 231,
+              "predicted": 0.0,
+              "observed": 0.3246753246753247
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 161,
+              "predicted": 1.0,
+              "observed": 0.8074534161490683
+            }
+          ]
+        }
+      },
+      "uncertaintyVsLegacy": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          -0.018011017228062004,
+          0.005433289424890515
+        ],
+        "accuracyGainPercentagePoints95": [
+          -1.6432323592708007,
+          1.3109846244825547
+        ]
+      },
+      "uncertaintyVsRules": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          0.015521304042450293,
+          0.09805337352414639
+        ],
+        "accuracyGainPercentagePoints95": [
+          -2.625164663924945,
+          4.074074074074074
+        ]
+      },
+      "brierImprovementVsLegacy": -0.005307657268458943,
+      "accuracyGainVsLegacyPp": 0.0,
+      "nominalMinimumForecastAgeAtOriginHours": 24
+    },
+    {
+      "horizonHours": 48,
+      "trainRows": 2253,
+      "validationRows": 422,
+      "testRows": 521,
+      "testCandidateHours": 694,
+      "testCoverage": 0.7507204610951008,
+      "trainingEastHours": 856,
+      "validationEastHours": 77,
+      "selectedFeatureSet": "weather-nonlinear",
+      "selectedL2": 0.1,
+      "validationBrier": 0.08114683001089724,
+      "validationCandidates": [
+        {
+          "featureSet": "weather-linear",
+          "l2": 0.1,
+          "brier": 0.08268417437243078
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 1,
+          "brier": 0.08272041886499659
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 10,
+          "brier": 0.08316634640017238
+        },
+        {
+          "featureSet": "weather-linear",
+          "l2": 100,
+          "brier": 0.09154450163702517
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 0.1,
+          "brier": 0.08114683001089724
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 1,
+          "brier": 0.08149958340656606
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 10,
+          "brier": 0.08236029421586455
+        },
+        {
+          "featureSet": "weather-nonlinear",
+          "l2": 100,
+          "brier": 0.08811673667908414
+        }
+      ],
+      "targets": {
+        "dfldModel": {
+          "n": 521,
+          "positiveEvents": 238,
+          "accuracy": 0.7005758157389635,
+          "balancedAccuracy": 0.6846289752650176,
+          "brier": 0.241495575187033,
+          "recall": 0.5,
+          "precision": 0.7628205128205128,
+          "confusion": {
+            "tp": 119,
+            "tn": 246,
+            "fp": 37,
+            "fn": 119
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 264,
+              "predicted": 0.02771925355870427,
+              "observed": 0.3181818181818182
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 36,
+              "predicted": 0.14525934933357254,
+              "observed": 0.3333333333333333
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 25,
+              "predicted": 0.2534608988570304,
+              "observed": 0.48
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 17,
+              "predicted": 0.3452984827753407,
+              "observed": 0.23529411764705882
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 23,
+              "predicted": 0.44287882769052145,
+              "observed": 0.30434782608695654
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 24,
+              "predicted": 0.5505581489167153,
+              "observed": 0.2916666666666667
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 25,
+              "predicted": 0.6412200753892725,
+              "observed": 0.56
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 34,
+              "predicted": 0.7516706286497201,
+              "observed": 0.7941176470588235
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 26,
+              "predicted": 0.846351443670798,
+              "observed": 0.9230769230769231
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 47,
+              "predicted": 0.9472666466486747,
+              "observed": 1.0
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 521,
+          "positiveEvents": 238,
+          "accuracy": 0.6948176583493282,
+          "balancedAccuracy": 0.6799967336758024,
+          "brier": 0.2308151900840786,
+          "recall": 0.5084033613445378,
+          "precision": 0.7423312883435583,
+          "confusion": {
+            "tp": 121,
+            "tn": 241,
+            "fp": 42,
+            "fn": 117
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 177,
+              "predicted": 0.03470525980919985,
+              "observed": 0.3220338983050847
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 88,
+              "predicted": 0.13903981918970262,
+              "observed": 0.2840909090909091
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 35,
+              "predicted": 0.24509318378320022,
+              "observed": 0.42857142857142855
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 30,
+              "predicted": 0.35008725333726254,
+              "observed": 0.43333333333333335
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 28,
+              "predicted": 0.44569969200336906,
+              "observed": 0.25
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 35,
+              "predicted": 0.5535338474110033,
+              "observed": 0.37142857142857144
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 28,
+              "predicted": 0.6535113985652774,
+              "observed": 0.6071428571428571
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 35,
+              "predicted": 0.7593362479640791,
+              "observed": 0.7714285714285715
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 20,
+              "predicted": 0.8491208569550963,
+              "observed": 0.95
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 45,
+              "predicted": 0.9659637049717362,
+              "observed": 1.0
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 521,
+          "positiveEvents": 238,
+          "accuracy": 0.6852207293666027,
+          "balancedAccuracy": 0.6731671467173441,
+          "brier": 0.31477927063339733,
+          "recall": 0.5336134453781513,
+          "precision": 0.7055555555555556,
+          "confusion": {
+            "tp": 127,
+            "tn": 230,
+            "fp": 53,
+            "fn": 111
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 341,
+              "predicted": 0.0,
+              "observed": 0.3255131964809384
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 180,
+              "predicted": 1.0,
+              "observed": 0.7055555555555556
+            }
+          ]
+        },
+        "climatology": {
+          "n": 521,
+          "positiveEvents": 238,
+          "accuracy": 0.5431861804222649,
+          "balancedAccuracy": 0.5,
+          "brier": 0.2540448668846278,
+          "recall": 0.0,
+          "precision": null,
+          "confusion": {
+            "tp": 0,
+            "tn": 283,
+            "fp": 0,
+            "fn": 238
+          },
+          "reliability": [
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 521,
+              "predicted": 0.3799378606302708,
+              "observed": 0.45681381957773515
+            }
+          ]
+        }
+      },
+      "scheduledHours": {
+        "dfldModel": {
+          "n": 389,
+          "positiveEvents": 182,
+          "accuracy": 0.7403598971722365,
+          "balancedAccuracy": 0.7291633487285661,
+          "brier": 0.21705754341169212,
+          "recall": 0.554945054945055,
+          "precision": 0.8347107438016529,
+          "confusion": {
+            "tp": 101,
+            "tn": 187,
+            "fp": 20,
+            "fn": 81
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 192,
+              "predicted": 0.02511569099774183,
+              "observed": 0.2864583333333333
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 22,
+              "predicted": 0.1396576961870233,
+              "observed": 0.18181818181818182
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 21,
+              "predicted": 0.2559187842771252,
+              "observed": 0.5714285714285714
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 13,
+              "predicted": 0.35056000853133135,
+              "observed": 0.23076923076923078
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 20,
+              "predicted": 0.4412263948045111,
+              "observed": 0.35
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 14,
+              "predicted": 0.5567151324276961,
+              "observed": 0.5
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 18,
+              "predicted": 0.6413226166080472,
+              "observed": 0.6666666666666666
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 23,
+              "predicted": 0.7568673964377098,
+              "observed": 0.782608695652174
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 21,
+              "predicted": 0.8431374690384068,
+              "observed": 0.9047619047619048
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 45,
+              "predicted": 0.9484035489482517,
+              "observed": 1.0
+            }
+          ]
+        },
+        "legacyModel": {
+          "n": 389,
+          "positiveEvents": 182,
+          "accuracy": 0.7300771208226221,
+          "balancedAccuracy": 0.7201651005998833,
+          "brier": 0.21168729835116998,
+          "recall": 0.5659340659340659,
+          "precision": 0.7984496124031008,
+          "confusion": {
+            "tp": 103,
+            "tn": 181,
+            "fp": 26,
+            "fn": 79
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 141,
+              "predicted": 0.032505498096423655,
+              "observed": 0.3262411347517731
+            },
+            {
+              "min": 0.1,
+              "max": 0.2,
+              "n": 56,
+              "predicted": 0.13827984464234996,
+              "observed": 0.17857142857142858
+            },
+            {
+              "min": 0.2,
+              "max": 0.3,
+              "n": 20,
+              "predicted": 0.24143620227579632,
+              "observed": 0.3
+            },
+            {
+              "min": 0.3,
+              "max": 0.4,
+              "n": 23,
+              "predicted": 0.34862078741950236,
+              "observed": 0.4782608695652174
+            },
+            {
+              "min": 0.4,
+              "max": 0.5,
+              "n": 20,
+              "predicted": 0.44039198808148516,
+              "observed": 0.3
+            },
+            {
+              "min": 0.5,
+              "max": 0.6,
+              "n": 28,
+              "predicted": 0.5507682681569004,
+              "observed": 0.39285714285714285
+            },
+            {
+              "min": 0.6,
+              "max": 0.7,
+              "n": 18,
+              "predicted": 0.6537231275252878,
+              "observed": 0.8333333333333334
+            },
+            {
+              "min": 0.7,
+              "max": 0.8,
+              "n": 25,
+              "predicted": 0.7588138837893904,
+              "observed": 0.8
+            },
+            {
+              "min": 0.8,
+              "max": 0.9,
+              "n": 17,
+              "predicted": 0.8503782936908719,
+              "observed": 0.9411764705882353
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 41,
+              "predicted": 0.9674997155461219,
+              "observed": 1.0
+            }
+          ]
+        },
+        "weatherRules": {
+          "n": 389,
+          "positiveEvents": 182,
+          "accuracy": 0.7249357326478149,
+          "balancedAccuracy": 0.7169931517757604,
+          "brier": 0.2750642673521851,
+          "recall": 0.5934065934065934,
+          "precision": 0.7659574468085106,
+          "confusion": {
+            "tp": 108,
+            "tn": 174,
+            "fp": 33,
+            "fn": 74
+          },
+          "reliability": [
+            {
+              "min": 0.0,
+              "max": 0.1,
+              "n": 248,
+              "predicted": 0.0,
+              "observed": 0.29838709677419356
+            },
+            {
+              "min": 0.9,
+              "max": 1.0,
+              "n": 141,
+              "predicted": 1.0,
+              "observed": 0.7659574468085106
+            }
+          ]
+        }
+      },
+      "uncertaintyVsLegacy": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          -0.022580438020054713,
+          4.971953400177886e-05
+        ],
+        "accuracyGainPercentagePoints95": [
+          -0.7547526482861933,
+          2.062196070803345
+        ]
+      },
+      "uncertaintyVsRules": {
+        "days": 29,
+        "draws": 1000,
+        "brierImprovement95": [
+          0.021532488291710835,
+          0.12517348981506998
+        ],
+        "accuracyGainPercentagePoints95": [
+          -1.3671875,
+          4.194660205566246
+        ]
+      },
+      "brierImprovementVsLegacy": -0.010680385102954382,
+      "accuracyGainVsLegacyPp": 0.5758157389635365,
+      "nominalMinimumForecastAgeAtOriginHours": 24
+    }
+  ],
+  "limitations": [
+    "Direction labels are DFLD-reported Fraport-based half-hour bins; exact switch timing is not known.",
+    "Europe/Berlin time basis is empirically checked; DST transition day is excluded.",
+    "DFLD records are targets only. Exact weather delivery timestamps are unavailable; evaluation is retrospective.",
+    "Six months cover a limited seasonal range; correlated hourly rows and few switch events limit generalization.",
+    "Closure model and alert policies are unchanged. No actual RWY18 closure labels were obtained.",
+    "Probabilities are fitted scores, not operational certainty. Intermediate leads use the nearest tested horizon."
+  ],
+  "legacyModelSha256": "118105a1d4111f0cdcf2a1ab8545b5b942e0315cf4409f9771a8f801f567214f",
+  "observationCounts": {
+    "rawMetarReports": 49600,
+    "uniqueMetarReports": 49600,
+    "hourlyObservations": 24802,
+    "variableOrMissingDirectionReports": 6223,
+    "gustReportedFraction": 0.013568548387096774,
+    "firstObservation": "2024-01-01T00:20:00+00:00",
+    "lastObservation": "2026-10-30T10:20:00+00:00"
+  },
+  "historySha256": "00b8f45b780c6394a6667eaafa32df61021e8822eb49622fd49a3a35251d41ff"
+}

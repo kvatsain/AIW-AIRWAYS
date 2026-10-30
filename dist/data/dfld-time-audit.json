@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "auditedAt": "2026-10-30T14:28:59.795619Z",
+  "inferredTimezone": "Europe/Berlin",
+  "evidenceType": "empirical METAR cross-check; not explicit provider declaration",
+  "metar": {
+    "file": "eddf_2026.csv",
+    "sha256": "8cdd7d7fe95ff74155d572d86d03730774d2463e1ec30143cabb9f2798e32083",
+    "station": "EDDF",
+    "archiveTimezone": "UTC",
+    "source": "Iowa Environmental Mesonet",
+    "url": "https://mesonet.agron.iastate.edu/request/download.phtml"
+  },
+  "method": "Compare ordered DFLD wind bins to EDDF METAR at display-bin start +20 minutes minus candidate UTC offset. Test offsets 0, +1 and +2 hours independently on each date.",
+  "normalization": [
+    "360 degrees is equivalent to 0 degrees.",
+    "DFLD displays VRB/missing METAR direction as zero; emulate this only for the clock audit. Separate nonvariable comparisons are reported. Training must retain VRB as missing."
+  ],
+  "results": [
+    {
+      "date": "2026-05-15",
+      "source": {
+        "url": "https://www.dfld.de/Mess/Messwerte.php?R=1&S=100&D=15.05.2026",
+        "retrievedAt": "2026-10-30T14:28:55.043691Z",
+        "sha256": "2876241d157ce943cc911dd9c75c6bc453d104411a5b6b99509a2f9829797ee2",
+        "bytes": 64352
+      },
+      "expectedEuropeBerlinUtcOffsetHours": 2,
+      "displayedWindBins": 48,
+      "candidates": [
+        {
+          "assumedUtcOffsetHours": 0,
+          "exactMatches": 0,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 0,
+          "nonVariableEligibleBins": 30
+        },
+        {
+          "assumedUtcOffsetHours": 1,
+          "exactMatches": 2,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 0,
+          "nonVariableEligibleBins": 30
+        },
+        {
+          "assumedUtcOffsetHours": 2,
+          "exactMatches": 48,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 30,
+          "nonVariableEligibleBins": 30
+        }
+      ]
+    },
+    {
+      "date": "2026-07-15",
+      "source": {
+        "url": "https://www.dfld.de/Mess/Messwerte.php?R=1&S=100&D=15.07.2026",
+        "retrievedAt": "2026-10-30T14:28:55.998939Z",
+        "sha256": "3d4982da04a8f17ffe05a58fc32154d58e08ffdd57d402cffc71c05267213acc",
+        "bytes": 64118
+      },
+      "expectedEuropeBerlinUtcOffsetHours": 2,
+      "displayedWindBins": 48,
+      "candidates": [
+        {
+          "assumedUtcOffsetHours": 0,
+          "exactMatches": 4,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 4,
+          "nonVariableEligibleBins": 46
+        },
+        {
+          "assumedUtcOffsetHours": 1,
+          "exactMatches": 1,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 1,
+          "nonVariableEligibleBins": 46
+        },
+        {
+          "assumedUtcOffsetHours": 2,
+          "exactMatches": 48,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 46,
+          "nonVariableEligibleBins": 46
+        }
+      ]
+    },
+    {
+      "date": "2026-10-24",
+      "source": {
+        "url": "https://www.dfld.de/Mess/Messwerte.php?R=1&S=100&D=24.10.2026",
+        "retrievedAt": "2026-10-30T14:28:56.830415Z",
+        "sha256": "1afa318002afcd41a846c18c3b77641a894a26d234b05477fe77cd9abce19c2f",
+        "bytes": 63902
+      },
+      "expectedEuropeBerlinUtcOffsetHours": 2,
+      "displayedWindBins": 48,
+      "candidates": [
+        {
+          "assumedUtcOffsetHours": 0,
+          "exactMatches": 2,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 2,
+          "nonVariableEligibleBins": 48
+        },
+        {
+          "assumedUtcOffsetHours": 1,
+          "exactMatches": 2,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 2,
+          "nonVariableEligibleBins": 48
+        },
+        {
+          "assumedUtcOffsetHours": 2,
+          "exactMatches": 48,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 48,
+          "nonVariableEligibleBins": 48
+        }
+      ]
+    },
+    {
+      "date": "2026-10-26",
+      "source": {
+        "url": "https://www.dfld.de/Mess/Messwerte.php?R=1&S=100&D=26.10.2026",
+        "retrievedAt": "2026-10-30T14:28:57.628159Z",
+        "sha256": "74b02929ed698c1bf7a2c38f12f4a39fa418d74347ea03c09b93de2b97401415",
+        "bytes": 63855
+      },
+      "expectedEuropeBerlinUtcOffsetHours": 1,
+      "displayedWindBins": 48,
+      "candidates": [
+        {
+          "assumedUtcOffsetHours": 0,
+          "exactMatches": 3,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 3,
+          "nonVariableEligibleBins": 48
+        },
+        {
+          "assumedUtcOffsetHours": 1,
+          "exactMatches": 48,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 48,
+          "nonVariableEligibleBins": 48
+        },
+        {
+          "assumedUtcOffsetHours": 2,
+          "exactMatches": 3,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 3,
+          "nonVariableEligibleBins": 48
+        }
+      ]
+    },
+    {
+      "date": "2026-10-29",
+      "source": {
+        "url": "https://www.dfld.de/Mess/Messwerte.php?R=1&S=100&D=29.10.2026",
+        "retrievedAt": "2026-10-30T14:28:58.558827Z",
+        "sha256": "dcc8a44a79cfaf3fc018349ee06899cf8d4bae8c55e179411c9abe27445a806e",
+        "bytes": 63817
+      },
+      "expectedEuropeBerlinUtcOffsetHours": 1,
+      "displayedWindBins": 48,
+      "candidates": [
+        {
+          "assumedUtcOffsetHours": 0,
+          "exactMatches": 2,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 2,
+          "nonVariableEligibleBins": 44
+        },
+        {
+          "assumedUtcOffsetHours": 1,
+          "exactMatches": 48,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 44,
+          "nonVariableEligibleBins": 44
+        },
+        {
+          "assumedUtcOffsetHours": 2,
+          "exactMatches": 2,
+          "eligibleBins": 48,
+          "nonVariableExactMatches": 2,
+          "nonVariableEligibleBins": 43
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "sampleDays": 5,
+    "matchingBins": 240,
+    "eligibleBins": 240
+  },
+  "dstTransition": {
+    "date": "2026-10-25",
+    "source": {
+      "url": "https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=25.10.2026",
+      "retrievedAt": "2026-10-30T14:28:59.780246Z",
+      "sha256": "191110db99808caf35706362b3c91385dd8b47093ab4ed3072cf2a4a0b2c102b",
+      "bytes": 315940
+    },
+    "directionBins": 48,
+    "repeated0200BinCount": 1,
+    "recommendation": "Exclude the entire autumn-transition date from UTC-aligned training/scoring. Only 48 source-clock bins are supplied, so the repeated local hour cannot be reconstructed."
+  },
+  "limitations": [
+    "No explicit provider timezone declaration was found.",
+    "The clock finding is based on wind displayed alongside direction. It supports, but does not independently certify, the operating-direction clock.",
+    "Half-hour direction labels do not identify the exact switch instant.",
+    "Retrieval timestamps do not establish original publication times or availability at forecast issue time.",
+    "Do not use contemporaneous DFLD labels as forecast inputs without a separately justified availability policy."
+  ],
+  "methodologyUrl": "https://www.dfld.de/Mess/Language/MessHelpG.html"
+}
