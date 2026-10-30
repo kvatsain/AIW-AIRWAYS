@@ -1,0 +1,68 @@
+[
+  {
+    "file": "icon_previous_2024.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m_previous_day1%2Cwind_direction_10m_previous_day1%2Cwind_gusts_10m_previous_day1%2Cwind_speed_10m_previous_day2%2Cwind_direction_10m_previous_day2%2Cwind_gusts_10m_previous_day2&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&start_date=2024-01-01&end_date=2024-12-31",
+    "bytes": 382891,
+    "cached": true
+  },
+  {
+    "file": "icon_day3_2024.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m_previous_day3%2Cwind_direction_10m_previous_day3%2Cwind_gusts_10m_previous_day3&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&start_date=2024-01-01&end_date=2024-12-31",
+    "bytes": 274732,
+    "retrievedAt": "2026-10-30T10:37:17Z"
+  },
+  {
+    "file": "eddf_2024.csv",
+    "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=EDDF&data=drct&data=sknt&data=gust&data=tmpf&data=alti&data=metar&year1=2024&month1=1&day1=1&year2=2025&month2=1&day2=1&tz=Etc%2FUTC&format=onlycomma&latlon=no&elev=no&missing=M&trace=T&direct=no&report_type=3&report_type=4",
+    "bytes": 1926435,
+    "cached": true
+  },
+  {
+    "file": "icon_previous_2025.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m_previous_day1%2Cwind_direction_10m_previous_day1%2Cwind_gusts_10m_previous_day1%2Cwind_speed_10m_previous_day2%2Cwind_direction_10m_previous_day2%2Cwind_gusts_10m_previous_day2&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&start_date=2025-01-01&end_date=2025-12-31",
+    "bytes": 376813,
+    "cached": true
+  },
+  {
+    "file": "icon_day3_2025.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m_previous_day3%2Cwind_direction_10m_previous_day3%2Cwind_gusts_10m_previous_day3&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&start_date=2025-01-01&end_date=2025-12-31",
+    "bytes": 271460,
+    "retrievedAt": "2026-10-30T10:37:12Z"
+  },
+  {
+    "file": "eddf_2025.csv",
+    "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=EDDF&data=drct&data=sknt&data=gust&data=tmpf&data=alti&data=metar&year1=2025&month1=1&day1=1&year2=2026&month2=1&day2=1&tz=Etc%2FUTC&format=onlycomma&latlon=no&elev=no&missing=M&trace=T&direct=no&report_type=3&report_type=4",
+    "bytes": 1896036,
+    "cached": true
+  },
+  {
+    "file": "icon_previous_2026.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m_previous_day1%2Cwind_direction_10m_previous_day1%2Cwind_gusts_10m_previous_day1%2Cwind_speed_10m_previous_day2%2Cwind_direction_10m_previous_day2%2Cwind_gusts_10m_previous_day2&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&start_date=2026-01-01&end_date=2026-10-29",
+    "bytes": 312088,
+    "cached": true
+  },
+  {
+    "file": "icon_day3_2026.json",
+    "url": "https://previous-runs-api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m_previous_day3%2Cwind_direction_10m_previous_day3%2Cwind_gusts_10m_previous_day3&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&start_date=2026-01-01&end_date=2026-10-29",
+    "bytes": 224848,
+    "retrievedAt": "2026-10-30T10:37:12Z"
+  },
+  {
+    "file": "eddf_2026.csv",
+    "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=EDDF&data=drct&data=sknt&data=gust&data=tmpf&data=alti&data=metar&year1=2026&month1=1&day1=1&year2=2026&month2=10&day2=31&tz=Etc%2FUTC&format=onlycomma&latlon=no&elev=no&missing=M&trace=T&direct=no&report_type=3&report_type=4",
+    "bytes": 1558317,
+    "cached": true
+  },
+  {
+    "file": "live_icon.json",
+    "url": "https://api.open-meteo.com/v1/forecast?latitude=50.0379&longitude=8.5622&hourly=wind_speed_10m%2Cwind_direction_10m%2Cwind_gusts_10m%2Ctemperature_2m%2Crelative_humidity_2m%2Cpressure_msl%2Cprecipitation%2Ccloud_cover%2Cwind_speed_80m%2Cwind_direction_80m&current=wind_speed_10m%2Cwind_direction_10m%2Cwind_gusts_10m%2Ctemperature_2m%2Crelative_humidity_2m%2Cpressure_msl&models=icon_seamless&wind_speed_unit=kn&timezone=GMT&forecast_days=4&past_days=1",
+    "bytes": 8217,
+    "cached": true
+  },
+  {
+    "file": "live_metar.json",
+    "url": "https://aviationweather.gov/api/data/metar?ids=EDDF&format=json&hours=4",
+    "bytes": 3554,
+    "cached": true
+  }
+]

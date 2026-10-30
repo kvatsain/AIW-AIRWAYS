@@ -1,0 +1,627 @@
+{
+  "source": "Problem2.m4a",
+  "model": "base",
+  "language": "en",
+  "language_probability": 0.9921025633811951,
+  "duration_seconds": 389.248,
+  "segments": [
+    {
+      "start": 0.88,
+      "end": 2.88,
+      "text": "Hi guys, good morning.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 2.88,
+      "end": 5.88,
+      "text": "So just a little thinking example, what I want to do with you here.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 5.88,
+      "end": 7.88,
+      "text": "Imagine it's Friday morning.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 7.88,
+      "end": 9.88,
+      "text": "You're at Friday for the airport, right here,",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 9.88,
+      "end": 12.88,
+      "text": "you see a lot of aircraft taking off, departing and landing.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 12.88,
+      "end": 14.88,
+      "text": "Imagine you're sitting in an aircraft right now,",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 14.88,
+      "end": 16.88,
+      "text": "which would be your favorite destination you go to.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 16.88,
+      "end": 18.88,
+      "text": "How about you?",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 18.88,
+      "end": 19.88,
+      "text": "Barcelona.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 19.88,
+      "end": 20.88,
+      "text": "Beautiful destination.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 20.88,
+      "end": 21.88,
+      "text": "I only recommend that.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 21.88,
+      "end": 22.88,
+      "text": "Amazing.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 22.88,
+      "end": 24.88,
+      "text": "So now you're sitting in the aircraft and you're wondering,",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 24.88,
+      "end": 25.88,
+      "text": "you're right before takeoff.",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 25.88,
+      "end": 27.88,
+      "text": "Which way are you going to go?",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 27.88,
+      "end": 29.88,
+      "text": "Is it eastbound or is it westbound?",
+      "avg_logprob": -0.19928767814399292
+    },
+    {
+      "start": 29.88,
+      "end": 36.88,
+      "text": "And that's a question that doesn't answer by the pilot for my flight landing from Hamlin.",
+      "avg_logprob": -0.3140432286906887
+    },
+    {
+      "start": 36.88,
+      "end": 39.88,
+      "text": "It will be answered by the wind and by the point only.",
+      "avg_logprob": -0.3140432286906887
+    },
+    {
+      "start": 39.88,
+      "end": 45.88,
+      "text": "And it was the staff I am from for our lines, which is a joint venture between Lifton and Falbot.",
+      "avg_logprob": -0.3140432286906887
+    },
+    {
+      "start": 45.88,
+      "end": 48.88,
+      "text": "And that is the question I'm bringing for you guys today.",
+      "avg_logprob": -0.3140432286906887
+    },
+    {
+      "start": 48.88,
+      "end": 53.88,
+      "text": "So the task is to build a machine learning model that forecasts 48 hours ahead,",
+      "avg_logprob": -0.3140432286906887
+    },
+    {
+      "start": 53.88,
+      "end": 57.88,
+      "text": "which way aircraft will be departing and landing.",
+      "avg_logprob": -0.3140432286906887
+    },
+    {
+      "start": 57.88,
+      "end": 64.88,
+      "text": "and whether or not runway 180 will be closed for open front departures.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 64.88,
+      "end": 66.88,
+      "text": "So here at Frankfurt Airport.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 66.88,
+      "end": 70.88,
+      "text": "I don't know how many of you guys have taken off and landed here at Frankfurt.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 70.88,
+      "end": 72.88,
+      "text": "Raise your hands.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 72.88,
+      "end": 73.88,
+      "text": "Anything.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 73.88,
+      "end": 77.88,
+      "text": "Okay, so you are a bunch of",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 77.88,
+      "end": 79.88,
+      "text": "in total 63 million passengers.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 79.88,
+      "end": 82.88,
+      "text": "The travel for Frankfurt Airport within a year.",
+      "avg_logprob": -0.30917630119379175
+    },
+    {
+      "start": 82.88,
+      "end": 90.72,
+      "text": "Those 63 million passengers are going through airport own airport with 460,000 aircraft",
+      "avg_logprob": -0.42357236221432687
+    },
+    {
+      "start": 90.72,
+      "end": 94.64,
+      "text": "movements that is departures in Linux to tow.",
+      "avg_logprob": -0.42357236221432687
+    },
+    {
+      "start": 94.64,
+      "end": 101.16,
+      "text": "That sounds up to about 1,260 flight movements a day that have to go through four runways.",
+      "avg_logprob": -0.42357236221432687
+    },
+    {
+      "start": 101.16,
+      "end": 108.12,
+      "text": "You can see on the picture if you do best or how many runways we have, if three runways",
+      "avg_logprob": -0.42357236221432687
+    },
+    {
+      "start": 108.12,
+      "end": 111.0,
+      "text": "that can be operated in two directions.",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 111.0,
+      "end": 112.8,
+      "text": "This way, Eastway or Westway,",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 112.8,
+      "end": 115.6,
+      "text": "and then we have another runway",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 115.6,
+      "end": 117.44,
+      "text": "that is going into direction of south.",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 118.8,
+      "end": 121.12,
+      "text": "So within those four runways,",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 121.12,
+      "end": 125.72,
+      "text": "you have capacity of up to 110 movements in the peak hour.",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 125.72,
+      "end": 127.84,
+      "text": "So that is the departures and landings.",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 129.44,
+      "end": 133.16,
+      "text": "On the side of, for those of you that don't know,",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 133.16,
+      "end": 136.42,
+      "text": "those runways are named by the compass direction",
+      "avg_logprob": -0.26694789729439294
+    },
+    {
+      "start": 136.42,
+      "end": 139.28,
+      "text": "that the wind determines which way they're going to keep off",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 139.28,
+      "end": 140.52,
+      "text": "and land.",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 140.52,
+      "end": 142.8,
+      "text": "So for example, for you guys to understand the wrong way",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 142.8,
+      "end": 145.0,
+      "text": "that it's going to the south, that's called 1-8,",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 145.0,
+      "end": 146.66,
+      "text": "because it's going on the compass direction,",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 146.66,
+      "end": 148.48,
+      "text": "a 180-brace to the south.",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 148.48,
+      "end": 150.16,
+      "text": "That makes sense, right?",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 150.16,
+      "end": 151.64,
+      "text": "Then we have the three center there",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 151.64,
+      "end": 152.92,
+      "text": "of them in the wrong ways.",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 152.92,
+      "end": 155.0,
+      "text": "The one in the middle is called center,",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 155.0,
+      "end": 156.44,
+      "text": "because it's in the center.",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 156.44,
+      "end": 159.92,
+      "text": "And depending whether or not it's going to the east or to the west,",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 159.92,
+      "end": 163.56,
+      "text": "it will be called two-five center or zero-seven center,",
+      "avg_logprob": -0.3471958184397066
+    },
+    {
+      "start": 163.56,
+      "end": 166.52,
+      "text": "because it's either going 70 degrees in the compost",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 166.52,
+      "end": 170.04,
+      "text": "direction or 250 degrees in the compost direction.",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 170.04,
+      "end": 173.28,
+      "text": "And the ones on the side of center are 25 right",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 173.28,
+      "end": 177.96,
+      "text": "or 25 left and 0, 7 left or 0, 7 right,",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 177.96,
+      "end": 181.44,
+      "text": "depending on which way we go.",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 181.44,
+      "end": 184.16,
+      "text": "So what's important for you guys?",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 184.16,
+      "end": 189.4,
+      "text": "Six out of 10 departures will be taking off on the 1-8.",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 189.4,
+      "end": 192.36,
+      "text": "The rest of them will be taking off on center.",
+      "avg_logprob": -0.2679524367245344
+    },
+    {
+      "start": 192.36,
+      "end": 197.36,
+      "text": "when there's wind coming from the north, and it's 2.8,",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 198.32,
+      "end": 201.8,
+      "text": "there are one eight runaway will be closed for departures",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 201.8,
+      "end": 206.3,
+      "text": "because aircraft can only take off against the weight.",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 206.3,
+      "end": 208.66,
+      "text": "So we need to know ahead of time",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 208.66,
+      "end": 210.26,
+      "text": "whether or not all four runways",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 210.26,
+      "end": 211.54,
+      "text": "will be operating or not.",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 213.66,
+      "end": 215.06,
+      "text": "To give you a few more numbers,",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 215.06,
+      "end": 219.26,
+      "text": "156 operational direction changes",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 219.26,
+      "end": 221.1,
+      "text": "is what we're collecting within a year.",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 221.1,
+      "end": 222.82,
+      "text": "So that's about three changes",
+      "avg_logprob": -0.2796784912774322
+    },
+    {
+      "start": 222.82,
+      "end": 229.38,
+      "text": "operation direction per week. So those of you who guessed earlier that you're going to west,",
+      "avg_logprob": -0.2361086980792983
+    },
+    {
+      "start": 229.38,
+      "end": 233.62,
+      "text": "you're right in about 61% of the time. The other time you're going to go there,",
+      "avg_logprob": -0.2361086980792983
+    },
+    {
+      "start": 233.62,
+      "end": 240.82,
+      "text": "I'll take off to the east. So why is this so important for Frankfurt Airport? Depending on which",
+      "avg_logprob": -0.2361086980792983
+    },
+    {
+      "start": 240.82,
+      "end": 245.14,
+      "text": "way the wind is going to go, because that's what we need for aircraft to take off and land.",
+      "avg_logprob": -0.2361086980792983
+    },
+    {
+      "start": 246.1,
+      "end": 252.74,
+      "text": "It will be decided on how the airport is operated. And how does that work? Usually we have people",
+      "avg_logprob": -0.2361086980792983
+    },
+    {
+      "start": 252.74,
+      "end": 257.3,
+      "text": "sitting in air traffic control in the tower, you'll know the tower, and they're sitting there,",
+      "avg_logprob": -0.20426965008179346
+    },
+    {
+      "start": 257.3,
+      "end": 261.7,
+      "text": "and they're looking at the winds and the midter data, and then at one point, one minute to another,",
+      "avg_logprob": -0.20426965008179346
+    },
+    {
+      "start": 261.7,
+      "end": 265.3,
+      "text": "they're going to decide, okay, winds too heavy, we're going to take off to the other direction.",
+      "avg_logprob": -0.20426965008179346
+    },
+    {
+      "start": 266.18,
+      "end": 271.3,
+      "text": "And then what happens after that, we have our ground handling staff that needs to be repositioned,",
+      "avg_logprob": -0.20426965008179346
+    },
+    {
+      "start": 271.3,
+      "end": 278.5,
+      "text": "ground handling properties, I would say they have to be repositioned. We have transfer passengers",
+      "avg_logprob": -0.20426965008179346
+    },
+    {
+      "start": 278.5,
+      "end": 283.3,
+      "text": "that might not be making their connected flight, and we need to do a whole lot of the flight",
+      "avg_logprob": -0.20258369793494543
+    },
+    {
+      "start": 283.3,
+      "end": 289.14,
+      "text": "plan rescheduling. And once that decision is made, everybody else has to react. And obviously,",
+      "avg_logprob": -0.20258369793494543
+    },
+    {
+      "start": 289.14,
+      "end": 294.66,
+      "text": "then yeah, aircraft is big. This leads to a lot of planning and rescheduling and delays.",
+      "avg_logprob": -0.20258369793494543
+    },
+    {
+      "start": 295.62,
+      "end": 299.3,
+      "text": "So what we're trying to do with our model that you guys are going to build.",
+      "avg_logprob": -0.20258369793494543
+    },
+    {
+      "start": 300.74,
+      "end": 307.14,
+      "text": "Please predict 48 hours in advance, whether or not runway 1-8 will be open or close,",
+      "avg_logprob": -0.20258369793494543
+    },
+    {
+      "start": 307.14,
+      "end": 312.18,
+      "text": "So you need to measure in the wind that's coming in from the north. If it's too heavy,",
+      "avg_logprob": -0.21100969993053598
+    },
+    {
+      "start": 313.14,
+      "end": 317.54,
+      "text": "from the back, then aircraft can take off. You have a one-cagear that will be uploaded,",
+      "avg_logprob": -0.21100969993053598
+    },
+    {
+      "start": 317.54,
+      "end": 325.54,
+      "text": "and you can see the exact rules set on how far or how much wind we can take in the tailwind,",
+      "avg_logprob": -0.21100969993053598
+    },
+    {
+      "start": 326.26,
+      "end": 329.7,
+      "text": "and when the wind direction will be changed and when one aid will be closed.",
+      "avg_logprob": -0.21100969993053598
+    },
+    {
+      "start": 329.7,
+      "end": 339.7,
+      "text": "So first task is find out when one eight will be closed and second task is find out when will the win change.",
+      "avg_logprob": -0.2761850349874382
+    },
+    {
+      "start": 339.7,
+      "end": 343.7,
+      "text": "So for that you can use all data available in open source.",
+      "avg_logprob": -0.2761850349874382
+    },
+    {
+      "start": 343.7,
+      "end": 350.7,
+      "text": "There is a whole bunch of data to find out when the directionals changed for the operations and.",
+      "avg_logprob": -0.2761850349874382
+    },
+    {
+      "start": 350.7,
+      "end": 355.7,
+      "text": "Yeah, which direction was operating in, of course, how the windows behave.",
+      "avg_logprob": -0.2761850349874382
+    },
+    {
+      "start": 355.7,
+      "end": 361.94,
+      "text": "So, that is the task to help us, yeah, for the passengers to make their connections,",
+      "avg_logprob": -0.38042945563793185
+    },
+    {
+      "start": 361.94,
+      "end": 368.62,
+      "text": "to predict the staff and ground handling, and to make a better experience for the cooperation",
+      "avg_logprob": -0.38042945563793185
+    },
+    {
+      "start": 368.62,
+      "end": 373.46,
+      "text": "behind all of the partners that are making this airport work, obviously for the passengers",
+      "avg_logprob": -0.38042945563793185
+    },
+    {
+      "start": 373.46,
+      "end": 375.46,
+      "text": "to make their funding flights.",
+      "avg_logprob": -0.38042945563793185
+    },
+    {
+      "start": 375.46,
+      "end": 380.56,
+      "text": "And I think we'll find a one-pager, like I said, as well as a presentation online, and",
+      "avg_logprob": -0.38042945563793185
+    },
+    {
+      "start": 380.56,
+      "end": 389.26,
+      "text": "with that best of luck, I don't know if you've heard of it or you're at a test.",
+      "avg_logprob": -0.38042945563793185
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+# Local execution, dependencies, credentials and generated packages
+__pycache__/
+*.py[cod]
+node_modules/
+.venv/
+venv/
+.env
+.env.*
+.openai/
+.codex/
+.agents/
+tmp/
+test-results/
+*.zip
+*.tar.gz
+.DS_Store
+Thumbs.db

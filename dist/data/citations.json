@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Iowa Environmental Mesonet airport observations",
+    "url": "https://mesonet.agron.iastate.edu/request/download.phtml",
+    "role": "Historical EDDF METAR; true wind direction and knots. Archive has limited quality control."
+  },
+  {
+    "title": "Open-Meteo Previous Runs API",
+    "url": "https://open-meteo.com/en/docs/previous-runs-api",
+    "role": "Fixed lead-time archives from past forecasts, not reanalysis."
+  },
+  {
+    "title": "Open-Meteo DWD ICON API",
+    "url": "https://open-meteo.com/en/docs/dwd-api",
+    "role": "Live numerical weather forecast at 50.0379N, 8.5622E."
+  },
+  {
+    "title": "NOAA Aviation Weather Center Data API",
+    "url": "https://aviationweather.gov/data/api/",
+    "role": "Latest EDDF observation snapshot."
+  },
+  {
+    "title": "Umwelthaus current operating direction and forecast",
+    "url": "https://www.umwelthaus.org/fluglaerm/anwendungen-service/aktuelle-betriebsrichtung-und-prognose/",
+    "role": "Current operating direction sourced to DFS; no historical bulk labels obtained."
+  },
+  {
+    "title": "FraAlliance AI Week 2026 hackathon case, user supplied PDF",
+    "url": null,
+    "role": "Challenge proxy thresholds. These are configurable challenge assumptions, not authoritative aviation limits."
+  }
+]

@@ -1,0 +1,108 @@
+Local automatic transcription; model: faster-whisper base, CPU int8.
+Source: Problem2.m4a
+Detected language: en; probability: 0.992
+Transcription may contain recognition errors; verify important details against the recording.
+
+[0000.88–0002.88] Hi guys, good morning.
+[0002.88–0005.88] So just a little thinking example, what I want to do with you here.
+[0005.88–0007.88] Imagine it's Friday morning.
+[0007.88–0009.88] You're at Friday for the airport, right here,
+[0009.88–0012.88] you see a lot of aircraft taking off, departing and landing.
+[0012.88–0014.88] Imagine you're sitting in an aircraft right now,
+[0014.88–0016.88] which would be your favorite destination you go to.
+[0016.88–0018.88] How about you?
+[0018.88–0019.88] Barcelona.
+[0019.88–0020.88] Beautiful destination.
+[0020.88–0021.88] I only recommend that.
+[0021.88–0022.88] Amazing.
+[0022.88–0024.88] So now you're sitting in the aircraft and you're wondering,
+[0024.88–0025.88] you're right before takeoff.
+[0025.88–0027.88] Which way are you going to go?
+[0027.88–0029.88] Is it eastbound or is it westbound?
+[0029.88–0036.88] And that's a question that doesn't answer by the pilot for my flight landing from Hamlin.
+[0036.88–0039.88] It will be answered by the wind and by the point only.
+[0039.88–0045.88] And it was the staff I am from for our lines, which is a joint venture between Lifton and Falbot.
+[0045.88–0048.88] And that is the question I'm bringing for you guys today.
+[0048.88–0053.88] So the task is to build a machine learning model that forecasts 48 hours ahead,
+[0053.88–0057.88] which way aircraft will be departing and landing.
+[0057.88–0064.88] and whether or not runway 180 will be closed for open front departures.
+[0064.88–0066.88] So here at Frankfurt Airport.
+[0066.88–0070.88] I don't know how many of you guys have taken off and landed here at Frankfurt.
+[0070.88–0072.88] Raise your hands.
+[0072.88–0073.88] Anything.
+[0073.88–0077.88] Okay, so you are a bunch of
+[0077.88–0079.88] in total 63 million passengers.
+[0079.88–0082.88] The travel for Frankfurt Airport within a year.
+[0082.88–0090.72] Those 63 million passengers are going through airport own airport with 460,000 aircraft
+[0090.72–0094.64] movements that is departures in Linux to tow.
+[0094.64–0101.16] That sounds up to about 1,260 flight movements a day that have to go through four runways.
+[0101.16–0108.12] You can see on the picture if you do best or how many runways we have, if three runways
+[0108.12–0111.00] that can be operated in two directions.
+[0111.00–0112.80] This way, Eastway or Westway,
+[0112.80–0115.60] and then we have another runway
+[0115.60–0117.44] that is going into direction of south.
+[0118.80–0121.12] So within those four runways,
+[0121.12–0125.72] you have capacity of up to 110 movements in the peak hour.
+[0125.72–0127.84] So that is the departures and landings.
+[0129.44–0133.16] On the side of, for those of you that don't know,
+[0133.16–0136.42] those runways are named by the compass direction
+[0136.42–0139.28] that the wind determines which way they're going to keep off
+[0139.28–0140.52] and land.
+[0140.52–0142.80] So for example, for you guys to understand the wrong way
+[0142.80–0145.00] that it's going to the south, that's called 1-8,
+[0145.00–0146.66] because it's going on the compass direction,
+[0146.66–0148.48] a 180-brace to the south.
+[0148.48–0150.16] That makes sense, right?
+[0150.16–0151.64] Then we have the three center there
+[0151.64–0152.92] of them in the wrong ways.
+[0152.92–0155.00] The one in the middle is called center,
+[0155.00–0156.44] because it's in the center.
+[0156.44–0159.92] And depending whether or not it's going to the east or to the west,
+[0159.92–0163.56] it will be called two-five center or zero-seven center,
+[0163.56–0166.52] because it's either going 70 degrees in the compost
+[0166.52–0170.04] direction or 250 degrees in the compost direction.
+[0170.04–0173.28] And the ones on the side of center are 25 right
+[0173.28–0177.96] or 25 left and 0, 7 left or 0, 7 right,
+[0177.96–0181.44] depending on which way we go.
+[0181.44–0184.16] So what's important for you guys?
+[0184.16–0189.40] Six out of 10 departures will be taking off on the 1-8.
+[0189.40–0192.36] The rest of them will be taking off on center.
+[0192.36–0197.36] when there's wind coming from the north, and it's 2.8,
+[0198.32–0201.80] there are one eight runaway will be closed for departures
+[0201.80–0206.30] because aircraft can only take off against the weight.
+[0206.30–0208.66] So we need to know ahead of time
+[0208.66–0210.26] whether or not all four runways
+[0210.26–0211.54] will be operating or not.
+[0213.66–0215.06] To give you a few more numbers,
+[0215.06–0219.26] 156 operational direction changes
+[0219.26–0221.10] is what we're collecting within a year.
+[0221.10–0222.82] So that's about three changes
+[0222.82–0229.38] operation direction per week. So those of you who guessed earlier that you're going to west,
+[0229.38–0233.62] you're right in about 61% of the time. The other time you're going to go there,
+[0233.62–0240.82] I'll take off to the east. So why is this so important for Frankfurt Airport? Depending on which
+[0240.82–0245.14] way the wind is going to go, because that's what we need for aircraft to take off and land.
+[0246.10–0252.74] It will be decided on how the airport is operated. And how does that work? Usually we have people
+[0252.74–0257.30] sitting in air traffic control in the tower, you'll know the tower, and they're sitting there,
+[0257.30–0261.70] and they're looking at the winds and the midter data, and then at one point, one minute to another,
+[0261.70–0265.30] they're going to decide, okay, winds too heavy, we're going to take off to the other direction.
+[0266.18–0271.30] And then what happens after that, we have our ground handling staff that needs to be repositioned,
+[0271.30–0278.50] ground handling properties, I would say they have to be repositioned. We have transfer passengers
+[0278.50–0283.30] that might not be making their connected flight, and we need to do a whole lot of the flight
+[0283.30–0289.14] plan rescheduling. And once that decision is made, everybody else has to react. And obviously,
+[0289.14–0294.66] then yeah, aircraft is big. This leads to a lot of planning and rescheduling and delays.
+[0295.62–0299.30] So what we're trying to do with our model that you guys are going to build.
+[0300.74–0307.14] Please predict 48 hours in advance, whether or not runway 1-8 will be open or close,
+[0307.14–0312.18] So you need to measure in the wind that's coming in from the north. If it's too heavy,
+[0313.14–0317.54] from the back, then aircraft can take off. You have a one-cagear that will be uploaded,
+[0317.54–0325.54] and you can see the exact rules set on how far or how much wind we can take in the tailwind,
+[0326.26–0329.70] and when the wind direction will be changed and when one aid will be closed.
+[0329.70–0339.70] So first task is find out when one eight will be closed and second task is find out when will the win change.
+[0339.70–0343.70] So for that you can use all data available in open source.
+[0343.70–0350.70] There is a whole bunch of data to find out when the directionals changed for the operations and.
+[0350.70–0355.70] Yeah, which direction was operating in, of course, how the windows behave.
+[0355.70–0361.94] So, that is the task to help us, yeah, for the passengers to make their connections,
+[0361.94–0368.62] to predict the staff and ground handling, and to make a better experience for the cooperation
+[0368.62–0373.46] behind all of the partners that are making this airport work, obviously for the passengers
+[0373.46–0375.46] to make their funding flights.
+[0375.46–0380.56] And I think we'll find a one-pager, like I said, as well as a presentation online, and
+[0380.56–0389.26] with that best of luck, I don't know if you've heard of it or you're at a test.

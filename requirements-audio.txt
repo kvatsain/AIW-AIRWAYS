@@ -1,0 +1,3 @@
+# Optional: only to repeat local transcription of references/Problem2.m4a
+faster-whisper>=1.2,<2
+av>=16,<20

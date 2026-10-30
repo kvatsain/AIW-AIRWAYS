@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { predictForecast, normalizeWeather } from '../dist/inference.js';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const read=name=>JSON.parse(fs.readFileSync(path.join(root,'dist/data',name),'utf8'));
+const model=read('model.json'), snapshot=read('forecast.json');
+const issue=snapshot.weatherTimestamp;
+const rows=normalizeWeather(snapshot.weather.hourly).filter(row=>new Date(row.time)>new Date(issue)).slice(0,48);
+snapshot.hourly=predictForecast(rows,snapshot.observation,snapshot.currentOperations.direction,model,issue);
+snapshot.issuedAt=issue;
+if(snapshot.hourly.length!==48) throw new Error('Snapshot must contain48 forecast hours');
+fs.writeFileSync(path.join(root,'dist/data/forecast.json'),JSON.stringify(snapshot,null,2));
+console.log(`Saved ${snapshot.hourly.length} forecast hours, ${snapshot.hourly[0].time} – ${snapshot.hourly.at(-1).time}`);

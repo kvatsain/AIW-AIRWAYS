@@ -1,0 +1,11 @@
+{
+  "direction": "07",
+  "sinceLocal": "2026-10-29T09:54:00+01:00",
+  "verifiedAt": "2026-10-30",
+  "verificationPrecision": "calendar date",
+  "source": "Umwelthaus, citing DFS",
+  "url": "https://www.umwelthaus.org/fluglaerm/anwendungen-service/aktuelle-betriebsrichtung-und-prognose/",
+  "sourceExcerpt": "BR 07 Ost; Betriebsrichtung seit 29. Oct., 09.54 Uhr; Quelle Betriebsrichtung: DFS",
+  "historicalLabelsAvailable": false,
+  "refreshPolicy": "Manually verified saved source snapshot. Retraining does not reverify or refresh this operational status."
+}

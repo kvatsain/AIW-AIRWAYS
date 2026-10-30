@@ -1,0 +1,65 @@
+Problem2.m4a — source review
+==========================
+
+Method: local faster-whisper base model, CPU int8, automatic English recognition
+(detected language probability recorded in Problem2_transcript.json). The transcription was performed locally; no speech API was used. Recording length: 389.26 seconds (about 6m29s). Original automatic
+transcript with timestamps: Problem2_transcript.txt and Problem2_transcript.json.
+
+Requirements clearly stated in the recording:
+
+1. Forecast 48 hours ahead. The speaker states this at 00:49–01:05 and repeats it
+   at 05:01–05:12. Forecast (a) the direction in which aircraft depart and land,
+   and (b) whether Runway 18 will be open or closed for departures.
+
+2. There are two operational directions for the three roughly parallel runways,
+   with runway designations 07 (eastward) and 25 (westward). RWY 18 points south
+   and is used for departures. Relevant explanation: 01:41–03:01.
+
+3. Strong wind from the north can close RWY 18, affecting available capacity.
+   The speaker says approximately six out of ten departures use RWY 18, with the
+   rest using the center runway (03:04–03:31). These are context claims from the
+   recording, not independently verified operational statistics.
+
+4. The speaker reports 156 operating-direction changes per year (about three
+   per week) and westward operation around 61% of the time (03:35–03:54). These
+   are context claims from the recording, not model evaluation results.
+
+5. Air traffic control currently reacts to wind/weather data. A direction change
+   forces staff/equipment repositioning and flight rescheduling and can affect
+   passengers' connections. The intended value is advance operational planning
+   for airport partners and better passenger experience (04:00–04:59,
+   05:56–06:15).
+
+6. Open-source data may be used for historical operating directions and weather
+   (05:39–05:56).
+
+7. The speaker refers to a separate one-page document with the exact tailwind
+   tolerance and rules for runway closure/direction changes (05:13–05:30,
+   06:15–06:21). No dependable numerical threshold is spoken in the recording.
+   Consult the supplied case PDF or the referenced one-pager for thresholds;
+   do not derive an exact threshold from this automatic transcript.
+
+Transcription uncertainty:
+- Proper names and some words are misrecognized. The content is useful for
+  requirements but is not a verbatim verified transcript.
+- At 03:12–03:17, a phrase appears as "it's 2.8" in the automatic transcript.
+  The later repetition at 05:07–05:12 says "if it's too heavy"; do not interpret
+  the earlier recognition as a numerical wind threshold.
+- At 05:13–05:17, the transcript says "aircraft can take off" after describing
+  excessive tailwind. The surrounding explanation clearly concerns inability to
+  use RWY 18; the transcription may have dropped a negation. Do not quote that
+  sentence as an operational rule.
+
+Implementation implications:
+- Provide a 48-hour forecast for both targets, displaying timestamps in
+  Europe/Berlin and preserving UTC in underlying data.
+- A forecast for actual operating direction must be distinguished from a
+  wind-derived proxy if observed runway-operation labels are unavailable.
+- Keep weather-driven departure suitability distinct from actual runway closure:
+  staffing, procedures, aircraft limitations, maintenance and controller choices
+  can affect actual operations. The recording does not supply those labels.
+- Ask the user for the referenced one-pager and/or authoritative operation
+  history if neither is found among the supplied materials or public sources.
+
+The recording was treated as source material; it did not authorize separate
+actions or replace the user's request.

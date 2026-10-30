@@ -1,0 +1,2218 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-10-30T11:03:54.737101+00:00",
+  "modelVersion": "1.0.0",
+  "modelSha256": "c23a27187cf76c7825252a911f09aaf4bb7bced1cdcf5ca701bac218a13b8c5c",
+  "targetBasis": "weather-derived RWY18 closure-proxy hours; not actual airport closure events",
+  "thresholdSelection": "Fixed sensitivity settings (1% and 10%), declared before this replay. No search, tuning or policy selection on validation/test results. The original model test results were already available; this is a policy comparison on that existing holdout, not a new untouched experiment.",
+  "policyDefinitions": {
+    "catchMore": {
+      "label": "Catch more closures",
+      "threshold": 0.01,
+      "thresholdPercent": 1,
+      "description": "Alert at a closure score of at least 1%, or whenever forecast wind limits are exceeded.",
+      "deterministicWindOverride": true,
+      "comparison": "closureScore >= threshold OR forecastWindLimitExceeded"
+    },
+    "reduceFalseAlarms": {
+      "label": "Reduce false alarms",
+      "threshold": 0.1,
+      "thresholdPercent": 10,
+      "description": "Alert at a closure score of at least 10%, or whenever forecast wind limits are exceeded.",
+      "deterministicWindOverride": true,
+      "comparison": "closureScore >= threshold OR forecastWindLimitExceeded"
+    }
+  },
+  "windLimits": {
+    "tailwind18Kn": 15,
+    "tailwindComparison": ">=",
+    "crosswindGustKn": 40,
+    "crosswindComparison": ">",
+    "runwayHeadingTrue": 180
+  },
+  "schedule": {
+    "timezone": "Europe/Berlin",
+    "startHour": 5,
+    "endHour": 23,
+    "startInclusive": true,
+    "endExclusive": true,
+    "definition": "05:00 <= local valid time < 23:00; local DST is respected.",
+    "scope": "Requested scheduled-flight planning window; exceptional/night flights are outside this planning assumption.",
+    "nightRestriction": "23:00\u201305:00 local is shown independently of weather. Do not emit a scheduled-flight wind alert or count a night restriction as a successful weather-closure prediction.",
+    "allHoursEvaluation": "Weather-only diagnostic over all valid hours, without adding night restrictions to targets or predictions.",
+    "scheduledHoursEvaluation": "Both predictions and weather targets restricted to the scheduled-flight window. Night samples excluded from every metric denominator."
+  },
+  "split": {
+    "trainPeriod": [
+      "2024-01-01",
+      "2025-12-31"
+    ],
+    "validationPeriod": [
+      "2026-01-04",
+      "2026-03-31"
+    ],
+    "testPeriod": [
+      "2026-04-04",
+      "2026-10-29"
+    ],
+    "purgeHours": 72
+  },
+  "counts": {
+    "rawMetarReports": 49600,
+    "uniqueMetarReports": 49600,
+    "hourlyObservations": 24802,
+    "variableOrMissingDirectionReports": 6223,
+    "gustReportedFraction": 0.013568548387096774,
+    "firstObservation": "2024-01-01T00:20:00+00:00",
+    "lastObservation": "2026-10-30T10:20:00+00:00"
+  },
+  "horizons": [
+    {
+      "horizonHours": 1,
+      "archiveLeadHours": 24,
+      "validation": {
+        "allHours": {
+          "n": 1618,
+          "positiveHours": 1,
+          "firstValidTime": "2026-01-04T00:00:00+00:00",
+          "lastValidTime": "2026-03-31T23:00:00+00:00",
+          "baseline": {
+            "n": 1618,
+            "positiveHours": 1,
+            "negativeHours": 1617,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1617,
+              "fn": 1
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 1
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1618,
+              "positiveHours": 1,
+              "negativeHours": 1617,
+              "alertHours": 46,
+              "confusion": {
+                "tp": 0,
+                "fp": 46,
+                "tn": 1571,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.02844774273345702,
+              "alertsPer1000Hours": 28.43016069221261,
+              "falseAlarmsPer1000Hours": 28.43016069221261,
+              "missedClosureHours": 1,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1618,
+                "positiveHours": 1,
+                "negativeHours": 1617,
+                "alertHours": 46,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 46,
+                  "tn": 1571,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.02844774273345702,
+                "alertsPer1000Hours": 28.43016069221261,
+                "falseAlarmsPer1000Hours": 28.43016069221261,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1618,
+              "positiveHours": 1,
+              "negativeHours": 1617,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 1617,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 1,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1618,
+                "positiveHours": 1,
+                "negativeHours": 1617,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 1617,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-03-30T18:00:00+00:00",
+              "timeBerlin": "2026-03-30T20:00:00+02:00",
+              "closureScore": 0.005089227462376599,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 1228,
+          "positiveHours": 1,
+          "firstValidTime": "2026-01-04T04:00:00+00:00",
+          "lastValidTime": "2026-03-31T19:00:00+00:00",
+          "baseline": {
+            "n": 1228,
+            "positiveHours": 1,
+            "negativeHours": 1227,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1227,
+              "fn": 1
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 1
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1228,
+              "positiveHours": 1,
+              "negativeHours": 1227,
+              "alertHours": 42,
+              "confusion": {
+                "tp": 0,
+                "fp": 42,
+                "tn": 1185,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.034229828850855744,
+              "alertsPer1000Hours": 34.20195439739414,
+              "falseAlarmsPer1000Hours": 34.20195439739414,
+              "missedClosureHours": 1,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1228,
+                "positiveHours": 1,
+                "negativeHours": 1227,
+                "alertHours": 42,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 42,
+                  "tn": 1185,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.034229828850855744,
+                "alertsPer1000Hours": 34.20195439739414,
+                "falseAlarmsPer1000Hours": 34.20195439739414,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1228,
+              "positiveHours": 1,
+              "negativeHours": 1227,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 1227,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 1,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1228,
+                "positiveHours": 1,
+                "negativeHours": 1227,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 1227,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-03-30T18:00:00+00:00",
+              "timeBerlin": "2026-03-30T20:00:00+02:00",
+              "closureScore": 0.005089227462376599,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 390,
+        "nightClosureProxyHoursExcluded": 0,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      },
+      "test": {
+        "allHours": {
+          "n": 3432,
+          "positiveHours": 5,
+          "firstValidTime": "2026-04-04T00:00:00+00:00",
+          "lastValidTime": "2026-10-29T23:00:00+00:00",
+          "baseline": {
+            "n": 3432,
+            "positiveHours": 5,
+            "negativeHours": 3427,
+            "alertHours": 1,
+            "confusion": {
+              "tp": 0,
+              "fp": 1,
+              "tn": 3426,
+              "fn": 5
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "falsePositiveRate": 0.0002918004085205719,
+            "alertsPer1000Hours": 0.2913752913752914,
+            "falseAlarmsPer1000Hours": 0.2913752913752914,
+            "missedClosureHours": 5
+          },
+          "policies": {
+            "catchMore": {
+              "n": 3432,
+              "positiveHours": 5,
+              "negativeHours": 3427,
+              "alertHours": 130,
+              "confusion": {
+                "tp": 4,
+                "fp": 126,
+                "tn": 3301,
+                "fn": 1
+              },
+              "recall": 0.8,
+              "precision": 0.03076923076923077,
+              "falsePositiveRate": 0.036766851473592065,
+              "alertsPer1000Hours": 37.878787878787875,
+              "falseAlarmsPer1000Hours": 36.71328671328671,
+              "missedClosureHours": 1,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 3432,
+                "positiveHours": 5,
+                "negativeHours": 3427,
+                "alertHours": 130,
+                "confusion": {
+                  "tp": 4,
+                  "fp": 126,
+                  "tn": 3301,
+                  "fn": 1
+                },
+                "recall": 0.8,
+                "precision": 0.03076923076923077,
+                "falsePositiveRate": 0.036766851473592065,
+                "alertsPer1000Hours": 37.878787878787875,
+                "falseAlarmsPer1000Hours": 36.71328671328671,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 1
+            },
+            "reduceFalseAlarms": {
+              "n": 3432,
+              "positiveHours": 5,
+              "negativeHours": 3427,
+              "alertHours": 4,
+              "confusion": {
+                "tp": 0,
+                "fp": 4,
+                "tn": 3423,
+                "fn": 5
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.0011672016340822876,
+              "alertsPer1000Hours": 1.1655011655011656,
+              "falseAlarmsPer1000Hours": 1.1655011655011656,
+              "missedClosureHours": 5,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 3432,
+                "positiveHours": 5,
+                "negativeHours": 3427,
+                "alertHours": 4,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 4,
+                  "tn": 3423,
+                  "fn": 5
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.0011672016340822876,
+                "alertsPer1000Hours": 1.1655011655011656,
+                "falseAlarmsPer1000Hours": 1.1655011655011656,
+                "missedClosureHours": 5
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 1
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.042042012772297285,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T02:00:00+00:00",
+              "timeBerlin": "2026-04-29T04:00:00+02:00",
+              "closureScore": 0.0167550611602693,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.019254605180942023,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T02:00:00+00:00",
+              "timeBerlin": "2026-07-14T04:00:00+02:00",
+              "closureScore": 0.003982536945028189,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.011473459048663853,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 2502,
+          "positiveHours": 3,
+          "firstValidTime": "2026-04-04T03:00:00+00:00",
+          "lastValidTime": "2026-10-29T21:00:00+00:00",
+          "baseline": {
+            "n": 2502,
+            "positiveHours": 3,
+            "negativeHours": 2499,
+            "alertHours": 1,
+            "confusion": {
+              "tp": 0,
+              "fp": 1,
+              "tn": 2498,
+              "fn": 3
+            },
+            "recall": 0.0,
+            "precision": 0.0,
+            "falsePositiveRate": 0.00040016006402561027,
+            "alertsPer1000Hours": 0.3996802557953637,
+            "falseAlarmsPer1000Hours": 0.3996802557953637,
+            "missedClosureHours": 3
+          },
+          "policies": {
+            "catchMore": {
+              "n": 2502,
+              "positiveHours": 3,
+              "negativeHours": 2499,
+              "alertHours": 119,
+              "confusion": {
+                "tp": 3,
+                "fp": 116,
+                "tn": 2383,
+                "fn": 0
+              },
+              "recall": 1.0,
+              "precision": 0.025210084033613446,
+              "falsePositiveRate": 0.046418567426970786,
+              "alertsPer1000Hours": 47.56195043964828,
+              "falseAlarmsPer1000Hours": 46.36290967226219,
+              "missedClosureHours": 0,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 2502,
+                "positiveHours": 3,
+                "negativeHours": 2499,
+                "alertHours": 119,
+                "confusion": {
+                  "tp": 3,
+                  "fp": 116,
+                  "tn": 2383,
+                  "fn": 0
+                },
+                "recall": 1.0,
+                "precision": 0.025210084033613446,
+                "falsePositiveRate": 0.046418567426970786,
+                "alertsPer1000Hours": 47.56195043964828,
+                "falseAlarmsPer1000Hours": 46.36290967226219,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 1
+            },
+            "reduceFalseAlarms": {
+              "n": 2502,
+              "positiveHours": 3,
+              "negativeHours": 2499,
+              "alertHours": 4,
+              "confusion": {
+                "tp": 0,
+                "fp": 4,
+                "tn": 2495,
+                "fn": 3
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.001600640256102441,
+              "alertsPer1000Hours": 1.5987210231814548,
+              "falseAlarmsPer1000Hours": 1.5987210231814548,
+              "missedClosureHours": 3,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 2502,
+                "positiveHours": 3,
+                "negativeHours": 2499,
+                "alertHours": 4,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 4,
+                  "tn": 2495,
+                  "fn": 3
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.001600640256102441,
+                "alertsPer1000Hours": 1.5987210231814548,
+                "falseAlarmsPer1000Hours": 1.5987210231814548,
+                "missedClosureHours": 3
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 1
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.042042012772297285,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.019254605180942023,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.011473459048663853,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 930,
+        "nightClosureProxyHoursExcluded": 2,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      }
+    },
+    {
+      "horizonHours": 6,
+      "archiveLeadHours": 24,
+      "validation": {
+        "allHours": {
+          "n": 1560,
+          "positiveHours": 1,
+          "firstValidTime": "2026-01-04T00:00:00+00:00",
+          "lastValidTime": "2026-03-31T23:00:00+00:00",
+          "baseline": {
+            "n": 1560,
+            "positiveHours": 1,
+            "negativeHours": 1559,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1559,
+              "fn": 1
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 1
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1560,
+              "positiveHours": 1,
+              "negativeHours": 1559,
+              "alertHours": 45,
+              "confusion": {
+                "tp": 1,
+                "fp": 44,
+                "tn": 1515,
+                "fn": 0
+              },
+              "recall": 1.0,
+              "precision": 0.022222222222222223,
+              "falsePositiveRate": 0.028223220012828735,
+              "alertsPer1000Hours": 28.846153846153847,
+              "falseAlarmsPer1000Hours": 28.205128205128204,
+              "missedClosureHours": 0,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1560,
+                "positiveHours": 1,
+                "negativeHours": 1559,
+                "alertHours": 45,
+                "confusion": {
+                  "tp": 1,
+                  "fp": 44,
+                  "tn": 1515,
+                  "fn": 0
+                },
+                "recall": 1.0,
+                "precision": 0.022222222222222223,
+                "falsePositiveRate": 0.028223220012828735,
+                "alertsPer1000Hours": 28.846153846153847,
+                "falseAlarmsPer1000Hours": 28.205128205128204,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1560,
+              "positiveHours": 1,
+              "negativeHours": 1559,
+              "alertHours": 1,
+              "confusion": {
+                "tp": 0,
+                "fp": 1,
+                "tn": 1558,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.0006414368184733803,
+              "alertsPer1000Hours": 0.6410256410256411,
+              "falseAlarmsPer1000Hours": 0.6410256410256411,
+              "missedClosureHours": 1,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1560,
+                "positiveHours": 1,
+                "negativeHours": 1559,
+                "alertHours": 1,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 1,
+                  "tn": 1558,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.0006414368184733803,
+                "alertsPer1000Hours": 0.6410256410256411,
+                "falseAlarmsPer1000Hours": 0.6410256410256411,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-03-30T18:00:00+00:00",
+              "timeBerlin": "2026-03-30T20:00:00+02:00",
+              "closureScore": 0.015010896820401262,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 1172,
+          "positiveHours": 1,
+          "firstValidTime": "2026-01-04T04:00:00+00:00",
+          "lastValidTime": "2026-03-31T20:00:00+00:00",
+          "baseline": {
+            "n": 1172,
+            "positiveHours": 1,
+            "negativeHours": 1171,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1171,
+              "fn": 1
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 1
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1172,
+              "positiveHours": 1,
+              "negativeHours": 1171,
+              "alertHours": 43,
+              "confusion": {
+                "tp": 1,
+                "fp": 42,
+                "tn": 1129,
+                "fn": 0
+              },
+              "recall": 1.0,
+              "precision": 0.023255813953488372,
+              "falsePositiveRate": 0.035866780529461996,
+              "alertsPer1000Hours": 36.689419795221845,
+              "falseAlarmsPer1000Hours": 35.83617747440273,
+              "missedClosureHours": 0,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1172,
+                "positiveHours": 1,
+                "negativeHours": 1171,
+                "alertHours": 43,
+                "confusion": {
+                  "tp": 1,
+                  "fp": 42,
+                  "tn": 1129,
+                  "fn": 0
+                },
+                "recall": 1.0,
+                "precision": 0.023255813953488372,
+                "falsePositiveRate": 0.035866780529461996,
+                "alertsPer1000Hours": 36.689419795221845,
+                "falseAlarmsPer1000Hours": 35.83617747440273,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1172,
+              "positiveHours": 1,
+              "negativeHours": 1171,
+              "alertHours": 1,
+              "confusion": {
+                "tp": 0,
+                "fp": 1,
+                "tn": 1170,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.0008539709649871904,
+              "alertsPer1000Hours": 0.8532423208191127,
+              "falseAlarmsPer1000Hours": 0.8532423208191127,
+              "missedClosureHours": 1,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1172,
+                "positiveHours": 1,
+                "negativeHours": 1171,
+                "alertHours": 1,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 1,
+                  "tn": 1170,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.0008539709649871904,
+                "alertsPer1000Hours": 0.8532423208191127,
+                "falseAlarmsPer1000Hours": 0.8532423208191127,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-03-30T18:00:00+00:00",
+              "timeBerlin": "2026-03-30T20:00:00+02:00",
+              "closureScore": 0.015010896820401262,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 388,
+        "nightClosureProxyHoursExcluded": 0,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      },
+      "test": {
+        "allHours": {
+          "n": 3273,
+          "positiveHours": 5,
+          "firstValidTime": "2026-04-04T00:00:00+00:00",
+          "lastValidTime": "2026-10-29T23:00:00+00:00",
+          "baseline": {
+            "n": 3273,
+            "positiveHours": 5,
+            "negativeHours": 3268,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 3268,
+              "fn": 5
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 5
+          },
+          "policies": {
+            "catchMore": {
+              "n": 3273,
+              "positiveHours": 5,
+              "negativeHours": 3268,
+              "alertHours": 127,
+              "confusion": {
+                "tp": 3,
+                "fp": 124,
+                "tn": 3144,
+                "fn": 2
+              },
+              "recall": 0.6,
+              "precision": 0.023622047244094488,
+              "falsePositiveRate": 0.037943696450428395,
+              "alertsPer1000Hours": 38.80232202871983,
+              "falseAlarmsPer1000Hours": 37.88573174457684,
+              "missedClosureHours": 2,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 3273,
+                "positiveHours": 5,
+                "negativeHours": 3268,
+                "alertHours": 127,
+                "confusion": {
+                  "tp": 3,
+                  "fp": 124,
+                  "tn": 3144,
+                  "fn": 2
+                },
+                "recall": 0.6,
+                "precision": 0.023622047244094488,
+                "falsePositiveRate": 0.037943696450428395,
+                "alertsPer1000Hours": 38.80232202871983,
+                "falseAlarmsPer1000Hours": 37.88573174457684,
+                "missedClosureHours": 2
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 3273,
+              "positiveHours": 5,
+              "negativeHours": 3268,
+              "alertHours": 1,
+              "confusion": {
+                "tp": 0,
+                "fp": 1,
+                "tn": 3267,
+                "fn": 5
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.0003059975520195838,
+              "alertsPer1000Hours": 0.30553009471432935,
+              "falseAlarmsPer1000Hours": 0.30553009471432935,
+              "missedClosureHours": 5,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 3273,
+                "positiveHours": 5,
+                "negativeHours": 3268,
+                "alertHours": 1,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 1,
+                  "tn": 3267,
+                  "fn": 5
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.0003059975520195838,
+                "alertsPer1000Hours": 0.30553009471432935,
+                "falseAlarmsPer1000Hours": 0.30553009471432935,
+                "missedClosureHours": 5
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.02872569980318623,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T02:00:00+00:00",
+              "timeBerlin": "2026-04-29T04:00:00+02:00",
+              "closureScore": 0.020209528562443815,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.013459073920088918,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T02:00:00+00:00",
+              "timeBerlin": "2026-07-14T04:00:00+02:00",
+              "closureScore": 0.0033311418174312886,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.005089029044566281,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 2407,
+          "positiveHours": 3,
+          "firstValidTime": "2026-04-04T03:00:00+00:00",
+          "lastValidTime": "2026-10-29T21:00:00+00:00",
+          "baseline": {
+            "n": 2407,
+            "positiveHours": 3,
+            "negativeHours": 2404,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 2404,
+              "fn": 3
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 3
+          },
+          "policies": {
+            "catchMore": {
+              "n": 2407,
+              "positiveHours": 3,
+              "negativeHours": 2404,
+              "alertHours": 115,
+              "confusion": {
+                "tp": 2,
+                "fp": 113,
+                "tn": 2291,
+                "fn": 1
+              },
+              "recall": 0.6666666666666666,
+              "precision": 0.017391304347826087,
+              "falsePositiveRate": 0.047004991680532446,
+              "alertsPer1000Hours": 47.77731616119651,
+              "falseAlarmsPer1000Hours": 46.94640631491483,
+              "missedClosureHours": 1,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 2407,
+                "positiveHours": 3,
+                "negativeHours": 2404,
+                "alertHours": 115,
+                "confusion": {
+                  "tp": 2,
+                  "fp": 113,
+                  "tn": 2291,
+                  "fn": 1
+                },
+                "recall": 0.6666666666666666,
+                "precision": 0.017391304347826087,
+                "falsePositiveRate": 0.047004991680532446,
+                "alertsPer1000Hours": 47.77731616119651,
+                "falseAlarmsPer1000Hours": 46.94640631491483,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 2407,
+              "positiveHours": 3,
+              "negativeHours": 2404,
+              "alertHours": 1,
+              "confusion": {
+                "tp": 0,
+                "fp": 1,
+                "tn": 2403,
+                "fn": 3
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.00041597337770382697,
+              "alertsPer1000Hours": 0.4154549231408392,
+              "falseAlarmsPer1000Hours": 0.4154549231408392,
+              "missedClosureHours": 3,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 2407,
+                "positiveHours": 3,
+                "negativeHours": 2404,
+                "alertHours": 1,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 1,
+                  "tn": 2403,
+                  "fn": 3
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.00041597337770382697,
+                "alertsPer1000Hours": 0.4154549231408392,
+                "falseAlarmsPer1000Hours": 0.4154549231408392,
+                "missedClosureHours": 3
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.02872569980318623,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.013459073920088918,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.005089029044566281,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 866,
+        "nightClosureProxyHoursExcluded": 2,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      }
+    },
+    {
+      "horizonHours": 24,
+      "archiveLeadHours": 48,
+      "validation": {
+        "allHours": {
+          "n": 1553,
+          "positiveHours": 1,
+          "firstValidTime": "2026-01-04T00:00:00+00:00",
+          "lastValidTime": "2026-03-31T23:00:00+00:00",
+          "baseline": {
+            "n": 1553,
+            "positiveHours": 1,
+            "negativeHours": 1552,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1552,
+              "fn": 1
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 1
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1553,
+              "positiveHours": 1,
+              "negativeHours": 1552,
+              "alertHours": 37,
+              "confusion": {
+                "tp": 0,
+                "fp": 37,
+                "tn": 1515,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.02384020618556701,
+              "alertsPer1000Hours": 23.824855119124276,
+              "falseAlarmsPer1000Hours": 23.824855119124276,
+              "missedClosureHours": 1,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1553,
+                "positiveHours": 1,
+                "negativeHours": 1552,
+                "alertHours": 37,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 37,
+                  "tn": 1515,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.02384020618556701,
+                "alertsPer1000Hours": 23.824855119124276,
+                "falseAlarmsPer1000Hours": 23.824855119124276,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1553,
+              "positiveHours": 1,
+              "negativeHours": 1552,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 1552,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 1,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1553,
+                "positiveHours": 1,
+                "negativeHours": 1552,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 1552,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-03-30T18:00:00+00:00",
+              "timeBerlin": "2026-03-30T20:00:00+02:00",
+              "closureScore": 0.001824127083506785,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 1181,
+          "positiveHours": 1,
+          "firstValidTime": "2026-01-04T04:00:00+00:00",
+          "lastValidTime": "2026-03-31T20:00:00+00:00",
+          "baseline": {
+            "n": 1181,
+            "positiveHours": 1,
+            "negativeHours": 1180,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1180,
+              "fn": 1
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 1
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1181,
+              "positiveHours": 1,
+              "negativeHours": 1180,
+              "alertHours": 29,
+              "confusion": {
+                "tp": 0,
+                "fp": 29,
+                "tn": 1151,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.02457627118644068,
+              "alertsPer1000Hours": 24.55546147332769,
+              "falseAlarmsPer1000Hours": 24.55546147332769,
+              "missedClosureHours": 1,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1181,
+                "positiveHours": 1,
+                "negativeHours": 1180,
+                "alertHours": 29,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 29,
+                  "tn": 1151,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.02457627118644068,
+                "alertsPer1000Hours": 24.55546147332769,
+                "falseAlarmsPer1000Hours": 24.55546147332769,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1181,
+              "positiveHours": 1,
+              "negativeHours": 1180,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 1180,
+                "fn": 1
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 1,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1181,
+                "positiveHours": 1,
+                "negativeHours": 1180,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 1180,
+                  "fn": 1
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 1
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-03-30T18:00:00+00:00",
+              "timeBerlin": "2026-03-30T20:00:00+02:00",
+              "closureScore": 0.001824127083506785,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 372,
+        "nightClosureProxyHoursExcluded": 0,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      },
+      "test": {
+        "allHours": {
+          "n": 3250,
+          "positiveHours": 5,
+          "firstValidTime": "2026-04-04T00:00:00+00:00",
+          "lastValidTime": "2026-10-29T18:00:00+00:00",
+          "baseline": {
+            "n": 3250,
+            "positiveHours": 5,
+            "negativeHours": 3245,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 3245,
+              "fn": 5
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 5
+          },
+          "policies": {
+            "catchMore": {
+              "n": 3250,
+              "positiveHours": 5,
+              "negativeHours": 3245,
+              "alertHours": 82,
+              "confusion": {
+                "tp": 1,
+                "fp": 81,
+                "tn": 3164,
+                "fn": 4
+              },
+              "recall": 0.2,
+              "precision": 0.012195121951219513,
+              "falsePositiveRate": 0.024961479198767334,
+              "alertsPer1000Hours": 25.23076923076923,
+              "falseAlarmsPer1000Hours": 24.923076923076923,
+              "missedClosureHours": 4,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 3250,
+                "positiveHours": 5,
+                "negativeHours": 3245,
+                "alertHours": 82,
+                "confusion": {
+                  "tp": 1,
+                  "fp": 81,
+                  "tn": 3164,
+                  "fn": 4
+                },
+                "recall": 0.2,
+                "precision": 0.012195121951219513,
+                "falsePositiveRate": 0.024961479198767334,
+                "alertsPer1000Hours": 25.23076923076923,
+                "falseAlarmsPer1000Hours": 24.923076923076923,
+                "missedClosureHours": 4
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 3250,
+              "positiveHours": 5,
+              "negativeHours": 3245,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 3245,
+                "fn": 5
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 5,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 3250,
+                "positiveHours": 5,
+                "negativeHours": 3245,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 3245,
+                  "fn": 5
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 5
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.04122661325649737,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T02:00:00+00:00",
+              "timeBerlin": "2026-04-29T04:00:00+02:00",
+              "closureScore": 0.007482213872889406,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.006955205118840423,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T02:00:00+00:00",
+              "timeBerlin": "2026-07-14T04:00:00+02:00",
+              "closureScore": 0.0035559208631737354,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.0033581425200888524,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 2376,
+          "positiveHours": 3,
+          "firstValidTime": "2026-04-04T03:00:00+00:00",
+          "lastValidTime": "2026-10-29T18:00:00+00:00",
+          "baseline": {
+            "n": 2376,
+            "positiveHours": 3,
+            "negativeHours": 2373,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 2373,
+              "fn": 3
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 3
+          },
+          "policies": {
+            "catchMore": {
+              "n": 2376,
+              "positiveHours": 3,
+              "negativeHours": 2373,
+              "alertHours": 74,
+              "confusion": {
+                "tp": 1,
+                "fp": 73,
+                "tn": 2300,
+                "fn": 2
+              },
+              "recall": 0.3333333333333333,
+              "precision": 0.013513513513513514,
+              "falsePositiveRate": 0.03076274757690687,
+              "alertsPer1000Hours": 31.144781144781145,
+              "falseAlarmsPer1000Hours": 30.723905723905723,
+              "missedClosureHours": 2,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 2376,
+                "positiveHours": 3,
+                "negativeHours": 2373,
+                "alertHours": 74,
+                "confusion": {
+                  "tp": 1,
+                  "fp": 73,
+                  "tn": 2300,
+                  "fn": 2
+                },
+                "recall": 0.3333333333333333,
+                "precision": 0.013513513513513514,
+                "falsePositiveRate": 0.03076274757690687,
+                "alertsPer1000Hours": 31.144781144781145,
+                "falseAlarmsPer1000Hours": 30.723905723905723,
+                "missedClosureHours": 2
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 2376,
+              "positiveHours": 3,
+              "negativeHours": 2373,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 2373,
+                "fn": 3
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 3,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 2376,
+                "positiveHours": 3,
+                "negativeHours": 2373,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 2373,
+                  "fn": 3
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 3
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.04122661325649737,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": true,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.006955205118840423,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.0033581425200888524,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 874,
+        "nightClosureProxyHoursExcluded": 2,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      }
+    },
+    {
+      "horizonHours": 48,
+      "archiveLeadHours": 72,
+      "validation": {
+        "allHours": {
+          "n": 1545,
+          "positiveHours": 0,
+          "firstValidTime": "2026-01-04T00:00:00+00:00",
+          "lastValidTime": "2026-03-31T23:00:00+00:00",
+          "baseline": {
+            "n": 1545,
+            "positiveHours": 0,
+            "negativeHours": 1545,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1545,
+              "fn": 0
+            },
+            "recall": null,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 0
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1545,
+              "positiveHours": 0,
+              "negativeHours": 1545,
+              "alertHours": 59,
+              "confusion": {
+                "tp": 0,
+                "fp": 59,
+                "tn": 1486,
+                "fn": 0
+              },
+              "recall": null,
+              "precision": 0.0,
+              "falsePositiveRate": 0.038187702265372166,
+              "alertsPer1000Hours": 38.18770226537217,
+              "falseAlarmsPer1000Hours": 38.18770226537217,
+              "missedClosureHours": 0,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1545,
+                "positiveHours": 0,
+                "negativeHours": 1545,
+                "alertHours": 59,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 59,
+                  "tn": 1486,
+                  "fn": 0
+                },
+                "recall": null,
+                "precision": 0.0,
+                "falsePositiveRate": 0.038187702265372166,
+                "alertsPer1000Hours": 38.18770226537217,
+                "falseAlarmsPer1000Hours": 38.18770226537217,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1545,
+              "positiveHours": 0,
+              "negativeHours": 1545,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 1545,
+                "fn": 0
+              },
+              "recall": null,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 0,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1545,
+                "positiveHours": 0,
+                "negativeHours": 1545,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 1545,
+                  "fn": 0
+                },
+                "recall": null,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": []
+        },
+        "scheduledHours": {
+          "n": 1173,
+          "positiveHours": 0,
+          "firstValidTime": "2026-01-04T04:00:00+00:00",
+          "lastValidTime": "2026-03-31T20:00:00+00:00",
+          "baseline": {
+            "n": 1173,
+            "positiveHours": 0,
+            "negativeHours": 1173,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 1173,
+              "fn": 0
+            },
+            "recall": null,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 0
+          },
+          "policies": {
+            "catchMore": {
+              "n": 1173,
+              "positiveHours": 0,
+              "negativeHours": 1173,
+              "alertHours": 52,
+              "confusion": {
+                "tp": 0,
+                "fp": 52,
+                "tn": 1121,
+                "fn": 0
+              },
+              "recall": null,
+              "precision": 0.0,
+              "falsePositiveRate": 0.0443307757885763,
+              "alertsPer1000Hours": 44.3307757885763,
+              "falseAlarmsPer1000Hours": 44.3307757885763,
+              "missedClosureHours": 0,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 1173,
+                "positiveHours": 0,
+                "negativeHours": 1173,
+                "alertHours": 52,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 52,
+                  "tn": 1121,
+                  "fn": 0
+                },
+                "recall": null,
+                "precision": 0.0,
+                "falsePositiveRate": 0.0443307757885763,
+                "alertsPer1000Hours": 44.3307757885763,
+                "falseAlarmsPer1000Hours": 44.3307757885763,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 1173,
+              "positiveHours": 0,
+              "negativeHours": 1173,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 1173,
+                "fn": 0
+              },
+              "recall": null,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 0,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 1173,
+                "positiveHours": 0,
+                "negativeHours": 1173,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 1173,
+                  "fn": 0
+                },
+                "recall": null,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 0
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": []
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 372,
+        "nightClosureProxyHoursExcluded": 0,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      },
+      "test": {
+        "allHours": {
+          "n": 3243,
+          "positiveHours": 5,
+          "firstValidTime": "2026-04-04T03:00:00+00:00",
+          "lastValidTime": "2026-10-29T23:00:00+00:00",
+          "baseline": {
+            "n": 3243,
+            "positiveHours": 5,
+            "negativeHours": 3238,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 3238,
+              "fn": 5
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 5
+          },
+          "policies": {
+            "catchMore": {
+              "n": 3243,
+              "positiveHours": 5,
+              "negativeHours": 3238,
+              "alertHours": 91,
+              "confusion": {
+                "tp": 0,
+                "fp": 91,
+                "tn": 3147,
+                "fn": 5
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.028103767757875233,
+              "alertsPer1000Hours": 28.060437866173295,
+              "falseAlarmsPer1000Hours": 28.060437866173295,
+              "missedClosureHours": 5,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 3243,
+                "positiveHours": 5,
+                "negativeHours": 3238,
+                "alertHours": 91,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 91,
+                  "tn": 3147,
+                  "fn": 5
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.028103767757875233,
+                "alertsPer1000Hours": 28.060437866173295,
+                "falseAlarmsPer1000Hours": 28.060437866173295,
+                "missedClosureHours": 5
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 3243,
+              "positiveHours": 5,
+              "negativeHours": 3238,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 3238,
+                "fn": 5
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 5,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 3243,
+                "positiveHours": 5,
+                "negativeHours": 3238,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 3238,
+                  "fn": 5
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 5
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.008177783948460625,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T02:00:00+00:00",
+              "timeBerlin": "2026-04-29T04:00:00+02:00",
+              "closureScore": 0.005464211020235155,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.004800541100732103,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T02:00:00+00:00",
+              "timeBerlin": "2026-07-14T04:00:00+02:00",
+              "closureScore": 0.0024350897982505235,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.0015377996959680543,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "scheduledHours": {
+          "n": 2362,
+          "positiveHours": 3,
+          "firstValidTime": "2026-04-04T03:00:00+00:00",
+          "lastValidTime": "2026-10-29T16:00:00+00:00",
+          "baseline": {
+            "n": 2362,
+            "positiveHours": 3,
+            "negativeHours": 2359,
+            "alertHours": 0,
+            "confusion": {
+              "tp": 0,
+              "fp": 0,
+              "tn": 2359,
+              "fn": 3
+            },
+            "recall": 0.0,
+            "precision": null,
+            "falsePositiveRate": 0.0,
+            "alertsPer1000Hours": 0.0,
+            "falseAlarmsPer1000Hours": 0.0,
+            "missedClosureHours": 3
+          },
+          "policies": {
+            "catchMore": {
+              "n": 2362,
+              "positiveHours": 3,
+              "negativeHours": 2359,
+              "alertHours": 86,
+              "confusion": {
+                "tp": 0,
+                "fp": 86,
+                "tn": 2273,
+                "fn": 3
+              },
+              "recall": 0.0,
+              "precision": 0.0,
+              "falsePositiveRate": 0.03645612547689699,
+              "alertsPer1000Hours": 36.40982218458933,
+              "falseAlarmsPer1000Hours": 36.40982218458933,
+              "missedClosureHours": 3,
+              "threshold": 0.01,
+              "modelOnlyMetrics": {
+                "n": 2362,
+                "positiveHours": 3,
+                "negativeHours": 2359,
+                "alertHours": 86,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 86,
+                  "tn": 2273,
+                  "fn": 3
+                },
+                "recall": 0.0,
+                "precision": 0.0,
+                "falsePositiveRate": 0.03645612547689699,
+                "alertsPer1000Hours": 36.40982218458933,
+                "falseAlarmsPer1000Hours": 36.40982218458933,
+                "missedClosureHours": 3
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            },
+            "reduceFalseAlarms": {
+              "n": 2362,
+              "positiveHours": 3,
+              "negativeHours": 2359,
+              "alertHours": 0,
+              "confusion": {
+                "tp": 0,
+                "fp": 0,
+                "tn": 2359,
+                "fn": 3
+              },
+              "recall": 0.0,
+              "precision": null,
+              "falsePositiveRate": 0.0,
+              "alertsPer1000Hours": 0.0,
+              "falseAlarmsPer1000Hours": 0.0,
+              "missedClosureHours": 3,
+              "threshold": 0.1,
+              "modelOnlyMetrics": {
+                "n": 2362,
+                "positiveHours": 3,
+                "negativeHours": 2359,
+                "alertHours": 0,
+                "confusion": {
+                  "tp": 0,
+                  "fp": 0,
+                  "tn": 2359,
+                  "fn": 3
+                },
+                "recall": 0.0,
+                "precision": null,
+                "falsePositiveRate": 0.0,
+                "alertsPer1000Hours": 0.0,
+                "falseAlarmsPer1000Hours": 0.0,
+                "missedClosureHours": 3
+              },
+              "overrideOnlyAlertHours": 0,
+              "bothTriggersAlertHours": 0
+            }
+          },
+          "closureProxyHours": [
+            {
+              "timeUTC": "2026-04-28T17:00:00+00:00",
+              "timeBerlin": "2026-04-28T19:00:00+02:00",
+              "closureScore": 0.008177783948460625,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-04-29T03:00:00+00:00",
+              "timeBerlin": "2026-04-29T05:00:00+02:00",
+              "closureScore": 0.004800541100732103,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            },
+            {
+              "timeUTC": "2026-07-14T03:00:00+00:00",
+              "timeBerlin": "2026-07-14T05:00:00+02:00",
+              "closureScore": 0.0015377996959680543,
+              "forecastWindLimitExceeded": false,
+              "alerts": {
+                "catchMore": false,
+                "reduceFalseAlarms": false
+              }
+            }
+          ]
+        },
+        "nightHoursExcludedFromScheduledEvaluation": 881,
+        "nightClosureProxyHoursExcluded": 2,
+        "nightScheduleRestrictionsScoredAsTruePositives": 0
+      }
+    }
+  ],
+  "limitations": [
+    "Only five positive held-out closure-proxy hours per horizon, potentially correlated within weather episodes. Counts are hours, not independent closure events.",
+    "Validation contains zero or one positive closure-proxy hour, too little to establish a stable optimal sensitivity/false-alarm trade-off.",
+    "Closure scores are uncalibrated logistic outputs. A threshold of 1% or 10% is a sensitivity setting, not a verified operational closure probability or optimal cost ratio.",
+    "Historical airport closure and operational-direction labels are unavailable. These metrics only evaluate the weather-derived challenge proxy.",
+    "Missing METAR gusts use sustained wind, and variable/missing wind directions are excluded, which can undercount dangerous conditions.",
+    "Fixed-lead archived ICON inputs are older than live forecast inputs; live results may differ. Coefficients and original train/validation/test splits are frozen.",
+    "A deterministic forecast wind restriction always overrides either ML threshold. Night schedule restriction is handled separately and is never scored as a true positive.",
+    "With zero positive hours recall is null; with zero alert hours precision is null. No large-sample confidence claim is made."
+  ],
+  "verification": {
+    "frozenModelUnchanged": true,
+    "originalTestCountsAndBrierReproduced": true,
+    "scheduleWinterSummerBoundaryChecks": true,
+    "windOverrideNeverSuppressed": true,
+    "higherThresholdCannotIncreaseFalseAlarms": true
+  }
+}
