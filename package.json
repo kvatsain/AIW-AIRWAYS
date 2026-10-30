@@ -1,1 +1,11 @@
-{"name":"fra-windlab","version":"1.0.0","private":true,"type":"module","description":"Frankfurt Airport wind-based forecasting research dashboard","scripts":{"check":"node --check dist/app.js && node --check dist/inference.js && node --check dist/airfield-3d.js","test":"node tests/run.mjs && node tests/airfield-3d.mjs"}}
+{
+  "name": "fra-windlab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Frankfurt Airport wind-based forecasting research dashboard",
+  "scripts": {
+    "check": "node --check dist/app.js && node --check dist/inference.js && node --check dist/airfield-3d.js && node --check dist/dfld.js",
+    "test": "node tests/run.mjs && node tests/airfield-3d.mjs && node tests/dfld.mjs"
+  }
+}

@@ -1,0 +1,1818 @@
+{
+  "schemaVersion": 1,
+  "provider": "Deutscher Fluglärmdienst e.V. (DFLD)",
+  "generatedAt": "2026-10-30T14:05:31.555607Z",
+  "mode": "historical snapshot",
+  "timeBasis": "DFLD displayed time",
+  "sourceTimezone": null,
+  "directionSource": "DFLD describes Frankfurt direction since March 2004 as Fraport-based operating direction.",
+  "windResolutionDegrees": 30,
+  "days": [
+    {
+      "date": "2026-10-27",
+      "sources": {
+        "directionAndWind": {
+          "url": "https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=27.10.2026",
+          "retrievedAt": "2026-10-30T14:05:26.897708Z",
+          "sha256": "8c6916c986a43e13c7ef3c40de2450a24e8e3457e0346bc4528f38ebd94a9b09"
+        },
+        "movements": {
+          "url": "https://www.dfld.de/Mess/StatAirportTag.php?R=1&D=27.10.2026",
+          "retrievedAt": "2026-10-30T14:05:28.426721Z",
+          "sha256": "34caaf181ef08667bc83cff73bad7d74a07fcd3f34dd8cef98fb83be269f7769"
+        }
+      },
+      "directionBins": [
+        {
+          "sourceTime": "00:00",
+          "sourceEndTime": "00:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "00:30",
+          "sourceEndTime": "01:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "01:00",
+          "sourceEndTime": "01:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "01:30",
+          "sourceEndTime": "02:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "02:00",
+          "sourceEndTime": "02:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "02:30",
+          "sourceEndTime": "03:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "03:00",
+          "sourceEndTime": "03:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "03:30",
+          "sourceEndTime": "04:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "04:00",
+          "sourceEndTime": "04:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "04:30",
+          "sourceEndTime": "05:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "05:00",
+          "sourceEndTime": "05:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "05:30",
+          "sourceEndTime": "06:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "06:00",
+          "sourceEndTime": "06:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 210
+        },
+        {
+          "sourceTime": "06:30",
+          "sourceEndTime": "07:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "07:00",
+          "sourceEndTime": "07:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "07:30",
+          "sourceEndTime": "08:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "08:00",
+          "sourceEndTime": "08:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "08:30",
+          "sourceEndTime": "09:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "09:00",
+          "sourceEndTime": "09:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "09:30",
+          "sourceEndTime": "10:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "10:00",
+          "sourceEndTime": "10:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "10:30",
+          "sourceEndTime": "11:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "11:00",
+          "sourceEndTime": "11:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 150
+        },
+        {
+          "sourceTime": "11:30",
+          "sourceEndTime": "12:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "12:00",
+          "sourceEndTime": "12:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "12:30",
+          "sourceEndTime": "13:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "13:00",
+          "sourceEndTime": "13:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 150
+        },
+        {
+          "sourceTime": "13:30",
+          "sourceEndTime": "14:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "14:00",
+          "sourceEndTime": "14:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "14:30",
+          "sourceEndTime": "15:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "15:00",
+          "sourceEndTime": "15:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "15:30",
+          "sourceEndTime": "16:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 150
+        },
+        {
+          "sourceTime": "16:00",
+          "sourceEndTime": "16:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 150
+        },
+        {
+          "sourceTime": "16:30",
+          "sourceEndTime": "17:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "17:00",
+          "sourceEndTime": "17:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 150
+        },
+        {
+          "sourceTime": "17:30",
+          "sourceEndTime": "18:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "18:00",
+          "sourceEndTime": "18:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "18:30",
+          "sourceEndTime": "19:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "19:00",
+          "sourceEndTime": "19:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 270
+        },
+        {
+          "sourceTime": "19:30",
+          "sourceEndTime": "20:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "20:00",
+          "sourceEndTime": "20:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "20:30",
+          "sourceEndTime": "21:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 120
+        },
+        {
+          "sourceTime": "21:00",
+          "sourceEndTime": "21:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "21:30",
+          "sourceEndTime": "22:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "22:00",
+          "sourceEndTime": "22:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "22:30",
+          "sourceEndTime": "23:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "23:00",
+          "sourceEndTime": "23:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 210
+        },
+        {
+          "sourceTime": "23:30",
+          "sourceEndTime": "24:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 270
+        }
+      ],
+      "directionChanges": [],
+      "hourlyMovements": [
+        {
+          "sourceTime": "00:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "01:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "02:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "03:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "04:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "05:00",
+          "departures": 3,
+          "arrivals": 37,
+          "rwy18Departures": 3,
+          "arrivals07": 0,
+          "arrivals25": 37,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "06:00",
+          "departures": 8,
+          "arrivals": 18,
+          "rwy18Departures": 7,
+          "arrivals07": 0,
+          "arrivals25": 18,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "07:00",
+          "departures": 18,
+          "arrivals": 46,
+          "rwy18Departures": 13,
+          "arrivals07": 0,
+          "arrivals25": 46,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "08:00",
+          "departures": 21,
+          "arrivals": 54,
+          "rwy18Departures": 15,
+          "arrivals07": 0,
+          "arrivals25": 54,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "09:00",
+          "departures": 40,
+          "arrivals": 36,
+          "rwy18Departures": 27,
+          "arrivals07": 0,
+          "arrivals25": 36,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "10:00",
+          "departures": 52,
+          "arrivals": 24,
+          "rwy18Departures": 33,
+          "arrivals07": 0,
+          "arrivals25": 24,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "11:00",
+          "departures": 52,
+          "arrivals": 42,
+          "rwy18Departures": 34,
+          "arrivals07": 0,
+          "arrivals25": 42,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "12:00",
+          "departures": 41,
+          "arrivals": 27,
+          "rwy18Departures": 25,
+          "arrivals07": 0,
+          "arrivals25": 27,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "13:00",
+          "departures": 43,
+          "arrivals": 23,
+          "rwy18Departures": 23,
+          "arrivals07": 0,
+          "arrivals25": 23,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "14:00",
+          "departures": 38,
+          "arrivals": 22,
+          "rwy18Departures": 28,
+          "arrivals07": 0,
+          "arrivals25": 22,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "15:00",
+          "departures": 28,
+          "arrivals": 45,
+          "rwy18Departures": 21,
+          "arrivals07": 0,
+          "arrivals25": 45,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "16:00",
+          "departures": 19,
+          "arrivals": 28,
+          "rwy18Departures": 14,
+          "arrivals07": 0,
+          "arrivals25": 28,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "17:00",
+          "departures": 37,
+          "arrivals": 24,
+          "rwy18Departures": 24,
+          "arrivals07": 0,
+          "arrivals25": 24,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "18:00",
+          "departures": 20,
+          "arrivals": 30,
+          "rwy18Departures": 15,
+          "arrivals07": 0,
+          "arrivals25": 30,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "19:00",
+          "departures": 16,
+          "arrivals": 37,
+          "rwy18Departures": 11,
+          "arrivals07": 0,
+          "arrivals25": 37,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "20:00",
+          "departures": 31,
+          "arrivals": 37,
+          "rwy18Departures": 24,
+          "arrivals07": 0,
+          "arrivals25": 37,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "21:00",
+          "departures": 41,
+          "arrivals": 12,
+          "rwy18Departures": 32,
+          "arrivals07": 0,
+          "arrivals25": 12,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "22:00",
+          "departures": 33,
+          "arrivals": 5,
+          "rwy18Departures": 24,
+          "arrivals07": 0,
+          "arrivals25": 5,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "23:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        }
+      ],
+      "runways": [
+        {
+          "runway": "07L",
+          "departures": 0,
+          "arrivals": 0
+        },
+        {
+          "runway": "07C",
+          "departures": 0,
+          "arrivals": 0
+        },
+        {
+          "runway": "07R",
+          "departures": 0,
+          "arrivals": 0
+        },
+        {
+          "runway": "25L",
+          "departures": 2,
+          "arrivals": 267
+        },
+        {
+          "runway": "25C",
+          "departures": 165,
+          "arrivals": 129
+        },
+        {
+          "runway": "25R",
+          "departures": 0,
+          "arrivals": 151
+        },
+        {
+          "runway": "18",
+          "departures": 373,
+          "arrivals": 0
+        },
+        {
+          "runway": "unknown",
+          "departures": 1,
+          "arrivals": 0
+        }
+      ],
+      "totalMovements": 1088,
+      "departures": 541,
+      "arrivals": 547,
+      "rwy18Departures": 373,
+      "directionCoverageBins": 48
+    },
+    {
+      "date": "2026-10-28",
+      "sources": {
+        "directionAndWind": {
+          "url": "https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=27.10.2026",
+          "retrievedAt": "2026-10-30T14:05:26.897708Z",
+          "sha256": "8c6916c986a43e13c7ef3c40de2450a24e8e3457e0346bc4528f38ebd94a9b09"
+        },
+        "movements": {
+          "url": "https://www.dfld.de/Mess/StatAirportTag.php?R=1&D=28.10.2026",
+          "retrievedAt": "2026-10-30T14:05:29.990757Z",
+          "sha256": "7fa4a2952f459ce5be1272f234f18af4a90b751ed3b3b7f9e4edfb08de36c2b0"
+        }
+      },
+      "directionBins": [
+        {
+          "sourceTime": "00:00",
+          "sourceEndTime": "00:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "00:30",
+          "sourceEndTime": "01:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "01:00",
+          "sourceEndTime": "01:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "01:30",
+          "sourceEndTime": "02:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "02:00",
+          "sourceEndTime": "02:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "02:30",
+          "sourceEndTime": "03:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "03:00",
+          "sourceEndTime": "03:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "03:30",
+          "sourceEndTime": "04:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "04:00",
+          "sourceEndTime": "04:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 270
+        },
+        {
+          "sourceTime": "04:30",
+          "sourceEndTime": "05:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 270
+        },
+        {
+          "sourceTime": "05:00",
+          "sourceEndTime": "05:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "05:30",
+          "sourceEndTime": "06:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "06:00",
+          "sourceEndTime": "06:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 210
+        },
+        {
+          "sourceTime": "06:30",
+          "sourceEndTime": "07:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "07:00",
+          "sourceEndTime": "07:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "07:30",
+          "sourceEndTime": "08:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "08:00",
+          "sourceEndTime": "08:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 210
+        },
+        {
+          "sourceTime": "08:30",
+          "sourceEndTime": "09:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "09:00",
+          "sourceEndTime": "09:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "09:30",
+          "sourceEndTime": "10:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 270
+        },
+        {
+          "sourceTime": "10:00",
+          "sourceEndTime": "10:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "10:30",
+          "sourceEndTime": "11:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "11:00",
+          "sourceEndTime": "11:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "11:30",
+          "sourceEndTime": "12:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "12:00",
+          "sourceEndTime": "12:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "12:30",
+          "sourceEndTime": "13:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "13:00",
+          "sourceEndTime": "13:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "13:30",
+          "sourceEndTime": "14:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "14:00",
+          "sourceEndTime": "14:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "14:30",
+          "sourceEndTime": "15:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 300
+        },
+        {
+          "sourceTime": "15:00",
+          "sourceEndTime": "15:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "15:30",
+          "sourceEndTime": "16:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "16:00",
+          "sourceEndTime": "16:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "16:30",
+          "sourceEndTime": "17:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "17:00",
+          "sourceEndTime": "17:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "17:30",
+          "sourceEndTime": "18:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 330
+        },
+        {
+          "sourceTime": "18:00",
+          "sourceEndTime": "18:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "18:30",
+          "sourceEndTime": "19:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 270
+        },
+        {
+          "sourceTime": "19:00",
+          "sourceEndTime": "19:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "19:30",
+          "sourceEndTime": "20:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "20:00",
+          "sourceEndTime": "20:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 210
+        },
+        {
+          "sourceTime": "20:30",
+          "sourceEndTime": "21:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "21:00",
+          "sourceEndTime": "21:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "21:30",
+          "sourceEndTime": "22:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "22:00",
+          "sourceEndTime": "22:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 150
+        },
+        {
+          "sourceTime": "22:30",
+          "sourceEndTime": "23:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "23:00",
+          "sourceEndTime": "23:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "23:30",
+          "sourceEndTime": "24:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 210
+        }
+      ],
+      "directionChanges": [],
+      "hourlyMovements": [
+        {
+          "sourceTime": "00:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "01:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "02:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "03:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "04:00",
+          "departures": 0,
+          "arrivals": 1,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 1,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "05:00",
+          "departures": 4,
+          "arrivals": 31,
+          "rwy18Departures": 4,
+          "arrivals07": 0,
+          "arrivals25": 31,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "06:00",
+          "departures": 9,
+          "arrivals": 21,
+          "rwy18Departures": 7,
+          "arrivals07": 0,
+          "arrivals25": 21,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "07:00",
+          "departures": 22,
+          "arrivals": 48,
+          "rwy18Departures": 14,
+          "arrivals07": 0,
+          "arrivals25": 48,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "08:00",
+          "departures": 30,
+          "arrivals": 56,
+          "rwy18Departures": 16,
+          "arrivals07": 0,
+          "arrivals25": 56,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "09:00",
+          "departures": 43,
+          "arrivals": 34,
+          "rwy18Departures": 34,
+          "arrivals07": 0,
+          "arrivals25": 34,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "10:00",
+          "departures": 42,
+          "arrivals": 29,
+          "rwy18Departures": 21,
+          "arrivals07": 0,
+          "arrivals25": 29,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "11:00",
+          "departures": 54,
+          "arrivals": 42,
+          "rwy18Departures": 29,
+          "arrivals07": 0,
+          "arrivals25": 42,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "12:00",
+          "departures": 44,
+          "arrivals": 37,
+          "rwy18Departures": 32,
+          "arrivals07": 0,
+          "arrivals25": 37,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "13:00",
+          "departures": 42,
+          "arrivals": 22,
+          "rwy18Departures": 28,
+          "arrivals07": 0,
+          "arrivals25": 22,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "14:00",
+          "departures": 44,
+          "arrivals": 25,
+          "rwy18Departures": 30,
+          "arrivals07": 0,
+          "arrivals25": 25,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "15:00",
+          "departures": 35,
+          "arrivals": 47,
+          "rwy18Departures": 29,
+          "arrivals07": 0,
+          "arrivals25": 47,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "16:00",
+          "departures": 17,
+          "arrivals": 34,
+          "rwy18Departures": 12,
+          "arrivals07": 0,
+          "arrivals25": 34,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "17:00",
+          "departures": 35,
+          "arrivals": 29,
+          "rwy18Departures": 11,
+          "arrivals07": 0,
+          "arrivals25": 29,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "18:00",
+          "departures": 26,
+          "arrivals": 24,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 24,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "19:00",
+          "departures": 14,
+          "arrivals": 35,
+          "rwy18Departures": 7,
+          "arrivals07": 0,
+          "arrivals25": 35,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "20:00",
+          "departures": 34,
+          "arrivals": 42,
+          "rwy18Departures": 27,
+          "arrivals07": 0,
+          "arrivals25": 42,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "21:00",
+          "departures": 50,
+          "arrivals": 15,
+          "rwy18Departures": 39,
+          "arrivals07": 0,
+          "arrivals25": 15,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "22:00",
+          "departures": 36,
+          "arrivals": 7,
+          "rwy18Departures": 24,
+          "arrivals07": 0,
+          "arrivals25": 7,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "23:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        }
+      ],
+      "runways": [
+        {
+          "runway": "07L",
+          "departures": 0,
+          "arrivals": 0
+        },
+        {
+          "runway": "07C",
+          "departures": 0,
+          "arrivals": 0
+        },
+        {
+          "runway": "07R",
+          "departures": 0,
+          "arrivals": 0
+        },
+        {
+          "runway": "25L",
+          "departures": 1,
+          "arrivals": 234
+        },
+        {
+          "runway": "25C",
+          "departures": 216,
+          "arrivals": 153
+        },
+        {
+          "runway": "25R",
+          "departures": 0,
+          "arrivals": 192
+        },
+        {
+          "runway": "18",
+          "departures": 364,
+          "arrivals": 0
+        },
+        {
+          "runway": "unknown",
+          "departures": 0,
+          "arrivals": 0
+        }
+      ],
+      "totalMovements": 1160,
+      "departures": 581,
+      "arrivals": 579,
+      "rwy18Departures": 364,
+      "directionCoverageBins": 48
+    },
+    {
+      "date": "2026-10-29",
+      "sources": {
+        "directionAndWind": {
+          "url": "https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=27.10.2026",
+          "retrievedAt": "2026-10-30T14:05:26.897708Z",
+          "sha256": "8c6916c986a43e13c7ef3c40de2450a24e8e3457e0346bc4528f38ebd94a9b09"
+        },
+        "movements": {
+          "url": "https://www.dfld.de/Mess/StatAirportTag.php?R=1&D=29.10.2026",
+          "retrievedAt": "2026-10-30T14:05:31.512982Z",
+          "sha256": "f9c1c80d3d119fcf69225e1bc7e539ea450f0fefa411c64ef3622cae9d36f031"
+        }
+      },
+      "directionBins": [
+        {
+          "sourceTime": "00:00",
+          "sourceEndTime": "00:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 180
+        },
+        {
+          "sourceTime": "00:30",
+          "sourceEndTime": "01:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 240
+        },
+        {
+          "sourceTime": "01:00",
+          "sourceEndTime": "01:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "01:30",
+          "sourceEndTime": "02:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "02:00",
+          "sourceEndTime": "02:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "02:30",
+          "sourceEndTime": "03:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "03:00",
+          "sourceEndTime": "03:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "03:30",
+          "sourceEndTime": "04:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "04:00",
+          "sourceEndTime": "04:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "04:30",
+          "sourceEndTime": "05:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "05:00",
+          "sourceEndTime": "05:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "05:30",
+          "sourceEndTime": "06:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "06:00",
+          "sourceEndTime": "06:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "06:30",
+          "sourceEndTime": "07:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "07:00",
+          "sourceEndTime": "07:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "07:30",
+          "sourceEndTime": "08:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "08:00",
+          "sourceEndTime": "08:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "08:30",
+          "sourceEndTime": "09:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "09:00",
+          "sourceEndTime": "09:30",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "09:30",
+          "sourceEndTime": "10:00",
+          "operatingDirection": "25",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "10:00",
+          "sourceEndTime": "10:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "10:30",
+          "sourceEndTime": "11:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "11:00",
+          "sourceEndTime": "11:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "11:30",
+          "sourceEndTime": "12:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "12:00",
+          "sourceEndTime": "12:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "12:30",
+          "sourceEndTime": "13:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "13:00",
+          "sourceEndTime": "13:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 0
+        },
+        {
+          "sourceTime": "13:30",
+          "sourceEndTime": "14:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "14:00",
+          "sourceEndTime": "14:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "14:30",
+          "sourceEndTime": "15:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "15:00",
+          "sourceEndTime": "15:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "15:30",
+          "sourceEndTime": "16:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "16:00",
+          "sourceEndTime": "16:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "16:30",
+          "sourceEndTime": "17:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "17:00",
+          "sourceEndTime": "17:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 30
+        },
+        {
+          "sourceTime": "17:30",
+          "sourceEndTime": "18:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "18:00",
+          "sourceEndTime": "18:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "18:30",
+          "sourceEndTime": "19:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "19:00",
+          "sourceEndTime": "19:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "19:30",
+          "sourceEndTime": "20:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "20:00",
+          "sourceEndTime": "20:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "20:30",
+          "sourceEndTime": "21:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "21:00",
+          "sourceEndTime": "21:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "21:30",
+          "sourceEndTime": "22:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "22:00",
+          "sourceEndTime": "22:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "22:30",
+          "sourceEndTime": "23:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        },
+        {
+          "sourceTime": "23:00",
+          "sourceEndTime": "23:30",
+          "operatingDirection": "07",
+          "windDirectionDeg": 90
+        },
+        {
+          "sourceTime": "23:30",
+          "sourceEndTime": "24:00",
+          "operatingDirection": "07",
+          "windDirectionDeg": 60
+        }
+      ],
+      "directionChanges": [
+        {
+          "sourceTime": "10:00",
+          "sourceEndTime": "10:30",
+          "from": "25",
+          "to": "07"
+        }
+      ],
+      "hourlyMovements": [
+        {
+          "sourceTime": "00:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "01:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "02:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "03:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "04:00",
+          "departures": 0,
+          "arrivals": 0,
+          "rwy18Departures": 0,
+          "arrivals07": 0,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "05:00",
+          "departures": 4,
+          "arrivals": 26,
+          "rwy18Departures": 4,
+          "arrivals07": 0,
+          "arrivals25": 26,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "06:00",
+          "departures": 9,
+          "arrivals": 15,
+          "rwy18Departures": 7,
+          "arrivals07": 0,
+          "arrivals25": 15,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "07:00",
+          "departures": 18,
+          "arrivals": 51,
+          "rwy18Departures": 13,
+          "arrivals07": 0,
+          "arrivals25": 51,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "08:00",
+          "departures": 21,
+          "arrivals": 47,
+          "rwy18Departures": 13,
+          "arrivals07": 0,
+          "arrivals25": 47,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "09:00",
+          "departures": 40,
+          "arrivals": 42,
+          "rwy18Departures": 32,
+          "arrivals07": 0,
+          "arrivals25": 42,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "10:00",
+          "departures": 56,
+          "arrivals": 29,
+          "rwy18Departures": 27,
+          "arrivals07": 29,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "11:00",
+          "departures": 48,
+          "arrivals": 37,
+          "rwy18Departures": 26,
+          "arrivals07": 37,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "12:00",
+          "departures": 42,
+          "arrivals": 40,
+          "rwy18Departures": 26,
+          "arrivals07": 40,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "13:00",
+          "departures": 48,
+          "arrivals": 18,
+          "rwy18Departures": 23,
+          "arrivals07": 18,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "14:00",
+          "departures": 45,
+          "arrivals": 25,
+          "rwy18Departures": 26,
+          "arrivals07": 25,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "15:00",
+          "departures": 28,
+          "arrivals": 41,
+          "rwy18Departures": 18,
+          "arrivals07": 41,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "16:00",
+          "departures": 20,
+          "arrivals": 40,
+          "rwy18Departures": 10,
+          "arrivals07": 40,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "17:00",
+          "departures": 37,
+          "arrivals": 26,
+          "rwy18Departures": 19,
+          "arrivals07": 26,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "18:00",
+          "departures": 23,
+          "arrivals": 32,
+          "rwy18Departures": 16,
+          "arrivals07": 32,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "19:00",
+          "departures": 16,
+          "arrivals": 39,
+          "rwy18Departures": 9,
+          "arrivals07": 39,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "20:00",
+          "departures": 34,
+          "arrivals": 41,
+          "rwy18Departures": 19,
+          "arrivals07": 41,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "21:00",
+          "departures": 47,
+          "arrivals": 14,
+          "rwy18Departures": 25,
+          "arrivals07": 14,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "22:00",
+          "departures": 40,
+          "arrivals": 6,
+          "rwy18Departures": 22,
+          "arrivals07": 6,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        },
+        {
+          "sourceTime": "23:00",
+          "departures": 0,
+          "arrivals": 1,
+          "rwy18Departures": 0,
+          "arrivals07": 1,
+          "arrivals25": 0,
+          "otherArrivals": 0,
+          "rwy18Closed": null
+        }
+      ],
+      "runways": [
+        {
+          "runway": "07L",
+          "departures": 0,
+          "arrivals": 144
+        },
+        {
+          "runway": "07C",
+          "departures": 217,
+          "arrivals": 2
+        },
+        {
+          "runway": "07R",
+          "departures": 0,
+          "arrivals": 243
+        },
+        {
+          "runway": "25L",
+          "departures": 0,
+          "arrivals": 82
+        },
+        {
+          "runway": "25C",
+          "departures": 23,
+          "arrivals": 28
+        },
+        {
+          "runway": "25R",
+          "departures": 0,
+          "arrivals": 71
+        },
+        {
+          "runway": "18",
+          "departures": 335,
+          "arrivals": 0
+        },
+        {
+          "runway": "unknown",
+          "departures": 1,
+          "arrivals": 0
+        }
+      ],
+      "totalMovements": 1146,
+      "departures": 576,
+      "arrivals": 570,
+      "rwy18Departures": 335,
+      "directionCoverageBins": 48
+    }
+  ],
+  "limitations": [
+    "Source timezone and original publication times are unverified; no UTC join or forecast-time availability claim.",
+    "Direction is reported at 30-minute resolution. A changed bin is not an exact switch timestamp.",
+    "Wind bearings are the 30-degree display bins in the DFLD METAR-based weather statistics; speed and gust are not imported.",
+    "Movement counts are DFLD-recorded activity, not certified totals. Later corrections are possible.",
+    "Zero RWY18 departures is not evidence of closure. RWY18 closure labels remain unknown.",
+    "These historical records are not used to train, initialize, or score the current forecast."
+  ],
+  "reuse": {
+    "notice": "Concise attributed factual subset and derived aggregates only. DFLD does not publish an open-data license. Raw pages and flight identifiers are not redistributed.",
+    "url": "https://www.dfld.de/DFLDimprint.php?L=G"
+  },
+  "documentationUrl": "https://www.dfld.de/Mess/Language/MessHelpG.html",
+  "regionUrl": "https://www.dfld.de/Mess/Language/MessR001.php"
+}

@@ -1,5 +1,5 @@
 {
-  "sourceCommit": "23d76439e07dd4dfd608c21201a11f51af8cad55",
+  "sourceCommit": "9de594f00413337465ac41070c5371ef9939e7e9",
   "preparedDate": "2026-10-30",
   "files": [
     {
@@ -14,13 +14,13 @@
     },
     {
       "path": "DELIVERABLES_AUDIT.md",
-      "bytes": 4796,
-      "sha256": "1d20ef4f1d460c01a7888b7c82aa6a8a7ad2db3d7b5ed6974c91cbbe21e4590c"
+      "bytes": 5239,
+      "sha256": "c44284a01dd56eb93686337c9ed14a06ce9e727b291b17684e41094d03b3e171"
     },
     {
       "path": "README.md",
-      "bytes": 15374,
-      "sha256": "f84ed2b563837dd9471fc66bdcebe3e3c5a8f3f471434002af483b2862adfc91"
+      "bytes": 18827,
+      "sha256": "9debe298dd484c43085a17143a61300e790576420019ac8135822ecdbf397db4"
     },
     {
       "path": "dist/airfield-3d.css",
@@ -39,8 +39,8 @@
     },
     {
       "path": "dist/app.js",
-      "bytes": 36709,
-      "sha256": "60b836fac671b124eef7b36c19f3daa3c1fb1f186a596298bc19518326c72524"
+      "bytes": 37038,
+      "sha256": "359e7edff0851b4c2dffb863f5260c572fa8b71a9466a6c0c2f48dbfb958506a"
     },
     {
       "path": "dist/assets/fra-satellite-reference.png",
@@ -59,13 +59,23 @@
     },
     {
       "path": "dist/data/citations.json",
-      "bytes": 2148,
-      "sha256": "715b734b30d8f9f22e031cba51adb36914f8ac65bf0ba00ca9b3e95de6c8bcd8"
+      "bytes": 3487,
+      "sha256": "b576aaad31378f4e414c7210c3c6944cd68d1c85e2345f9b799e1720c6c62994"
     },
     {
       "path": "dist/data/deliverables.json",
       "bytes": 8906,
       "sha256": "1a5decb4ded3afaaefdcfb76e9d47c3289b6537f2ccb340087806089abc437ae"
+    },
+    {
+      "path": "dist/data/dfld-direction.csv",
+      "bytes": 18920,
+      "sha256": "31dbc0e3e694f24d005a633ace1777021315657e12a3f8d7f988d4751bf03daa"
+    },
+    {
+      "path": "dist/data/dfld.json",
+      "bytes": 48151,
+      "sha256": "c857996eacbe3e9382c3e41af1bdaa53d7e58122bb32876cfde7a738ac67639f"
     },
     {
       "path": "dist/data/forecast.json",
@@ -103,14 +113,24 @@
       "sha256": "67d4f524eac3d7c92aa45461bcfd2dc796114f44c2806c7ccb75b642d5b4e2e8"
     },
     {
+      "path": "dist/dfld.css",
+      "bytes": 5569,
+      "sha256": "1ed00e3803c5ea7ec55cbf087fc80d0d0503b2efba6c63708f9c7f9b4aed9bd6"
+    },
+    {
+      "path": "dist/dfld.js",
+      "bytes": 12041,
+      "sha256": "398064e91f1fea9a59cd7663bad40110a7e3a46f77a36e9afa2f7c84adb89b14"
+    },
+    {
       "path": "dist/forecast-summary.js",
       "bytes": 637,
       "sha256": "9ce3db2f5e7365cf96c56b03a06a8dafb3cda16da449ce436b2135c09dc8c6c3"
     },
     {
       "path": "dist/index.html",
-      "bytes": 22331,
-      "sha256": "1bee9af178a396df78850f9463b6e71d4a28550a291ec5536051f4696fe48bc3"
+      "bytes": 22869,
+      "sha256": "563c4bee8a70e5919a0a7811b81084ac2f0641a9b6d6c63fe00b2caeb395dcf3"
     },
     {
       "path": "dist/inference.js",
@@ -149,8 +169,8 @@
     },
     {
       "path": "model/README.md",
-      "bytes": 8344,
-      "sha256": "ae1e065038e0522986a7e11471a58a0da474896c20fc2a1b876a4099da1e074d"
+      "bytes": 8895,
+      "sha256": "7a82968fb928f0a0fafb0ddfdb4b4a316d6309f577140ad9d3d102aa58598717"
     },
     {
       "path": "model/audit_deliverables.py",
@@ -269,8 +289,8 @@
     },
     {
       "path": "package.json",
-      "bytes": 323,
-      "sha256": "83af936ecf01b6d5a82546f32e2cfa7dd44178598db42e677def7ef9eb270087"
+      "bytes": 415,
+      "sha256": "6416fee8b1dbac501b9a00fe73f958e5cb8b3feec881f45d6d46c835f7284f42"
     },
     {
       "path": "references/AI_Week_2026_Hackathon_-_FraAlliance_Case.pdf",
@@ -318,6 +338,11 @@
       "sha256": "7fe756e48d71dbe6a4fe69eb874ab553866f1511b734b117d2c8e1e32299bb94"
     },
     {
+      "path": "scripts/fetch_dfld.py",
+      "bytes": 11673,
+      "sha256": "53b4a62ffe1030f8518d847a24bfd4b2d4f96afcebc95f6d7adf1908cfd2d86d"
+    },
+    {
       "path": "scripts/fetch_fra_context.py",
       "bytes": 8827,
       "sha256": "fae90ea95eaf010188911fc24cf7227d02113da49c3e4d04e5cc130834e6e551"
@@ -338,9 +363,19 @@
       "sha256": "cc27de5ce5b772ba4902af3d197fd1de766e4632191219fc974ef629ff86c0b1"
     },
     {
+      "path": "tests/dfld.mjs",
+      "bytes": 1759,
+      "sha256": "fc53d880cbf8be5c82919554f070c25862d88d580f13843b2549f7818c886f6f"
+    },
+    {
       "path": "tests/run.mjs",
       "bytes": 8599,
       "sha256": "182bcda5ae2474cfaf6764e2b9b04cf957b7ba779950a43da00a115734679041"
+    },
+    {
+      "path": "tests/test_dfld_parser.py",
+      "bytes": 2407,
+      "sha256": "94cb63cd1fbb432927b4570e758da61f5c1a5b529f9e329e8e9425b3c29d8ab5"
     }
   ]
 }

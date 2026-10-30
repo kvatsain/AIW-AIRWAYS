@@ -43,5 +43,23 @@
     "title": "Frankfurt Airport official map",
     "url": "https://www.frankfurt-airport.com/en/at-the-airport/orientation/airport-map.html",
     "role": "Official terminal context: Terminal 3 in use; Terminal 2 currently closed, verified 30 October 2026. This is current map context, not historical terminal status."
+  },
+  {
+    "title": "DFLD Frankfurt direction and wind history",
+    "url": "https://www.dfld.de/Mess/StatWetter.php?RegNr=1&D=29.10.2026",
+    "category": "OBSERVED OPERATIONAL CONTEXT",
+    "role": "Imported 27–29 October 2026: 144 half-hour reported direction bins and coarse wind bearings. DFLD identifies post-March-2004 Frankfurt direction as Fraport-based. Source clock retained; timezone and publication timestamps unverified. Not used in model fitting or scoring."
+  },
+  {
+    "title": "DFLD Frankfurt runway movement records",
+    "url": "https://www.dfld.de/Mess/StatAirportTag.php?R=1&D=29.10.2026",
+    "category": "OBSERVED OPERATIONAL CONTEXT",
+    "role": "Three-day factual snapshot aggregated into hourly arrivals, departures and RWY18 use. Parsed counts reconcile with published daily and runway totals. No aircraft identifiers republished. Zero departures is not a closure label."
+  },
+  {
+    "title": "DFLD measurement methodology and reuse notice",
+    "url": "https://www.dfld.de/Mess/Language/MessHelpG.html",
+    "category": "SOURCE METHODOLOGY",
+    "role": "Historical data can be corrected. No open-data license is stated. Only a concise attributed factual subset and derived aggregates are included; raw pages and DFLD graphics are not redistributed. See the linked reuse notice in Observed operations."
   }
 ]

@@ -63,3 +63,7 @@ Sources: IEM airport observations, Open-Meteo Previous Runs/DWD ICON, NOAA Aviat
 ## Independent delivery audit
 
 Run `python model/audit_deliverables.py` to re-score the frozen coefficients and baselines from raw inputs. It verifies saved metrics without fitting and generates `dist/data/deliverables.json` and the root audit report. Exact provider delivery and METAR arrival times are unavailable; the nominal archive offset check alone does not prove operational availability. `predict.py` now also exports predicted OD, its direction score, next change time (including a first-hour change), and nominal archive reference time. Change-time scores describe direction at that hour, not a calibrated probability of a switch event. Jury forecasts are still pending the dates.
+
+## DFLD context added after model evaluation
+
+The separate Observed operations view now contains a three-day DFLD direction/movement snapshot (27–29 October 2026), with source links and retrieval times. It is not joined to training, initial direction or evaluation: the source clock timezone and publication-time provenance are unverified, and runway closure status is unknown. Do not relabel zero RWY18 movements as closure. See the root README for importer and provenance details. Model coefficients and all existing proxy metrics are unchanged.

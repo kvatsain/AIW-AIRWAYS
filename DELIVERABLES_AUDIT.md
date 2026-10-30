@@ -60,3 +60,7 @@ No model coefficients or alert thresholds were changed by this audit. Existing i
 4. Join verified operating-direction/RWY18 status labels and report actual-operations accuracy, probability error, closure detection and switch timing separately.
 
 Sources: [IEM](https://mesonet.agron.iastate.edu/request/download.phtml), [Open-Meteo Previous Runs](https://open-meteo.com/en/docs/previous-runs-api), [DWD ICON via Open-Meteo](https://open-meteo.com/en/docs/dwd-api), [NOAA AWC](https://aviationweather.gov/data/api/), [Umwelthaus / DFS](https://www.umwelthaus.org/fluglaerm/anwendungen-service/aktuelle-betriebsrichtung-und-prognose/). Challenge thresholds: supplied FraAlliance PDF, section 3.
+
+## DFLD supplemental context
+
+A bounded 27–29 October 2026 DFLD snapshot now supplies reported 07/25 direction bins and recorded runway activity. The Observed operations view cites every source and retains download times. This evidence is not joined to model scoring because source timezone/publication times remain unverified; it supplies no RWY18 closure labels. The original audit results and partial-delivery statuses remain unchanged.

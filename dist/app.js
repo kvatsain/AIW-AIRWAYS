@@ -1,3 +1,4 @@
+import { initDfld } from './dfld.js';
 import { predictForecast, normalizeWeather } from './inference.js';
 import {airfieldSVG} from './airfield.js';
 import {airfield3DSVG} from './airfield-3d.js';
@@ -150,7 +151,7 @@ function renderSources(){
  const snapshot=state.snapshot,obs=snapshot.observation,ops=snapshot.currentOperations;
  const extra=[{title:'Fraport operating-direction guidance',url:'https://www.fraport.com/en/business-areas/operations/airside-and-terminal-operations/easterly-and-westerly-operations.html',role:'Public guidance describes a 5 kt landing tailwind threshold. Challenge assumptions deliberately follow the supplied 10 kt brief.'},{title:'Problem2 audio briefing',url:null,role:'User-provided 6m29s explanation. Transcribed locally. Confirms the 48-hour horizon and the two forecast targets; numeric rules come from the PDF.'}];
  extra.push({title:'Fraport flight operating hours',url:'https://www.fraport.com/en/sustainability/dialog-with-neighbors/noise-and-air/flight-operations/runway-system-and-operating-hours.html',role:'Scheduled flights 05:00–23:00 local; night restriction 23:00–05:00. Shoulder hours 22:00–23:00 and 05:00–06:00 have movement restrictions. Uses Europe/Berlin, including daylight saving time.'},{title:'Hessen: delayed takeoffs and landings',url:'https://wirtschaft.hessen.de/Verkehr/Luftverkehr/Verspaetete-Starts-und-Landungen',role:'Before midnight, eligible delayed landings scheduled before 23:00 may arrive; delayed departures need individual permission. No ordinary delayed or early flights 00:00–05:00. Statutory exemptions remain possible. Verified 30 October 2026.'});
- $('sources-content').innerHTML=[...state.citations,...extra].map((s,i)=>`<article class="panel source-card"><div class="source-type">${i<4?'WEATHER DATA':i===4||s.title.includes('hours')||s.title.includes('Hessen')?'OPERATIONAL CONTEXT':'CHALLENGE CONTEXT'}</div><h2>${esc(s.title)}</h2><p>${esc(s.role)}</p>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener">Open original source ↗</a>`:'<span class="source-meta">User-provided reference</span>'}${s.title.includes('NOAA')&&obs?`<div class="source-meta">Observation: ${esc(full(obs.time))}<br>${esc(obs.rawMetar||'Model-based origin; no fresh METAR available')}</div>`:''}${s.title.includes('Umwelthaus')&&ops?`<div class="source-meta">Saved report: OD ${esc(ops.direction)}, checked ${esc(full(ops.verifiedAt))}. This is a saved snapshot; weather refresh does not refresh the operations report.</div>`:''}</article>`).join('');
+ $('sources-content').innerHTML=[...state.citations,...extra].map((s,i)=>`<article class="panel source-card"><div class="source-type">${s.category??(i<4?'WEATHER DATA':i===4||s.title.includes('hours')||s.title.includes('Hessen')?'OPERATIONAL CONTEXT':'CHALLENGE CONTEXT')}</div><h2>${esc(s.title)}</h2><p>${esc(s.role)}</p>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener">Open original source ↗</a>`:'<span class="source-meta">User-provided reference</span>'}${s.title.includes('NOAA')&&obs?`<div class="source-meta">Observation: ${esc(full(obs.time))}<br>${esc(obs.rawMetar||'Model-based origin; no fresh METAR available')}</div>`:''}${s.title.includes('Umwelthaus')&&ops?`<div class="source-meta">Saved report: OD ${esc(ops.direction)}, checked ${esc(full(ops.verifiedAt))}. This is a saved snapshot; weather refresh does not refresh the operations report.</div>`:''}</article>`).join('');
 }
 async function refresh(){
  $('refresh').disabled=true;$('refresh').textContent='↻ Fetching weather…';
@@ -184,8 +185,9 @@ function exportCSV(){
  const blob=new Blob([cols.join(',')+'\n'+lines.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=`fra-windlab-${state.snapshot.generatedAt.slice(0,10)}-48h.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('48-hour forecast exported with probabilities and provenance.');
 }
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{
- document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==b.dataset.view);
- const text={overview:['A clearer view of the next 48 hours.','Wind-based runway availability and operating-direction forecasts.'],model:['Understand what the model knows.','Measured results, baseline comparisons, and the limits of the evidence.'],sources:['Every forecast has a source.','Weather observations, numerical forecasts, and the challenge assumptions.']};
+ document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===b.dataset.view));document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==b.dataset.view);
+ $('notice').hidden=b.dataset.view==='observed';document.querySelector('.header-actions').hidden=b.dataset.view==='observed';
+ const text={overview:['A clearer view of the next 48 hours.','Wind-based runway availability and operating-direction forecasts.'],observed:['A record of the airfield in action.','DFLD historical direction, wind context and runway movements.'],model:['Understand what the model knows.','Measured results, baseline comparisons, and the limits of the evidence.'],sources:['Every forecast has a source.','Weather observations, numerical forecasts, and the challenge assumptions.']};
  $('view-title').textContent=text[b.dataset.view][0];$('view-subtitle').textContent=text[b.dataset.view][1];
 }));
 document.querySelectorAll('[data-hours]').forEach(b=>b.addEventListener('click',()=>{state.hours=+b.dataset.hours;document.querySelectorAll('[data-hours]').forEach(x=>x.classList.toggle('selected',x===b));render();}));
@@ -235,6 +237,7 @@ async function init(){
  }catch(error){notice(`Dashboard could not load: ${error.message}. Check that the trained data artifacts are available.`,true);$('export').disabled=true;$('refresh').disabled=true;console.error(error);}
 }
 init();
+initDfld();
 
 function renderAudit(){
  const a=state.audit;
