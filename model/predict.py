@@ -22,6 +22,9 @@ def main():
     if not np.isfinite(origin[['east','north','gust','eastTrend3h','northTrend3h','od07']].to_numpy(float)).all():raise ValueError('Origin METAR is missing/VRB. Choose an adjacent hour; no invented direction is used.')
     if args.initial_direction:origin.loc[:,'od07']=int(args.initial_direction=='07')
     rows=[]
+    initial_direction='07' if int(origin.od07.iloc[0]) else '25'
+    baseline_direction=initial_direction
+    adverse_since=None
     for h in range(1,args.hours+1):
         nearest=min([1,6,24,48],key=lambda x:abs(x-h));spec=model['models'][str(nearest)];lead=spec['archiveLeadHours']//24;t=issue+pd.Timedelta(hours=h)
         # With nearest-horizon mapping, the archive always predates origin.
@@ -34,7 +37,20 @@ def main():
         local=t.tz_convert('Europe/Berlin');scheduled=5<=local.hour<23;wind_exceeded=tail>=15 or cross>40
         catch=p['closed18']>=policies['catchMore']['threshold'] or wind_exceeded
         reduce=p['closed18']>=policies['reduceFalseAlarms']['threshold'] or wind_exceeded
-        rows.append({'issue_time':issue.isoformat(),'valid_time':t.isoformat(),'valid_time_frankfurt':local.isoformat(),'schedule_timezone':'Europe/Berlin','lead_hours':h,'model_horizon_hours':nearest,'archive_lead_hours':lead*24,'wind_speed_kt':s,'wind_direction_true':d,'gust_kt':g,'p_rwy18_wind_usable':1-p['closed18'],'p_od07_proxy':p['od07'],'p_od25_proxy':1-p['od07'],'baseline_rwy18_wind_usable':not wind_exceeded,'scheduled_departures_window':scheduled,'scheduled_arrivals_window':scheduled,'night_restriction':not scheduled,'conditional_delay_window':local.hour==23,'catch_threshold':policies['catchMore']['threshold'],'reduce_threshold':policies['reduceFalseAlarms']['threshold'],'catch_weather_alert':catch,'reduce_weather_alert':reduce,'catch_scheduled_alert':scheduled and catch,'reduce_scheduled_alert':scheduled and reduce,'label_basis':'weather-derived proxy; flight window does not establish permission'})
+        adverse=-s*math.cos(math.radians(d-int(baseline_direction)*10))
+        if adverse>1e-9:
+            if adverse_since is None:adverse_since=t
+            if adverse>=10 or (t-adverse_since).total_seconds()>1800:
+                baseline_direction='07' if baseline_direction=='25' else '25';adverse_since=None
+        else:adverse_since=None
+        rows.append({'issue_time':issue.isoformat(),'valid_time':t.isoformat(),'valid_time_frankfurt':local.isoformat(),'schedule_timezone':'Europe/Berlin','lead_hours':h,'model_horizon_hours':nearest,'archive_lead_hours':lead*24,'archive_reference_time_utc':(t-pd.Timedelta(hours=lead*24)).isoformat(),'wind_speed_kt':s,'wind_direction_true':d,'gust_kt':g,'p_rwy18_wind_usable':1-p['closed18'],'p_od07_proxy':p['od07'],'p_od25_proxy':1-p['od07'],'predicted_od':'07' if p['od07']>=.5 else '25','od_certainty_score':max(p['od07'],1-p['od07']),'baseline_od':baseline_direction,'baseline_rwy18_wind_usable':not wind_exceeded,'scheduled_departures_window':scheduled,'scheduled_arrivals_window':scheduled,'night_restriction':not scheduled,'conditional_delay_window':local.hour==23,'catch_threshold':policies['catchMore']['threshold'],'reduce_threshold':policies['reduceFalseAlarms']['threshold'],'catch_weather_alert':catch,'reduce_weather_alert':reduce,'catch_scheduled_alert':scheduled and catch,'reduce_scheduled_alert':scheduled and reduce,'label_basis':'weather-derived proxy; flight window does not establish permission'})
+    previous=initial_direction;change=None
+    for row in rows:
+        if row['predicted_od']!=previous:
+            change=row;break
+        previous=row['predicted_od']
+    for row in rows:
+        row.update({'next_change_time_utc':change['valid_time'] if change else '', 'next_change_to':change['predicted_od'] if change else '', 'change_direction_score':change['od_certainty_score'] if change else '', 'change_resolution_hours':1, 'forecast_kind':'retrospective replay; not as-issued evidence'})
     dest=Path(args.output);dest.parent.mkdir(parents=True,exist_ok=True);pd.DataFrame(rows).to_csv(dest,index=False);print(f'Exported {len(rows)} hours to {dest}')
 
 if __name__=='__main__':main()

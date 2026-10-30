@@ -1,6 +1,6 @@
 # AIW-AIRWAYS — FRA WindLab
 
-A responsive Frankfurt Airport forecasting dashboard, built for the FraAlliance AI Week 2026 challenge. It includes a real trained probability model, 48-hour weather forecasts, a runway schematic, hourly wind and probability charts, a challenge-rule sandbox, CSV export, validation results, source provenance, and a printable model card.
+A responsive Frankfurt Airport forecasting dashboard, built for the FraAlliance AI Week 2026 challenge. It includes a real trained probability model, 48-hour weather forecasts, a geographic airfield map, hourly wind and probability charts, a challenge-rule sandbox, CSV export, validation results, source provenance, and a printable model card.
 
 **Research prototype:** targets are derived from observed weather using the challenge rules. Historical operating-direction and RWY 18 availability records were not obtained. Reported scores therefore do not establish accuracy against actual operations.
 
@@ -93,3 +93,21 @@ The dashboard works from the included snapshot without Python ML packages. Train
 Source-provider attribution is retained in the dashboard and documentation. Third-party weather data and briefing materials remain subject to their original terms. Actual runway-operation history and jury test dates have not yet been supplied.
 
 ![Dashboard alert modes and Frankfurt flight hours](docs/images/dashboard-jury-preview.png)
+
+## Deliverables audit and geographic map
+
+The challenge is **partially achieved**. See [DELIVERABLES_AUDIT.md](DELIVERABLES_AUDIT.md) and the dashboard's Model & validation audit. Public-data collection and citations are complete. Hourly predictions and scores exist, but ground-truth operating records, validated change timing and jury test-day submissions remain outstanding. Jury dates have not been supplied.
+
+The frozen-model audit independently recomputes saved confusion counts, accuracy and Brier at 1/6/24/48h from raw inputs without refitting. Direction accuracy improves over the weather rules by +3.79/+1.68 percentage points at 1h/6h and declines by 1.75/1.20 points at 24h/48h. Direction Brier improves at all four leads; closure detection remains 0/5 at the 50% threshold. Nominal archive offsets predate origin by at least 18h; exact run delivery and METAR arrival timestamps are unavailable. A retrospective replay is not proof of an as-issued forecast.
+
+This revision adds the four-deliverable audit, a genuine one-page PDF model card, first-hour direction-change detection, and direction score/change-time fields in both CSV exports. The model coefficients and alert thresholds are unchanged.
+
+Airfield Outlook now projects actual runway coordinates with equal metre scale and true north up, eight terminal footprints, T2 location, a scale bar, runway roles, wind-flow arrows and limit highlighting. Expand map for detail. Sources: [OurAirports](https://ourairports.com/data/) (public domain), [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) (ODbL 1.0), and the [official FRA airport map](https://www.frankfurt-airport.com/en/at-the-airport/orientation/airport-map.html). The terminal map reflects 30 October 2026, including Terminal 3 and T2's current closure; it is not a historical replay. Source IDs and licenses are in `dist/data/fra-airfield.json`. Widths are enlarged for clarity. This is geographic context, not a navigation chart.
+
+```powershell
+python model/audit_deliverables.py
+python -m pip install -r requirements-docs.txt
+python scripts/make_model_card_pdf.py
+```
+
+The audit requires the public raw files from the repository or downloader. The PDF builder asserts exactly one A4 page. Open `dist/model-card.pdf` or download it from the dashboard. Re-run the audit after training before generating the PDF so stale metrics are caught.

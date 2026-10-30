@@ -1,0 +1,256 @@
+{
+  "auditedAt": "2026-10-30T11:57:33.998541+00:00",
+  "modelSha256": "c23a27187cf76c7825252a911f09aaf4bb7bced1cdcf5ca701bac218a13b8c5c",
+  "overallStatus": "partial",
+  "targetBasis": "weather-derived challenge proxies",
+  "method": "Frozen coefficients rescored from raw METAR and archived ICON; all saved confusion counts, accuracy and Brier scores reproduced within 1e-12. No retraining or retuning.",
+  "deliverables": [
+    {
+      "id": 1,
+      "title": "Hourly ML forecast through 48 hours",
+      "status": "partial",
+      "reached": "48 hourly probabilities for RWY18 wind usability, OD07/25 and direction scores; first predicted change hour; baseline alongside ML.",
+      "remaining": "Actual runway status and switch timing are unvalidated. OD accuracy beats rules at 1h/6h but loses at 24h/48h. Direction Brier improves at all four leads; closure recall at 50% is zero. Intermediate leads reuse nearest 1/6/24/48h model."
+    },
+    {
+      "id": 2,
+      "title": "Self-sourced public data and citations",
+      "status": "met",
+      "reached": "49,600 EDDF METAR reports combined with archived DWD ICON forecasts. Public sources and raw request URLs preserved; current direction is separately sourced to Umwelthaus/DFS.",
+      "remaining": "Bulk historical operating-direction and RWY18 availability records were not obtained; this limits the target, not the public-data collection deliverable."
+    },
+    {
+      "id": 3,
+      "title": "Held-out quality at 1h, 6h and 24h",
+      "status": "partial",
+      "reached": "Chronological train/validation/test splits; 72h gaps; train-only scaling; validation-only regularization; verified held-out metrics at required horizons.",
+      "remaining": "Evaluation measures weather proxies. Archive offsets predate origin by at least 18h, but exact run delivery and METAR arrival timestamps are unavailable. Backtest uses older forecasts than live inference. No operational or switch-event timing score."
+    },
+    {
+      "id": 4,
+      "title": "Repository, model card and jury forecasts",
+      "status": "partial",
+      "reached": "Public code repository, one-page model card, 48-hour CSV export and historical replay command.",
+      "remaining": "Jury dates have not been supplied. No jury forecast submission or comparison with actually flown directions can be claimed. Historical replay is retrospective, not evidence of an as-issued forecast."
+    }
+  ],
+  "temporalAudit": {
+    "archiveOffsetCheckPassed": true,
+    "scoresReproduced": true,
+    "minimumArchiveAgeBeforeOriginHours": 18,
+    "exactAvailabilityTimestampsVerified": false,
+    "futureUntouchedJuryHoldoutAvailable": false
+  },
+  "horizons": [
+    {
+      "horizonHours": 1,
+      "testRows": 3432,
+      "minimumArchiveAgeBeforeOriginHours": 23,
+      "targets": {
+        "closed18": {
+          "modelAccuracy": 0.9985431235431236,
+          "rulesAccuracy": 0.9982517482517482,
+          "accuracyGainPercentagePoints": 0.02913752913753509,
+          "modelBrier": 0.0014487540326840265,
+          "rulesBrier": 0.0017482517482517483,
+          "brierSkillVsRules": 0.17131269330473686,
+          "positiveHours": 5,
+          "modelConfusion": {
+            "tp": 0,
+            "tn": 3427,
+            "fp": 0,
+            "fn": 5
+          },
+          "rulesConfusion": {
+            "tp": 0,
+            "tn": 3426,
+            "fp": 1,
+            "fn": 5
+          },
+          "comparisonRows": 3432
+        },
+        "od07": {
+          "modelAccuracy": 0.9839743589743589,
+          "rulesAccuracy": 0.9460955710955711,
+          "accuracyGainPercentagePoints": 3.7878787878787845,
+          "modelBrier": 0.011104538589760612,
+          "rulesBrier": 0.053904428904428904,
+          "brierSkillVsRules": 0.7939958030267112,
+          "positiveHours": 1419,
+          "modelConfusion": {
+            "tp": 1389,
+            "tn": 1988,
+            "fp": 25,
+            "fn": 30
+          },
+          "rulesConfusion": {
+            "tp": 1362,
+            "tn": 1885,
+            "fp": 128,
+            "fn": 57
+          },
+          "comparisonRows": 3432
+        }
+      }
+    },
+    {
+      "horizonHours": 6,
+      "testRows": 3273,
+      "minimumArchiveAgeBeforeOriginHours": 18,
+      "targets": {
+        "closed18": {
+          "modelAccuracy": 0.9984723495264284,
+          "rulesAccuracy": 0.9984723495264284,
+          "accuracyGainPercentagePoints": 0.0,
+          "modelBrier": 0.0015176589459416734,
+          "rulesBrier": 0.0015276504735716467,
+          "brierSkillVsRules": 0.006540453986580541,
+          "positiveHours": 5,
+          "modelConfusion": {
+            "tp": 0,
+            "tn": 3268,
+            "fp": 0,
+            "fn": 5
+          },
+          "rulesConfusion": {
+            "tp": 0,
+            "tn": 3268,
+            "fp": 0,
+            "fn": 5
+          },
+          "comparisonRows": 3273
+        },
+        "od07": {
+          "modelAccuracy": 0.9346165597311336,
+          "rulesAccuracy": 0.9178124045218454,
+          "accuracyGainPercentagePoints": 1.680415520928813,
+          "modelBrier": 0.047349594936446374,
+          "rulesBrier": 0.0821875954781546,
+          "brierSkillVsRules": 0.4238839248067324,
+          "positiveHours": 1342,
+          "modelConfusion": {
+            "tp": 1232,
+            "tn": 1827,
+            "fp": 104,
+            "fn": 110
+          },
+          "rulesConfusion": {
+            "tp": 1241,
+            "tn": 1763,
+            "fp": 168,
+            "fn": 101
+          },
+          "comparisonRows": 3273
+        }
+      }
+    },
+    {
+      "horizonHours": 24,
+      "testRows": 3250,
+      "minimumArchiveAgeBeforeOriginHours": 24,
+      "targets": {
+        "closed18": {
+          "modelAccuracy": 0.9984615384615385,
+          "rulesAccuracy": 0.9984615384615385,
+          "accuracyGainPercentagePoints": 0.0,
+          "modelBrier": 0.001514705778610205,
+          "rulesBrier": 0.0015384615384615385,
+          "brierSkillVsRules": 0.015441243903366764,
+          "positiveHours": 5,
+          "modelConfusion": {
+            "tp": 0,
+            "tn": 3245,
+            "fp": 0,
+            "fn": 5
+          },
+          "rulesConfusion": {
+            "tp": 0,
+            "tn": 3245,
+            "fp": 0,
+            "fn": 5
+          },
+          "comparisonRows": 3250
+        },
+        "od07": {
+          "modelAccuracy": 0.8892307692307693,
+          "rulesAccuracy": 0.9067692307692308,
+          "accuracyGainPercentagePoints": -1.7538461538461503,
+          "modelBrier": 0.08178294570702169,
+          "rulesBrier": 0.09323076923076923,
+          "brierSkillVsRules": 0.1227901863108235,
+          "positiveHours": 1356,
+          "modelConfusion": {
+            "tp": 1170,
+            "tn": 1720,
+            "fp": 174,
+            "fn": 186
+          },
+          "rulesConfusion": {
+            "tp": 1217,
+            "tn": 1730,
+            "fp": 164,
+            "fn": 139
+          },
+          "comparisonRows": 3250
+        }
+      }
+    },
+    {
+      "horizonHours": 48,
+      "testRows": 3243,
+      "minimumArchiveAgeBeforeOriginHours": 24,
+      "targets": {
+        "closed18": {
+          "modelAccuracy": 0.9984582176996608,
+          "rulesAccuracy": 0.9984582176996608,
+          "accuracyGainPercentagePoints": 0.0,
+          "modelBrier": 0.0015470560474171295,
+          "rulesBrier": 0.001541782300339192,
+          "brierSkillVsRules": -0.0034205523547501393,
+          "positiveHours": 5,
+          "modelConfusion": {
+            "tp": 0,
+            "tn": 3238,
+            "fp": 0,
+            "fn": 5
+          },
+          "rulesConfusion": {
+            "tp": 0,
+            "tn": 3238,
+            "fp": 0,
+            "fn": 5
+          },
+          "comparisonRows": 3243
+        },
+        "od07": {
+          "modelAccuracy": 0.8652482269503546,
+          "rulesAccuracy": 0.8772741288930003,
+          "accuracyGainPercentagePoints": -1.2025901942645634,
+          "modelBrier": 0.10275892907080997,
+          "rulesBrier": 0.12272587110699969,
+          "brierSkillVsRules": 0.16269545985769662,
+          "positiveHours": 1366,
+          "modelConfusion": {
+            "tp": 1097,
+            "tn": 1709,
+            "fp": 168,
+            "fn": 269
+          },
+          "rulesConfusion": {
+            "tp": 1165,
+            "tn": 1680,
+            "fp": 197,
+            "fn": 201
+          },
+          "comparisonRows": 3243
+        }
+      }
+    }
+  ],
+  "improvements": [
+    "Replaced schematic runway placement with geographically referenced runway and terminal geometry.",
+    "Added explicit four-deliverable audit and comparable baseline accuracy gains.",
+    "Next-change detection includes a transition in the first forecast hour; exports include direction score and next change.",
+    "Added a downloadable one-page PDF model card and reproducible frozen-model audit."
+  ]
+}

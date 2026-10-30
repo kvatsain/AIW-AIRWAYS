@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {windComponents,predictForecast,featuresFor,inferRow} from '../dist/inference.js';
 import {airportWindow,nextScheduleChange,alertFor,landingWind,ALERT_POLICIES} from '../dist/operations.js';
+import {nextDirectionChange} from '../dist/forecast-summary.js';
+import {project,airfieldSVG} from '../dist/airfield.js';
 const model=JSON.parse(fs.readFileSync(new URL('../dist/data/model.json',import.meta.url)));
 const snapshot=JSON.parse(fs.readFileSync(new URL('../dist/data/forecast.json',import.meta.url)));
 const metrics=JSON.parse(fs.readFileSync(new URL('../dist/data/metrics.json',import.meta.url)));
@@ -67,3 +69,20 @@ for(const h of policies.horizons)for(const split of ['test','validation'])for(co
  }
 }
 console.log('Passed: wind boundaries and inference parity; both alert modes and hard-limit overrides; missing data; schedule/arrival/departure boundaries; summer/winter/DST transitions; night alert suppression; policy metric integrity.');
+const shifts=[{time:'2026-10-30T11:00Z',p07:.8},{time:'2026-10-30T12:00Z',p07:.9},{time:'2026-10-30T13:00Z',p07:.2}];
+assert.equal(nextDirectionChange(shifts,'25').time,shifts[0].time,'First-hour transition compared with origin is included');
+assert.equal(nextDirectionChange(shifts,'07').time,shifts[2].time,'Later transition detected');
+assert.equal(nextDirectionChange(shifts,'07').directionScore,.8,'Direction score at transition is preserved');
+assert.equal(nextDirectionChange(shifts.slice(0,2),'07'),null,'No crossing means no shift signalled');
+assert.equal(nextDirectionChange([{time:shifts[0].time,p07:null},shifts[1]],'25'),null,'Missing forecast cannot establish a timed crossing');
+const geo=JSON.parse(fs.readFileSync(new URL('../dist/data/fra-airfield.json',import.meta.url)));
+assert.equal(geo.features.filter(f=>f.properties.kind==='runway').length,4);
+const r18=geo.features.find(f=>f.id==='runway-18').geometry.coordinates.map(project);
+assert.ok(r18[1][1]>r18[0][1],'Southbound 18 draws down on north-up map');
+assert.ok(Math.abs(r18[1][0]-r18[0][0])<3,'18 remains nearly true north/south');
+const north=geo.features.find(f=>f.id==='runway-07L-25R').geometry.coordinates.map(project);
+assert.ok(north[1][0]>north[0][0]&&north[1][1]<north[0][1],'07 points east-northeast');
+assert.ok(geo.features.some(f=>f.properties.terminal==='T3'),'Map includes Terminal3');
+assert.ok(airfieldSVG(geo,{p07:.9,windSpeed:20,windDirection:0,windGust:20}).includes('exceeds challenge wind limits'),'Map flags northerly closure limit');
+assert.ok(!airfieldSVG(geo,{p07:.1,windSpeed:5,windDirection:180,windGust:5}).includes('>36<'),'No operational RWY36 label');
+console.log('Passed: first-hour and later direction changes, missing-hour handling, actual airport geometry orientation and wind-limit map.');

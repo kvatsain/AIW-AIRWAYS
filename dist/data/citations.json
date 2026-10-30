@@ -28,5 +28,20 @@
     "title": "FraAlliance AI Week 2026 hackathon case, user supplied PDF",
     "url": null,
     "role": "Challenge proxy thresholds. These are configurable challenge assumptions, not authoritative aviation limits."
+  },
+  {
+    "title": "OurAirports runway coordinates",
+    "url": "https://ourairports.com/data/",
+    "role": "Public-domain EDDF runway endpoints and dimensions; geographically projected with true north up. Runway widths are enlarged for readability."
+  },
+  {
+    "title": "OpenStreetMap terminal geometry",
+    "url": "https://www.openstreetmap.org/copyright",
+    "role": "© OpenStreetMap contributors, ODbL 1.0. Terminal 1/3 footprints and Terminal 2 label points; source feature IDs and URLs preserved in downloadable GeoJSON."
+  },
+  {
+    "title": "Frankfurt Airport official map",
+    "url": "https://www.frankfurt-airport.com/en/at-the-airport/orientation/airport-map.html",
+    "role": "Official terminal context: Terminal 3 in use; Terminal 2 currently closed, verified 30 October 2026. This is current map context, not historical terminal status."
   }
 ]
