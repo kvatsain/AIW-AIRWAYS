@@ -1,5 +1,5 @@
 {
-  "sourceCommit": "dffab424e0e4ac00465405ea2ab060c3530f19e2",
+  "sourceCommit": "23d76439e07dd4dfd608c21201a11f51af8cad55",
   "preparedDate": "2026-10-30",
   "files": [
     {
@@ -19,8 +19,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 13525,
-      "sha256": "5abb11ad816c64769e85bbcdbf6f0dd11eec948bfe02613e48f09417dc67a8af"
+      "bytes": 15374,
+      "sha256": "f84ed2b563837dd9471fc66bdcebe3e3c5a8f3f471434002af483b2862adfc91"
+    },
+    {
+      "path": "dist/airfield-3d.css",
+      "bytes": 7039,
+      "sha256": "a464777ffe1541e930d3ca152d91913f05f24df3bd41711c824a1ee124f345e5"
+    },
+    {
+      "path": "dist/airfield-3d.js",
+      "bytes": 13175,
+      "sha256": "d4a62ee8c059c0bab92f5da9d1d7bb636971d6327ab0770638aee48b9b80539b"
     },
     {
       "path": "dist/airfield.js",
@@ -29,8 +39,8 @@
     },
     {
       "path": "dist/app.js",
-      "bytes": 30405,
-      "sha256": "6ea719dd975825e29957c250aca04b93cf6408379daa798f50f8a433006096d4"
+      "bytes": 36709,
+      "sha256": "60b836fac671b124eef7b36c19f3daa3c1fb1f186a596298bc19518326c72524"
     },
     {
       "path": "dist/assets/fra-satellite-reference.png",
@@ -99,8 +109,8 @@
     },
     {
       "path": "dist/index.html",
-      "bytes": 19183,
-      "sha256": "119cb05c9aca79378511a912315ed359361a874b468216004da2ab228f86f001"
+      "bytes": 22331,
+      "sha256": "1bee9af178a396df78850f9463b6e71d4a28550a291ec5536051f4696fe48bc3"
     },
     {
       "path": "dist/inference.js",
@@ -259,8 +269,8 @@
     },
     {
       "path": "package.json",
-      "bytes": 257,
-      "sha256": "78afa6c533dae4bb595c8c88ea700be34d6b06059bf9cc42af1a80785d7f4d02"
+      "bytes": 323,
+      "sha256": "83af936ecf01b6d5a82546f32e2cfa7dd44178598db42e677def7ef9eb270087"
     },
     {
       "path": "references/AI_Week_2026_Hackathon_-_FraAlliance_Case.pdf",
@@ -321,6 +331,11 @@
       "path": "scripts/make_model_card_pdf.py",
       "bytes": 6797,
       "sha256": "b5708ae9da5d2c9c8a9769cd382d0931c7e7161ffdd010963ffd6df5a70af953"
+    },
+    {
+      "path": "tests/airfield-3d.mjs",
+      "bytes": 2200,
+      "sha256": "cc27de5ce5b772ba4902af3d197fd1de766e4632191219fc974ef629ff86c0b1"
     },
     {
       "path": "tests/run.mjs",

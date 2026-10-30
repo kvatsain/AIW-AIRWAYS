@@ -1,10 +1,11 @@
 import { predictForecast, normalizeWeather } from './inference.js';
 import {airfieldSVG} from './airfield.js';
+import {airfield3DSVG} from './airfield-3d.js';
 import {nextDirectionChange} from './forecast-summary.js';
 import { airportWindow, nextScheduleChange, alertFor, landingWind } from './operations.js';
 
 const $ = id => document.getElementById(id);
-const state = { hours:48, selected:0, timezone:'Europe/Berlin', rows:[], snapshot:null, model:null, metrics:null, citations:[], mode:'snapshot', alertMode:'catchMore', policies:null, evidenceScope:'scheduledHours', audit:null, airfield:null, context:null, mapView:'forecast' };
+const state = { hours:48, selected:0, timezone:'Europe/Berlin', rows:[], snapshot:null, model:null, metrics:null, citations:[], mode:'snapshot', alertMode:'catchMore', policies:null, evidenceScope:'scheduledHours', audit:null, airfield:null, context:null, mapView:'spatial', cameraYaw:-16, cameraElevation:48, windVisible:true, motionPaused:false, selectedRunway:'runway-18' };
 const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num = (n,d=1) => Number.isFinite(Number(n)) ? Number(n).toFixed(d) : '—';
 const percent = p => !Number.isFinite(p) ? '—' : p===0 ? '0%' : p===1 ? '100%' : p>0.999 ? '>99.9%' : p<0.001 ? '<0.1%' : `${(p*100).toFixed(1)}%`;
@@ -63,12 +64,41 @@ function renderPlanning(r){
  $('schedule-footnote').textContent=w.shoulder?'Shoulder-hour movements are restricted. The 133-movement limit across 22–23 / 05–06 is averaged over the calendar year; slot availability is not modeled.':w.delayedWindow?'23:00–24:00: delayed landing eligibility is conditional; delay must not be built into the schedule. Departure permission is never inferred.':w.nightRestricted?'00:00–05:00: ordinary delayed and early flights are not admitted. Legally exempt flights remain possible.':'Daily scheduled takeoffs and landings: 05:00–23:00 Frankfurt local time. Night restrictions are independent of wind.';
 }
 function compass(d){return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round(d/22.5)%16];}
-function renderMap(r){ $('airport-map').innerHTML=airfieldSVG(state.airfield,r,state.context); }
+function renderMap(r){
+ if(state.mapView==='forecast')$('airport-map').innerHTML=airfieldSVG(state.airfield,r,state.context);
+ if(state.mapView!=='spatial')return;
+ $('scene-canvas').innerHTML=airfield3DSVG(state.airfield,r,state.context,{yaw:state.cameraYaw,elevation:state.cameraElevation,wind:state.windVisible,selected:state.selectedRunway});
+ $('scene-canvas').classList.toggle('flow-paused',state.motionPaused);
+ const runway=state.airfield.features.find(f=>f.id===state.selectedRunway),is18=runway.id==='runway-18',od=heading(r),c=comp(r.windDirection,r.windSpeed,r.windGust??r.windSpeed,is18?180:od==='07'?70:250);
+ const limit=is18?15:10,windLimit=c.cross>40||(is18&&c.tail>=15),w=airportWindow(r.time);
+ $('scene-time').textContent=full(r.time);$('scene-hour').textContent=`H${state.selected+1}`;
+ $('scene-prev').disabled=state.selected===0;$('scene-next').disabled=state.selected>=rows().length-1;
+ $('scene-schedule').textContent=w.nightRestricted?'Night restrictions · wind only':'Scheduled flight window';
+ $('scene-schedule').classList.toggle('night',w.nightRestricted);
+ $('scene-direction').textContent=`OD ${od} · ${percent(Math.max(r.p07,r.p25))} model score`;
+ $('scene-inspector-title').textContent=runway.properties.name;
+ $('scene-inspector-role').textContent=runway.properties.usage;
+ $('scene-wind-status').textContent=windLimit?'Wind limit exceeded':!is18&&c.tail>=10?'Direction-switch limit reached':'Within challenge wind limits';
+ $('scene-wind-status').classList.toggle('limit-exceeded',windLimit||(!is18&&c.tail>=10));
+ $('scene-availability').textContent=is18?`${percent(r.pRwy18Open)} wind usability`:`${od} ${od==='07'?'eastbound':'westbound'}`;
+ $('scene-availability-note').textContent=is18?'ML weather proxy · closure skill limited':'Forecast direction · weather proxy';
+ $('scene-tailwind').textContent=`${num(c.tail)} / ${limit} kt`;
+ $('scene-tailwind-caption').textContent=is18?'Tailwind · closure at ≥15 kt':'Tailwind · direction switch at ≥10 kt';
+ $('scene-tailwind-bar').style.width=`${Math.min(100,c.tail/limit*100)}%`;
+ $('scene-tailwind-bar').classList.toggle('over-limit',c.tail>=limit);
+ $('scene-crosswind').textContent=`${num(c.cross)} / 40 kt`;
+ $('scene-crosswind-bar').style.width=`${Math.min(100,c.cross/40*100)}%`;
+ $('scene-crosswind-bar').classList.toggle('over-limit',c.cross>40);
+ $('scene-headwind').textContent=c.head>=0?`Headwind ${num(c.head)} kt`:`Tailwind ${num(c.tail)} kt`;
+ document.querySelectorAll('[data-runway]').forEach(b=>{const active=b.dataset.runway===state.selectedRunway;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active));});
+ $('scene-reset').disabled=state.cameraYaw===-16&&state.cameraElevation===48;
+}
 function setMapView(view){
  state.mapView=view;const reference=view==='reference';
- $('airport-map').hidden=reference;$('satellite-reference').hidden=!reference;$('map-legend').hidden=reference;
+ $('airport-map').hidden=view!=='forecast';$('airfield-3d').hidden=view!=='spatial';$('satellite-reference').hidden=!reference;$('map-legend').hidden=view!=='forecast';
  $('airfield-grid').classList.toggle('reference-view',reference);
  document.querySelectorAll('[data-map-view]').forEach(b=>{const active=b.dataset.mapView===view;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active));});
+ if(currentRow())renderMap(currentRow());
 }
 
 function renderChart(){
@@ -167,6 +197,32 @@ $('hourly-rows').addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)
 ['scenario-direction','scenario-speed','scenario-gust'].forEach(id=>$(id).addEventListener('input',scenario));
 $('timezone').addEventListener('change',e=>{state.timezone=e.target.value;render();renderSources();describeStatus();});
 document.querySelectorAll('[data-map-view]').forEach(b=>b.addEventListener('click',()=>setMapView(b.dataset.mapView)));
+document.querySelectorAll('[data-orbit]').forEach(b=>b.addEventListener('click',()=>{state.cameraYaw=(state.cameraYaw+Number(b.dataset.orbit)+360)%360;renderMap(currentRow());}));
+$('scene-angle').addEventListener('change',e=>{state.cameraElevation=Number(e.target.value);renderMap(currentRow());});
+$('scene-reset').addEventListener('click',()=>{state.cameraYaw=-16;state.cameraElevation=48;$('scene-angle').value='48';renderMap(currentRow());});
+$('scene-wind-toggle').addEventListener('click',()=>{state.windVisible=!state.windVisible;$('scene-wind-toggle').setAttribute('aria-pressed',String(state.windVisible));renderMap(currentRow());});
+$('scene-motion').addEventListener('click',()=>{state.motionPaused=!state.motionPaused;$('scene-motion').textContent=state.motionPaused?'Play flow':'Pause flow';$('scene-motion').setAttribute('aria-pressed',String(state.motionPaused));$('scene-canvas').classList.toggle('flow-paused',state.motionPaused);});
+$('scene-export').addEventListener('click',async()=>{
+ const button=$('scene-export');button.disabled=true;
+ try {
+  const svg=$('scene-canvas').querySelector('svg').cloneNode(true),r=currentRow();
+  svg.setAttribute('xmlns','http://www.w3.org/2000/svg');svg.setAttribute('width','1880');svg.setAttribute('height','1300');
+  const css=await fetch('airfield-3d.css');if(!css.ok)throw Error('Image styles unavailable');
+  const style=document.createElementNS('http://www.w3.org/2000/svg','style');style.textContent=(await css.text())+' .wind-particle{animation:none}';svg.prepend(style);
+  const stamp=document.createElementNS('http://www.w3.org/2000/svg','text');stamp.setAttribute('x','34');stamp.setAttribute('y','642');stamp.setAttribute('fill','#9fb8ad');stamp.setAttribute('font-size','9');stamp.setAttribute('font-family','Arial, sans-serif');stamp.textContent=`Forecast ${r.time} · OD ${heading(r)} · © OpenStreetMap contributors / OurAirports · Research use · *T2 status: 30 Oct 2026`;svg.append(stamp);
+  const imageURL=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'}));
+  try{
+   const image=new Image();await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('3D image could not render'));image.src=imageURL;});
+   const canvas=document.createElement('canvas');canvas.width=1880;canvas.height=1300;canvas.getContext('2d').drawImage(image,0,0);
+   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Image export unavailable');
+   const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`FRA-3D-${r.time.replace(/[:.]/g,'-')}.png`;link.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
+   toast('3D image exported with forecast time and map attribution.');
+  }finally{URL.revokeObjectURL(imageURL);}
+ }catch(error){toast(error.message);}finally{button.disabled=false;}
+});
+document.querySelectorAll('[data-runway]').forEach(b=>b.addEventListener('click',()=>{state.selectedRunway=b.dataset.runway;renderMap(currentRow());}));
+$('scene-canvas').addEventListener('click',e=>{const el=e.target.closest('[data-scene-runway]');if(el){state.selectedRunway=el.dataset.sceneRunway;renderMap(currentRow());}});
+for(const [id,step] of [['scene-prev',-1],['scene-next',1]])$(id).addEventListener('click',()=>{state.selected=Math.max(0,Math.min(rows().length-1,state.selected+step));render();});
 $('expand-map').addEventListener('click',()=>{const expanded=$('airfield-grid').classList.toggle('map-expanded');$('expand-map').textContent=expanded?'Compact map':'Expand map';$('expand-map').setAttribute('aria-expanded',String(expanded));});
 $('refresh').addEventListener('click',refresh);$('export').addEventListener('click',exportCSV);
 $('clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',day:'2-digit',month:'short',year:'numeric'}).format(new Date())+' · Frankfurt';
